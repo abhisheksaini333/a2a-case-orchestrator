@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+.venv/
+.env
+node_modules/
+frontend/dist/
+catalog/bin/
+catalog/obj/
+.runtime/
+artifacts/
+.DS_Store
