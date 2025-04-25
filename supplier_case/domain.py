@@ -28,3 +28,15 @@ def document_check(data):
     if len(matches) != 1 or str(matches[0].get('tax_id', '')).upper() != identity['tax_id']:
         raise DomainError('document_mismatch', 'Certificate must match the supplier tax identifier')
     return {'status': 'verified', 'missing': [], **identity}
+
+TRANSITIONS = {
+    'submitted': {'working', 'canceled'},
+    'working': {'input-required', 'completed', 'failed', 'canceled'},
+    'input-required': {'working', 'canceled'},
+    'completed': set(), 'failed': set(), 'canceled': set(),
+}
+
+def transition(old, new):
+    if new not in TRANSITIONS.get(old, set()):
+        raise DomainError('invalid_transition', f'Cannot move task from {old} to {new}')
+    return new
