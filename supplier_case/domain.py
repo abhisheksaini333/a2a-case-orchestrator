@@ -40,3 +40,12 @@ def transition(old, new):
     if new not in TRANSITIONS.get(old, set()):
         raise DomainError('invalid_transition', f'Cannot move task from {old} to {new}')
     return new
+
+def canonical(value):
+    try:
+        return json.dumps(value, sort_keys=True, separators=(',', ':'), ensure_ascii=False, allow_nan=False)
+    except (ValueError, TypeError) as exc:
+        raise DomainError('invalid_json', 'Only finite JSON values are accepted') from exc
+
+def digest(value):
+    return hashlib.sha256(canonical(value).encode()).hexdigest()
