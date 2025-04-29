@@ -49,3 +49,11 @@ def canonical(value):
 
 def digest(value):
     return hashlib.sha256(canonical(value).encode()).hexdigest()
+
+def proposal(document, catalog):
+    if document.get('status') != 'verified' or catalog.get('risk') != 'low':
+        raise DomainError('not_approvable', 'Verified documents and a low-risk catalog match are required')
+    category = catalog.get('category')
+    if category not in {'office', 'technology', 'industrial'}:
+        raise DomainError('invalid_category', 'Catalog returned an unsupported category')
+    return {**supplier_identity(document), 'category': category, 'risk': 'low'}
