@@ -57,3 +57,10 @@ def proposal(document, catalog):
     if category not in {'office', 'technology', 'industrial'}:
         raise DomainError('invalid_category', 'Catalog returned an unsupported category')
     return {**supplier_identity(document), 'category': category, 'risk': 'low'}
+
+def authorize_approval(record, supplied_digest, reviewer, creator):
+    if not reviewer or reviewer == creator:
+        raise DomainError('independent_approval_required', 'Another operator must approve this case')
+    if supplied_digest != digest(record):
+        raise DomainError('stale_approval', 'The record changed; review the exact current record again')
+    return reviewer
