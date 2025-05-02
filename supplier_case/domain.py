@@ -64,3 +64,15 @@ def authorize_approval(record, supplied_digest, reviewer, creator):
     if supplied_digest != digest(record):
         raise DomainError('stale_approval', 'The record changed; review the exact current record again')
     return reviewer
+
+def case_input(data):
+    identity = supplier_identity(data)
+    if set(data) - {'name', 'tax_id', 'description', 'documents'}:
+        raise DomainError('unknown_fields', 'Only supplier identity, description and documents may be supplied')
+    description = data.get('description', '')
+    if not isinstance(description, str) or len(description) > 4000:
+        raise DomainError('invalid_description', 'Description must contain at most 4000 characters')
+    docs = data.get('documents', [])
+    if not isinstance(docs, list) or len(docs) > 12:
+        raise DomainError('invalid_documents', 'At most twelve documents are accepted')
+    return {**identity, 'description': description.strip(), 'documents': docs}
