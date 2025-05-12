@@ -35,3 +35,7 @@ def verify_artifact(artifact, owner, task_id, context_id, keys):
         return parts[0]['data']
     except (KeyError, TypeError, IndexError, ValueError) as exc:
         raise DomainError('invalid_artifact', 'Agent evidence failed ownership or integrity checks') from exc
+
+def require_role(principal, allowed):
+    if principal not in allowed:
+        raise DomainError('forbidden', 'This principal cannot perform that operation')
