@@ -39,3 +39,7 @@ def verify_artifact(artifact, owner, task_id, context_id, keys):
 def require_role(principal, allowed):
     if principal not in allowed:
         raise DomainError('forbidden', 'This principal cannot perform that operation')
+
+def owns(task, principal):
+    if task.get('owner') != principal:
+        raise DomainError('forbidden', 'Task belongs to another principal')
