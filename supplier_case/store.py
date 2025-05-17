@@ -34,3 +34,18 @@ class Store:
               tax_id text UNIQUE NOT NULL, record jsonb NOT NULL, approved_by text NOT NULL,
               created_at timestamptz NOT NULL DEFAULT now());
             """)
+
+    def create_case(self, data, creator, request_key):
+        data = case_input(data)
+        if not isinstance(request_key, str) or not 8 <= len(request_key) <= 100:
+            raise DomainError('invalid_request_key', 'Use an idempotency key of 8 to 100 characters')
+        with self.connection() as c, c.cursor(cursor_factory=RealDictCursor) as q:
+            q.execute('INSERT INTO cases(id,creator,request_key,input,input_digest) VALUES(%s,%s,%s,%s,%s) ON CONFLICT(request_key) DO NOTHING RETURNING *',
+                      (uuid.uuid4().hex, creator, request_key, Json(data), digest(data)))
+            result = q.fetchone()
+            if result is None:
+                q.execute('SELECT * FROM cases WHERE request_key=%s', (request_key,))
+                result = q.fetchone()
+                if result['creator'] != creator or result['input_digest'] != digest(data):
+                    raise DomainError('idempotency_conflict', 'Submission key was already used for different content')
+            return dict(result)
