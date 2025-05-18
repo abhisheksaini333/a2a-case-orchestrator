@@ -49,3 +49,16 @@ class Store:
                 if result['creator'] != creator or result['input_digest'] != digest(data):
                     raise DomainError('idempotency_conflict', 'Submission key was already used for different content')
             return dict(result)
+
+    def get_case(self, case_id):
+        with self.connection() as c, c.cursor(cursor_factory=RealDictCursor) as q:
+            q.execute('SELECT * FROM cases WHERE id=%s', (case_id,))
+            result = q.fetchone()
+            if not result:
+                raise DomainError('not_found', 'Case does not exist')
+            return dict(result)
+
+    def list_cases(self):
+        with self.connection() as c, c.cursor(cursor_factory=RealDictCursor) as q:
+            q.execute('SELECT * FROM cases ORDER BY created_at DESC LIMIT 200')
+            return [dict(x) for x in q.fetchall()]
