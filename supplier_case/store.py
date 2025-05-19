@@ -62,3 +62,12 @@ class Store:
         with self.connection() as c, c.cursor(cursor_factory=RealDictCursor) as q:
             q.execute('SELECT * FROM cases ORDER BY created_at DESC LIMIT 200')
             return [dict(x) for x in q.fetchall()]
+
+    def event(self, case_id, actor, kind, detail):
+        with self.connection() as c, c.cursor() as q:
+            q.execute('INSERT INTO events(case_id,actor,kind,detail) VALUES(%s,%s,%s,%s)', (case_id, actor, kind, Json(detail)))
+
+    def events(self, case_id):
+        with self.connection() as c, c.cursor(cursor_factory=RealDictCursor) as q:
+            q.execute('SELECT * FROM events WHERE case_id=%s ORDER BY id', (case_id,))
+            return [dict(x) for x in q.fetchall()]
