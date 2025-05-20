@@ -71,3 +71,26 @@ class Store:
         with self.connection() as c, c.cursor(cursor_factory=RealDictCursor) as q:
             q.execute('SELECT * FROM events WHERE case_id=%s ORDER BY id', (case_id,))
             return [dict(x) for x in q.fetchall()]
+
+    def update_case(self, case_id, revision, **fields):
+        allowed = {'state', 'proposal', 'proposal_digest'}
+        if not fields or set(fields) - allowed:
+            raise DomainError('invalid_update', 'Invalid case update')
+        assignments = ', '.join(f'{name}=%s' for name in fields)
+        values = [Json(v) if name == 'proposal' and v is not None else v for name, v in fields.items()]
+        with self.connection() as c, c.cursor() as q:
+            q.execute(f"UPDATE cases SET {assignments},updated_at=now() WHERE id=%s AND revision=%s AND state NOT IN ('approved','completed','canceled')", (*values, case_id, revision))
+            if q.rowcount != 1:
+                raise DomainError('stale_case', 'Case changed while agent work was in progress')
+
+    def resume_case(self, case_id, patch):
+        if set(patch) != {'documents'}:
+            raise DomainError('invalid_resume', 'Resume accepts only the requested documents')
+        with self.connection() as c, c.cursor(cursor_factory=RealDictCursor) as q:
+            q.execute('SELECT * FROM cases WHERE id=%s FOR UPDATE', (case_id,))
+            row = q.fetchone()
+            if not row or row['state'] != 'input-required':
+                raise DomainError('invalid_resume', 'Case is not waiting for documents')
+            data = case_input({**row['input'], **patch})
+            q.execute("UPDATE cases SET input=%s,revision=revision+1,state='submitted',proposal=NULL,proposal_digest=NULL,updated_at=now() WHERE id=%s RETURNING *", (Json(data), case_id))
+            return dict(q.fetchone())
