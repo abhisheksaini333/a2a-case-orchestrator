@@ -94,3 +94,18 @@ class Store:
             data = case_input({**row['input'], **patch})
             q.execute("UPDATE cases SET input=%s,revision=revision+1,state='submitted',proposal=NULL,proposal_digest=NULL,updated_at=now() WHERE id=%s RETURNING *", (Json(data), case_id))
             return dict(q.fetchone())
+
+    def approve(self, case_id, supplied_digest, reviewer):
+        with self.connection() as c, c.cursor(cursor_factory=RealDictCursor) as q:
+            q.execute('SELECT * FROM cases WHERE id=%s FOR UPDATE', (case_id,))
+            row = q.fetchone()
+            if not row or row['state'] not in {'review', 'approved', 'completed'}:
+                raise DomainError('not_approvable', 'Case is not ready for approval')
+            authorize_approval(row['proposal'], supplied_digest, reviewer, row['creator'])
+            if row['state'] in {'approved', 'completed'}:
+                return
+            q.execute("UPDATE cases SET state='approved',approved_by=%s,updated_at=now() WHERE id=%s", (reviewer, case_id))
+            payload = {'record': row['proposal'], 'approved_by': reviewer, 'digest': supplied_digest}
+            q.execute('INSERT INTO outbox(case_id,payload) VALUES(%s,%s)', (case_id, Json(payload)))
+            q.execute('INSERT INTO events(case_id,actor,kind,detail) VALUES(%s,%s,%s,%s)',
+                      (case_id, reviewer, 'approved', Json({'digest': supplied_digest})))
