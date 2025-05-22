@@ -109,3 +109,25 @@ class Store:
             q.execute('INSERT INTO outbox(case_id,payload) VALUES(%s,%s)', (case_id, Json(payload)))
             q.execute('INSERT INTO events(case_id,actor,kind,detail) VALUES(%s,%s,%s,%s)',
                       (case_id, reviewer, 'approved', Json({'digest': supplied_digest})))
+
+    def deliver(self, before_commit=None):
+        delivered = []
+        with self.connection() as c, c.cursor(cursor_factory=RealDictCursor) as q:
+            q.execute('SELECT * FROM outbox WHERE NOT delivered ORDER BY created_at FOR UPDATE SKIP LOCKED LIMIT 20')
+            for row in q.fetchall():
+                payload = row['payload']
+                if digest(payload['record']) != payload['digest']:
+                    raise DomainError('corrupt_command', 'Approved outbox command failed its digest check')
+                q.execute('INSERT INTO suppliers(id,case_id,tax_id,record,approved_by) VALUES(%s,%s,%s,%s,%s) ON CONFLICT(case_id) DO NOTHING',
+                          (uuid.uuid4().hex, row['case_id'], payload['record']['tax_id'], Json(payload['record']), payload['approved_by']))
+                q.execute('UPDATE outbox SET delivered=true WHERE case_id=%s', (row['case_id'],))
+                q.execute("UPDATE cases SET state='completed',updated_at=now() WHERE id=%s", (row['case_id'],))
+                delivered.append(row['case_id'])
+            if before_commit:
+                before_commit()
+        return delivered
+
+    def suppliers(self):
+        with self.connection() as c, c.cursor(cursor_factory=RealDictCursor) as q:
+            q.execute('SELECT * FROM suppliers ORDER BY created_at DESC LIMIT 200')
+            return [dict(x) for x in q.fetchall()]
