@@ -131,3 +131,8 @@ class Store:
         with self.connection() as c, c.cursor(cursor_factory=RealDictCursor) as q:
             q.execute('SELECT * FROM suppliers ORDER BY created_at DESC LIMIT 200')
             return [dict(x) for x in q.fetchall()]
+
+    def pending_count(self):
+        with self.connection() as c, c.cursor() as q:
+            q.execute('SELECT count(*) FROM outbox WHERE NOT delivered')
+            return q.fetchone()[0]
