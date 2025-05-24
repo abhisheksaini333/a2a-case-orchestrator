@@ -136,3 +136,10 @@ class Store:
         with self.connection() as c, c.cursor() as q:
             q.execute('SELECT count(*) FROM outbox WHERE NOT delivered')
             return q.fetchone()[0]
+
+    def cancel_case(self, case_id, actor):
+        with self.connection() as c, c.cursor() as q:
+            q.execute("UPDATE cases SET state='canceled',revision=revision+1,updated_at=now() WHERE id=%s AND state NOT IN ('approved','completed','canceled')", (case_id,))
+            if q.rowcount != 1:
+                raise DomainError('not_cancelable', 'Approved or terminal cases cannot be canceled')
+            q.execute('INSERT INTO events(case_id,actor,kind,detail) VALUES(%s,%s,%s,%s)', (case_id, actor, 'canceled', Json({})))
