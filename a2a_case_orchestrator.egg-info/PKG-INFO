@@ -1,6 +1,0 @@
-Metadata-Version: 2.2
-Name: a2a-case-orchestrator
-Version: 0.1.0
-Summary: Supplier onboarding across independent Python and C# agents
-Requires-Python: >=3.11
-Requires-Dist: psycopg2-binary==2.9.10

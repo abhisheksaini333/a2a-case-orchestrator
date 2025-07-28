@@ -9,3 +9,4 @@ catalog/obj/
 .runtime/
 artifacts/
 .DS_Store
+*.egg-info/
