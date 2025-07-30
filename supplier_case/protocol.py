@@ -23,3 +23,11 @@ def message_data(params):
     if not isinstance(parts, list) or len(parts) != 1 or not isinstance(parts[0], dict) or parts[0].get('kind') != 'data' or not isinstance(parts[0].get('data'), dict):
         raise RPCError(-32005, 'This skill accepts one application/json data part')
     return m, parts[0]['data']
+
+def agent_card(name, url, skill, version='0.2.0'):
+    card = {'name': name, 'description': f'Supplier onboarding {name} service', 'url': url,
+            'version': '1.0.0', 'capabilities': {'streaming': True, 'pushNotifications': False},
+            'defaultInputModes': ['application/json'], 'defaultOutputModes': ['application/json'],
+            'skills': [{'id': skill, 'name': skill.replace('-', ' '), 'description': f'Perform {skill} for one supplier case', 'tags': ['supplier', name]}],
+            'securitySchemes': {'bearer': {'type': 'http', 'scheme': 'bearer'}}, 'security': [{'bearer': []}]}
+    return card
