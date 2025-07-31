@@ -31,3 +31,10 @@ def agent_card(name, url, skill, version='0.2.0'):
             'skills': [{'id': skill, 'name': skill.replace('-', ' '), 'description': f'Perform {skill} for one supplier case', 'tags': ['supplier', name]}],
             'securitySchemes': {'bearer': {'type': 'http', 'scheme': 'bearer'}}, 'security': [{'bearer': []}]}
     return card
+
+def task(task_id, context_id, state, data=None, artifacts=None):
+    result = {'kind': 'task', 'id': task_id, 'contextId': context_id, 'status': {'state': state}, 'artifacts': artifacts or []}
+    if data is not None:
+        result['status']['message'] = {'kind': 'message', 'messageId': uuid.uuid4().hex, 'role': 'agent',
+                                       'taskId': task_id, 'contextId': context_id, 'parts': [{'kind': 'data', 'data': data}]}
+    return result
