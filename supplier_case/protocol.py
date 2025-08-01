@@ -38,3 +38,12 @@ def task(task_id, context_id, state, data=None, artifacts=None):
         result['status']['message'] = {'kind': 'message', 'messageId': uuid.uuid4().hex, 'role': 'agent',
                                        'taskId': task_id, 'contextId': context_id, 'parts': [{'kind': 'data', 'data': data}]}
     return result
+
+def error_response(request_id, exc):
+    if isinstance(exc, RPCError):
+        number, message = exc.number, str(exc)
+    elif isinstance(exc, DomainError):
+        number, message = -32602, str(exc)
+    else:
+        number, message = -32603, 'Internal service error'
+    return {'jsonrpc': '2.0', 'id': request_id, 'error': {'code': number, 'message': message}}
