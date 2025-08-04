@@ -47,3 +47,10 @@ def error_response(request_id, exc):
     else:
         number, message = -32603, 'Internal service error'
     return {'jsonrpc': '2.0', 'id': request_id, 'error': {'code': number, 'message': message}}
+
+def stream_frames(request_id, result):
+    events = [result]
+    events += [{'kind': 'artifact-update', 'taskId': result['id'], 'contextId': result['contextId'],
+                'artifact': artifact, 'append': False, 'lastChunk': True} for artifact in result.get('artifacts', [])]
+    events.append({'kind': 'status-update', 'taskId': result['id'], 'contextId': result['contextId'], 'status': result['status'], 'final': True})
+    return ['data: ' + json.dumps({'jsonrpc': '2.0', 'id': request_id, 'result': event}, separators=(',', ':')) + '\n\n' for event in events]
