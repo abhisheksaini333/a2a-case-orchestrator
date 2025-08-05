@@ -143,3 +143,17 @@ class Store:
             if q.rowcount != 1:
                 raise DomainError('not_cancelable', 'Approved or terminal cases cannot be canceled')
             q.execute('INSERT INTO events(case_id,actor,kind,detail) VALUES(%s,%s,%s,%s)', (case_id, actor, 'canceled', Json({})))
+
+    def create_task(self, agent, owner, message_id, context_id, data):
+        with self.connection() as c, c.cursor(cursor_factory=RealDictCursor) as q:
+            task_id = uuid.uuid4().hex
+            saved = {'state': 'submitted', 'input': data, 'artifacts': []}
+            q.execute('INSERT INTO agent_tasks(id,agent,owner,context_id,message_id,input_digest,data) VALUES(%s,%s,%s,%s,%s,%s,%s) ON CONFLICT(agent,owner,message_id) DO NOTHING RETURNING *',
+                      (task_id, agent, owner, context_id, message_id, digest(data), Json(saved)))
+            row = q.fetchone()
+            if row is None:
+                q.execute('SELECT * FROM agent_tasks WHERE agent=%s AND owner=%s AND message_id=%s', (agent, owner, message_id))
+                row = q.fetchone()
+                if row['input_digest'] != digest(data) or row['context_id'] != context_id:
+                    raise DomainError('idempotency_conflict', 'Message ID was reused with different content')
+            return dict(row)
