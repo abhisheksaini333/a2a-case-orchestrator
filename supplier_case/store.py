@@ -165,3 +165,15 @@ class Store:
             if not row:
                 raise DomainError('task_not_found', 'Task does not exist for this agent')
             return dict(row)
+
+    def mutate_task(self, task_id, agent, owner, update):
+        with self.connection() as c, c.cursor(cursor_factory=RealDictCursor) as q:
+            q.execute('SELECT * FROM agent_tasks WHERE id=%s AND agent=%s FOR UPDATE', (task_id, agent))
+            row = q.fetchone()
+            if not row:
+                raise DomainError('task_not_found', 'Task does not exist for this agent')
+            if row['owner'] != owner:
+                raise DomainError('forbidden', 'Task belongs to another principal')
+            data = update(row['data'])
+            q.execute('UPDATE agent_tasks SET data=%s WHERE id=%s RETURNING *', (Json(data), task_id))
+            return dict(q.fetchone())
