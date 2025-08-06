@@ -157,3 +157,11 @@ class Store:
                 if row['input_digest'] != digest(data) or row['context_id'] != context_id:
                     raise DomainError('idempotency_conflict', 'Message ID was reused with different content')
             return dict(row)
+
+    def get_task(self, task_id, agent):
+        with self.connection() as c, c.cursor(cursor_factory=RealDictCursor) as q:
+            q.execute('SELECT * FROM agent_tasks WHERE id=%s AND agent=%s', (task_id, agent))
+            row = q.fetchone()
+            if not row:
+                raise DomainError('task_not_found', 'Task does not exist for this agent')
+            return dict(row)
