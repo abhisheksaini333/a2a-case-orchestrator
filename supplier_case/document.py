@@ -26,7 +26,23 @@ class DocumentAgent:
         if not isinstance(context, str) or not 1 <= len(context) <= 100:
             raise RPCError(-32602, 'A bounded contextId is required')
         if message.get('taskId'):
-            raise RPCError(-32004, 'Task resume is not available')
+            row = self.store.get_task(message['taskId'], self.name)
+            owns(row, principal)
+            if row['context_id'] != context:
+                raise DomainError('context_mismatch', 'Resume context does not match the original task')
+            def resume(current):
+                if current.get('resume_id') == message['messageId']:
+                    if current.get('resume_digest') != digest(data):
+                        raise DomainError('idempotency_conflict', 'Resume message changed')
+                    return current
+                transition(current['state'], 'working')
+                checked = document_check(data)
+                if checked['name'] != current['input']['name'] or checked['tax_id'] != current['input']['tax_id']:
+                    raise DomainError('identity_changed', 'Resume cannot change supplier identity')
+                return {**current, 'input': data, 'state': 'input-required' if checked['missing'] else 'completed',
+                        'result': checked, 'resume_id': message['messageId'], 'resume_digest': digest(data),
+                        'artifacts': [] if checked['missing'] else [sign_artifact(self.name, row['id'], context, checked, self.key)]}
+            return self.result(self.store.mutate_task(row['id'], self.name, principal, resume))
         row = self.store.create_task(self.name, principal, message['messageId'], context, data)
         if row['data']['state'] == 'submitted':
             checked = document_check(data)
