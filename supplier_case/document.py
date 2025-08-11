@@ -15,6 +15,10 @@ class DocumentAgent:
 
     def rpc(self, method, params, principal):
         require_role(principal, {'coordinator'})
+        if method == 'tasks/cancel':
+            def cancel(current):
+                return {**current, 'state': transition(current['state'], 'canceled')}
+            return self.result(self.store.mutate_task(params.get('id'), self.name, principal, cancel))
         if method == 'tasks/get':
             row = self.store.get_task(params.get('id'), self.name)
             owns(row, principal)
