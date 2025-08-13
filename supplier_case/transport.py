@@ -14,6 +14,10 @@ def server(service, tokens, host='127.0.0.1', port=0):
             self.send_response(status)
             self.send_header('Content-Type', kind)
             self.send_header('Content-Length', str(len(body)))
+            self.send_header('X-Content-Type-Options', 'nosniff')
+            self.send_header('X-Frame-Options', 'DENY')
+            self.send_header('Cache-Control', 'no-store')
+            self.send_header('Content-Security-Policy', "default-src 'none'; frame-ancestors 'none'")
             self.end_headers()
             self.wfile.write(body)
         def do_GET(self):
