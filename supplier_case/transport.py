@@ -47,6 +47,8 @@ def server(service, tokens, host='127.0.0.1', port=0):
                 payload = json.loads(self.rfile.read(length))
                 method, params, request_id = request(payload)
                 result = service.rpc(method, params, principal)
+                if method == 'message/stream':
+                    return self.send(200, ''.join(stream_frames(request_id, result)), 'text/event-stream')
                 self.send(200, {'jsonrpc': '2.0', 'id': request_id, 'result': result})
             except (json.JSONDecodeError, UnicodeDecodeError) as exc:
                 self.send(400, {'error': 'invalid_json'})
