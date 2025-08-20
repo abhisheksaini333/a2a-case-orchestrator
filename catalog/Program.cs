@@ -6,7 +6,7 @@ if (args.FirstOrDefault() == "evaluate")
     Console.WriteLine(CatalogRules.Evaluate(input).ToJsonString());
     return;
 }
-throw new ArgumentException("Use evaluate to inspect a supplier catalog match");
+await new AgentServer().Run();
 
 static class CatalogRules
 {
