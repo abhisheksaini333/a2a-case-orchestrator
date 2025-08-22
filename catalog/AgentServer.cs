@@ -81,7 +81,7 @@ sealed class AgentServer
         {
             ["kind"] = "task", ["id"] = taskId, ["contextId"] = contextId,
             ["status"] = new JsonObject { ["state"] = "completed" },
-            ["artifacts"] = new JsonArray(new JsonObject { ["artifactId"] = Guid.NewGuid().ToString("N"), ["name"] = "catalog evidence", ["parts"] = new JsonArray(new JsonObject { ["kind"] = "data", ["data"] = result }) })
+            ["artifacts"] = new JsonArray(Artifact.Sign(taskId, contextId, result))
         };
         tasks[taskId] = task; messages[messageId] = taskId;
         return task.DeepClone().AsObject();

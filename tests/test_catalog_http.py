@@ -30,3 +30,11 @@ class CatalogHTTP(unittest.TestCase):
   self.assertEqual(result['status']['state'],'completed');self.assertEqual(result['contextId'],'case-1')
   with self.assertRaises(urllib.error.HTTPError) as ctx:self.rpc('message/send',self.message(),False)
   self.assertEqual(ctx.exception.code,401)
+ def test_catalog_artifact_verifies_in_python_and_tamper_fails(self):
+  from supplier_case.security import verify_artifact
+  from supplier_case.domain import DomainError
+  result=self.rpc('message/send',self.message())['result'];artifact=result['artifacts'][0]
+  value=verify_artifact(artifact,'catalog',result['id'],'case-1',{'catalog':'k'*32})
+  self.assertEqual(value,{'category':'technology','risk':'low'})
+  artifact['parts'][0]['data']['risk']='blocked'
+  with self.assertRaises(DomainError):verify_artifact(artifact,'catalog',result['id'],'case-1',{'catalog':'k'*32})
