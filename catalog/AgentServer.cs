@@ -11,10 +11,19 @@ sealed class AgentServer
     private readonly Dictionary<string, string> messages = new();
     private readonly object gate = new();
     private readonly string url;
+    private readonly string statePath;
     public AgentServer()
     {
         if (token.Length < 32) throw new ArgumentException("AGENT_TOKEN requires at least 32 characters");
         url = "http://127.0.0.1:" + (Environment.GetEnvironmentVariable("PORT") ?? "18132");
+        var directory = Environment.GetEnvironmentVariable("CATALOG_STATE") ?? ".runtime/catalog";
+        Directory.CreateDirectory(directory); statePath = Path.Combine(directory, "tasks.json");
+        if (File.Exists(statePath))
+        {
+            var saved = JsonNode.Parse(File.ReadAllText(statePath))!.AsObject();
+            foreach (var entry in saved["tasks"]!.AsObject()) tasks.Add(entry.Key, entry.Value!.DeepClone().AsObject());
+            foreach (var entry in saved["messages"]!.AsObject()) messages.Add(entry.Key, entry.Value!.GetValue<string>());
+        }
     }
     public async Task Run()
     {
@@ -84,7 +93,20 @@ sealed class AgentServer
             ["artifacts"] = new JsonArray(Artifact.Sign(taskId, contextId, result))
         };
         tasks[taskId] = task; messages[messageId] = taskId;
+        Persist();
         return task.DeepClone().AsObject();
+    }
+    private void Persist()
+    {
+        var state = new JsonObject { ["tasks"] = new JsonObject(), ["messages"] = new JsonObject() };
+        foreach (var entry in tasks) state["tasks"]![entry.Key] = entry.Value.DeepClone();
+        foreach (var entry in messages) state["messages"]![entry.Key] = entry.Value;
+        var temporary = statePath + ".tmp";
+        using (var stream = new FileStream(temporary, FileMode.Create, FileAccess.Write, FileShare.None))
+        {
+            var bytes = Encoding.UTF8.GetBytes(state.ToJsonString()); stream.Write(bytes); stream.Flush(true);
+        }
+        File.Move(temporary, statePath, true);
     }
     private static async Task Send(HttpListenerContext context, int status, JsonNode data)
     {

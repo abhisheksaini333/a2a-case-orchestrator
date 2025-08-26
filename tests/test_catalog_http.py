@@ -38,3 +38,9 @@ class CatalogHTTP(unittest.TestCase):
   self.assertEqual(value,{'category':'technology','risk':'low'})
   artifact['parts'][0]['data']['risk']='blocked'
   with self.assertRaises(DomainError):verify_artifact(artifact,'catalog',result['id'],'case-1',{'catalog':'k'*32})
+ def test_restart_returns_same_task_for_duplicate_delivery(self):
+  original=self.rpc('message/send',self.message())['result']
+  self.process.kill();self.process.wait(timeout=5);self.start()
+  resumed=self.rpc('message/send',self.message())['result']
+  self.assertEqual(resumed,original)
+  self.assertEqual(self.rpc('tasks/get',{'id':original['id']})['result'],original)
