@@ -9,6 +9,7 @@ sealed class AgentServer
     private readonly string token = Environment.GetEnvironmentVariable("AGENT_TOKEN") ?? "";
     private readonly Dictionary<string, JsonObject> tasks = new();
     private readonly Dictionary<string, string> messages = new();
+    private readonly Dictionary<string, string> requestDigests = new();
     private readonly object gate = new();
     private readonly string url;
     private readonly string statePath;
@@ -23,6 +24,7 @@ sealed class AgentServer
             var saved = JsonNode.Parse(File.ReadAllText(statePath))!.AsObject();
             foreach (var entry in saved["tasks"]!.AsObject()) tasks.Add(entry.Key, entry.Value!.DeepClone().AsObject());
             foreach (var entry in saved["messages"]!.AsObject()) messages.Add(entry.Key, entry.Value!.GetValue<string>());
+            foreach (var entry in saved["requests"]!.AsObject()) requestDigests.Add(entry.Key, entry.Value!.GetValue<string>());
         }
     }
     public async Task Run()
@@ -84,7 +86,13 @@ sealed class AgentServer
         var parts = message["parts"]!.AsArray();
         if (parts.Count != 1 || parts[0]?["kind"]?.GetValue<string>() != "data") throw new ArgumentException("One data part required");
         var data = parts[0]!["data"]!.AsObject();
-        if (messages.TryGetValue(messageId, out var prior)) return tasks[prior].DeepClone().AsObject();
+        if (message["taskId"] != null) throw new ArgumentException("Completed catalog tasks cannot resume");
+        var requestDigest = Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(contextId + Artifact.Canonical(data))));
+        if (messages.TryGetValue(messageId, out var prior))
+        {
+            if (requestDigests[messageId] != requestDigest) throw new ArgumentException("Message content changed");
+            return tasks[prior].DeepClone().AsObject();
+        }
         var taskId = Guid.NewGuid().ToString("N"); var result = CatalogRules.Evaluate(data);
         var task = new JsonObject
         {
@@ -92,15 +100,17 @@ sealed class AgentServer
             ["status"] = new JsonObject { ["state"] = "completed" },
             ["artifacts"] = new JsonArray(Artifact.Sign(taskId, contextId, result))
         };
-        tasks[taskId] = task; messages[messageId] = taskId;
-        Persist();
+        tasks[taskId] = task; messages[messageId] = taskId; requestDigests[messageId] = requestDigest;
+        try { Persist(); }
+        catch { tasks.Remove(taskId); messages.Remove(messageId); requestDigests.Remove(messageId); throw; }
         return task.DeepClone().AsObject();
     }
     private void Persist()
     {
-        var state = new JsonObject { ["tasks"] = new JsonObject(), ["messages"] = new JsonObject() };
+        var state = new JsonObject { ["tasks"] = new JsonObject(), ["messages"] = new JsonObject(), ["requests"] = new JsonObject() };
         foreach (var entry in tasks) state["tasks"]![entry.Key] = entry.Value.DeepClone();
         foreach (var entry in messages) state["messages"]![entry.Key] = entry.Value;
+        foreach (var entry in requestDigests) state["requests"]![entry.Key] = entry.Value;
         var temporary = statePath + ".tmp";
         using (var stream = new FileStream(temporary, FileMode.Create, FileAccess.Write, FileShare.None))
         {

@@ -44,3 +44,8 @@ class CatalogHTTP(unittest.TestCase):
   resumed=self.rpc('message/send',self.message())['result']
   self.assertEqual(resumed,original)
   self.assertEqual(self.rpc('tasks/get',{'id':original['id']})['result'],original)
+ def test_message_reuse_with_changed_content_is_rejected(self):
+  self.rpc('message/send',self.message());changed=self.message()
+  changed['message']['parts'][0]['data']['description']='industrial steel'
+  response=self.rpc('message/send',changed)
+  self.assertIn('error',response)
