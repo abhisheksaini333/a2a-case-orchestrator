@@ -47,3 +47,7 @@ class Coordinator:
                 pass  # A concurrent cancellation or resume owns the newer revision.
             raise
         return self.store.get_case(case_id)
+
+    def resume(self, case_id, patch):
+        self.store.resume_case(case_id, patch)
+        return self.run(case_id)
