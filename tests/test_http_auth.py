@@ -21,3 +21,8 @@ class HTTP(unittest.TestCase):
   with self.post(payload) as r:self.assertEqual(json.load(r)['result']['id'],'task1')
   with self.assertRaises(urllib.error.HTTPError) as ctx:self.post(payload,False)
   self.assertEqual(ctx.exception.code,401)
+ def test_application_api_is_authenticated_and_routed(self):
+  def api(method,path,payload,principal):return {'principal':principal,'method':method}
+  Fake.api=staticmethod(api)
+  req=urllib.request.Request(self.url+'/api/cases',headers={'Authorization':'Bearer '+'t'*32})
+  with urllib.request.urlopen(req) as r:self.assertEqual(json.load(r)['principal'],'coordinator')

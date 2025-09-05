@@ -51,3 +51,14 @@ class Coordinator:
     def resume(self, case_id, patch):
         self.store.resume_case(case_id, patch)
         return self.run(case_id)
+
+    def cancel(self, case_id, actor):
+        self.store.cancel_case(case_id, actor)
+        previous = [e for e in self.store.events(case_id) if e['kind'] == 'document-task']
+        if previous and previous[-1]['detail']['state'] == 'input-required':
+            try:
+                self.document.rpc('tasks/cancel', {'id': previous[-1]['detail']['task_id']})
+                self.store.event(case_id, 'document', 'canceled', {})
+            except DomainError as exc:
+                self.store.event(case_id, 'coordinator', 'cancel-delivery-pending', {'code': exc.code})
+        return self.store.get_case(case_id)
