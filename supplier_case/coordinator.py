@@ -62,3 +62,29 @@ class Coordinator:
             except DomainError as exc:
                 self.store.event(case_id, 'coordinator', 'cancel-delivery-pending', {'code': exc.code})
         return self.store.get_case(case_id)
+
+    def api(self, method, path, payload, principal):
+        require_role(principal, {'operator', 'reviewer'})
+        parts = path.strip('/').split('/')
+        if method == 'GET' and path == '/api/cases':
+            return {'cases': self.store.list_cases(), 'pending': self.store.pending_count()}
+        if method == 'GET' and path == '/api/suppliers':
+            return {'suppliers': self.store.suppliers()}
+        if method == 'GET' and len(parts) == 3 and parts[:2] == ['api', 'cases']:
+            return {'case': self.store.get_case(parts[2]), 'events': self.store.events(parts[2])}
+        if method == 'POST' and path == '/api/cases':
+            row = self.store.create_case(payload.get('supplier'), principal, payload.get('request_key'))
+            return self.run(row['id'])
+        if method == 'POST' and len(parts) == 4 and parts[:2] == ['api', 'cases']:
+            case_id, action = parts[2], parts[3]
+            if action == 'run':
+                return self.run(case_id)
+            if action == 'resume':
+                return self.resume(case_id, payload)
+            if action == 'cancel':
+                return self.cancel(case_id, principal)
+            if action == 'approve':
+                self.store.approve(case_id, payload.get('digest'), principal)
+                self.store.deliver()
+                return self.store.get_case(case_id)
+        raise DomainError('not_found', 'Operation not found')

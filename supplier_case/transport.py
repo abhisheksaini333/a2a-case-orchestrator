@@ -25,6 +25,12 @@ def server(service, tokens, host='127.0.0.1', port=0):
                 return self.send(200, {'status': 'ok', 'service': service.name})
             if self.path == '/.well-known/agent.json':
                 return self.send(200, service.card())
+            if self.path.startswith('/api/') and hasattr(service, 'api'):
+                try:
+                    principal = authenticate(self.headers.get('Authorization'), tokens)
+                    return self.send(200, service.api('GET', self.path, {}, principal))
+                except DomainError as exc:
+                    return self.send(401 if exc.code == 'unauthorized' else 403 if exc.code == 'forbidden' else 404, {'error': exc.code, 'message': str(exc)})
             self.send(404, {'error': 'not_found'})
         def do_POST(self):
             request_id = None
@@ -45,6 +51,10 @@ def server(service, tokens, host='127.0.0.1', port=0):
                 principal = authenticate(self.headers.get('Authorization'), tokens)
                 length = int(self.headers.get('Content-Length', '0'))
                 payload = json.loads(self.rfile.read(length))
+                if self.path.startswith('/api/') and hasattr(service, 'api'):
+                    if not isinstance(payload, dict):
+                        return self.send(400, {'error': 'object_required'})
+                    return self.send(200, service.api('POST', self.path, payload, principal))
                 method, params, request_id = request(payload)
                 result = service.rpc(method, params, principal)
                 if method == 'message/stream':
@@ -53,6 +63,8 @@ def server(service, tokens, host='127.0.0.1', port=0):
             except (json.JSONDecodeError, UnicodeDecodeError) as exc:
                 self.send(400, {'error': 'invalid_json'})
             except DomainError as exc:
+                if self.path.startswith('/api/'):
+                    return self.send(401 if exc.code == 'unauthorized' else 403 if exc.code == 'forbidden' else 409, {'error': exc.code, 'message': str(exc)})
                 self.send(401 if exc.code == 'unauthorized' else 403 if exc.code == 'forbidden' else 200, error_response(request_id, exc))
             except Exception as exc:
                 self.send(500, error_response(request_id, exc))
