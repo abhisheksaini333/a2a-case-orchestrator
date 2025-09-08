@@ -88,3 +88,13 @@ class Coordinator:
                 self.store.deliver()
                 return self.store.get_case(case_id)
         raise DomainError('not_found', 'Operation not found')
+
+    def recover(self):
+        results = []
+        self.store.deliver()
+        for case_id in self.store.recoverable_cases():
+            try:
+                results.append(self.run(case_id)['id'])
+            except DomainError:
+                continue  # The durable case event holds the operator-visible failure.
+        return results

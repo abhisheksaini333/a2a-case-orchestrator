@@ -1,3 +1,4 @@
+from tests.database import DatabaseCase
 import unittest,os,uuid
 from supplier_case.coordinator import Coordinator
 from supplier_case.store import Store
@@ -18,7 +19,7 @@ class Catalog:
  def send(self,data,context,message_id,task_id=None):
   return task('catalog-task',context,'completed',artifacts=[sign_artifact('catalog','catalog-task',context,{'category':'office','risk':'low'},'c'*32)])
 @unittest.skipUnless(os.getenv('DATABASE_URL'), 'requires isolated PostgreSQL')
-class Flow(unittest.TestCase):
+class Flow(DatabaseCase):
  def setUp(self):
   self.s=Store(os.environ['DATABASE_URL']);self.s.migrate();self.c=Coordinator(self.s,LocalDocument(self.s),Catalog(),{'document':'d'*32,'catalog':'c'*32})
   self.row=self.s.create_case({'name':'Acme','tax_id':'T-'+uuid.uuid4().hex[:8]},'operator',uuid.uuid4().hex)

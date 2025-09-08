@@ -1,10 +1,11 @@
+from tests.database import DatabaseCase
 import unittest, os, uuid
 from supplier_case.document import DocumentAgent
 from supplier_case.store import Store
 from supplier_case.domain import DomainError
 from supplier_case.protocol import RPCError
 @unittest.skipUnless(os.getenv('DATABASE_URL'), 'requires isolated PostgreSQL')
-class Document(unittest.TestCase):
+class Document(DatabaseCase):
  def setUp(self):
   self.s=Store(os.environ['DATABASE_URL']);self.s.migrate();self.a=DocumentAgent(self.s,'d'*32,'http://localhost')
   self.ctx=uuid.uuid4().hex;self.data={'name':'Acme','tax_id':'AB1','documents':[]}

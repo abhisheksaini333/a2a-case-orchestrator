@@ -177,3 +177,8 @@ class Store:
             data = update(row['data'])
             q.execute('UPDATE agent_tasks SET data=%s WHERE id=%s RETURNING *', (Json(data), task_id))
             return dict(q.fetchone())
+
+    def recoverable_cases(self):
+        with self.connection() as c, c.cursor() as q:
+            q.execute("SELECT id FROM cases WHERE state IN ('submitted','working') ORDER BY created_at LIMIT 50")
+            return [x[0] for x in q.fetchall()]

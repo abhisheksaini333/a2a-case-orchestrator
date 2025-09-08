@@ -1,9 +1,10 @@
+from tests.database import DatabaseCase
 import unittest, os, uuid
 from supplier_case.store import Store
 from supplier_case.domain import DomainError, digest
 
 @unittest.skipUnless(os.getenv('DATABASE_URL'), 'requires an isolated PostgreSQL database')
-class Database(unittest.TestCase):
+class Database(DatabaseCase):
  def setUp(self):
   self.store=Store(os.environ['DATABASE_URL']); self.store.migrate();self.key=uuid.uuid4().hex
  def case(self,creator='operator'):
