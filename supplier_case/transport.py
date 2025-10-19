@@ -23,7 +23,7 @@ def server(service, tokens, host='127.0.0.1', port=0):
         def do_GET(self):
             if self.path == '/health':
                 return self.send(200, {'status': 'ok', 'service': service.name})
-            if self.path == '/.well-known/agent.json':
+            if self.path in {'/.well-known/agent.json', '/.well-known/agent-card.json'}:
                 return self.send(200, service.card())
             if self.path.startswith('/api/') and hasattr(service, 'api'):
                 try:

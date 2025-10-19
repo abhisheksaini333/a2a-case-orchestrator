@@ -1,5 +1,6 @@
 """Bounded A2A HTTP/JSON-RPC adapter, with explicit supported operations."""
 import json
+import os
 import uuid
 from .domain import DomainError
 
@@ -24,12 +25,17 @@ def message_data(params):
         raise RPCError(-32005, 'This skill accepts one application/json data part')
     return m, parts[0]['data']
 
-def agent_card(name, url, skill, version='0.2.0'):
+def agent_card(name, url, skill, version=None):
+    version = version or os.environ.get('A2A_VERSION', '0.3.0')
+    if version not in {'0.2.0', '0.3.0'}:
+        raise DomainError('unsupported_profile', 'Supported profiles are 0.2.0 and 0.3.0')
     card = {'name': name, 'description': f'Supplier onboarding {name} service', 'url': url,
             'version': '1.0.0', 'capabilities': {'streaming': True, 'pushNotifications': False},
             'defaultInputModes': ['application/json'], 'defaultOutputModes': ['application/json'],
             'skills': [{'id': skill, 'name': skill.replace('-', ' '), 'description': f'Perform {skill} for one supplier case', 'tags': ['supplier', name]}],
             'securitySchemes': {'bearer': {'type': 'http', 'scheme': 'bearer'}}, 'security': [{'bearer': []}]}
+    if version == '0.3.0':
+        card.update(protocolVersion='0.3.0', preferredTransport='JSONRPC')
     return card
 
 def task(task_id, context_id, state, data=None, artifacts=None):

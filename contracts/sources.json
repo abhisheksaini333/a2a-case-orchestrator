@@ -4,5 +4,11 @@
     "url": "https://raw.githubusercontent.com/a2aproject/A2A/v0.2.0/specification/json/a2a.json",
     "sha256": "62d54e873f37ab6f84820b01306d06f35e5eb554babbe1c88f60ad709a18291f",
     "source_license": "Apache-2.0"
+  },
+  {
+    "version": "v0.3.0",
+    "url": "https://raw.githubusercontent.com/a2aproject/A2A/v0.3.0/specification/json/a2a.json",
+    "sha256": "97d6e2435336836cd1d41dffacf83a1a97902b62b826ef14ec5704db85c95f17",
+    "source_license": "Apache-2.0"
   }
 ]
