@@ -50,3 +50,10 @@ def extract(text, endpoint, model='default_model'):
     except (urllib.error.URLError, TimeoutError, ValueError, KeyError, IndexError, TypeError) as exc:
         raise DomainError('model_unavailable', 'Local model did not return a usable response') from exc
     return {**parse_output(text), 'latency_ms': round((time.perf_counter() - started) * 1000, 2), 'mode': 'local-model'}
+
+def extract_rules(text):
+    values = {}
+    for label in ['name', 'tax_id', 'description']:
+        match = re.search(r'(?:^|;)\s*' + label + r'\s*:\s*([^;]*)', text, re.I)
+        values[label] = match.group(1).strip() if match else ''
+    return {'supplier': case_input(values), 'skills': ['document-check', 'catalog-match'], 'mode': 'rules'}
