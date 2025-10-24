@@ -1,0 +1,10 @@
+{
+  "name": "supplier-case-desk",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {"typecheck":"tsc --noEmit", "build":"npm run typecheck && node build.mjs"},
+  "dependencies":{"react":"18.3.1","react-dom":"18.3.1"},
+  "devDependencies":{"typescript":"5.7.2","esbuild":"0.24.0","@types/react":"18.3.12","@types/react-dom":"18.3.1","playwright":"1.49.1"},
+  "overrides":{"@types/prop-types":"15.7.13","csstype":"3.1.3"}
+}

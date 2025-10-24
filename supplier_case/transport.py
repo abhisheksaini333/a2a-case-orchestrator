@@ -1,11 +1,12 @@
 """Small bounded local HTTP transport for independent service processes."""
 import json
+from pathlib import Path
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from .domain import DomainError
 from .security import authenticate
 from .protocol import request, error_response, stream_frames
 
-def server(service, tokens, host='127.0.0.1', port=0):
+def server(service, tokens, host='127.0.0.1', port=0, ui_dir=None):
     class Handler(BaseHTTPRequestHandler):
         def log_message(self, format, *args):
             pass
@@ -17,10 +18,16 @@ def server(service, tokens, host='127.0.0.1', port=0):
             self.send_header('X-Content-Type-Options', 'nosniff')
             self.send_header('X-Frame-Options', 'DENY')
             self.send_header('Cache-Control', 'no-store')
-            self.send_header('Content-Security-Policy', "default-src 'none'; frame-ancestors 'none'")
+            self.send_header('Content-Security-Policy', "default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'" if kind != 'application/json' else "default-src 'none'; frame-ancestors 'none'")
             self.end_headers()
             self.wfile.write(body)
         def do_GET(self):
+            assets = {'/': ('index.html', 'text/html'), '/assets/main.js': ('main.js', 'text/javascript'), '/assets/main.css': ('main.css', 'text/css')}
+            if ui_dir and self.path in assets:
+                filename, kind = assets[self.path]
+                path = Path(ui_dir) / filename
+                if path.is_file():
+                    return self.send(200, path.read_text(), kind)
             if self.path == '/health':
                 return self.send(200, {'status': 'ok', 'service': service.name})
             if self.path in {'/.well-known/agent.json', '/.well-known/agent-card.json'}:

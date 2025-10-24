@@ -3,6 +3,7 @@ import argparse
 import os
 import signal
 import threading
+from pathlib import Path
 from .store import Store
 from .document import DocumentAgent
 from .client import Client
@@ -40,7 +41,7 @@ def main():
             service.recover()
             return
         service.recover()
-    http = server(service, tokens, args.host, args.port)
+    http = server(service, tokens, args.host, args.port, Path(__file__).resolve().parents[1] / 'frontend' / 'dist' if args.service == 'coordinator' else None)
     def shutdown(*_):
         threading.Thread(target=http.shutdown, daemon=True).start()
     signal.signal(signal.SIGTERM, shutdown)
