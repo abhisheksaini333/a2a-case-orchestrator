@@ -17,5 +17,9 @@ try {
  await page.getByRole('button',{name:'Start checks'}).click();
  await page.getByRole('heading',{name:'Northstar Components',exact:true}).waitFor();
  await page.locator('.status-banner').filter({hasText:'Tax certificate needed'}).waitFor();
- console.log(JSON.stringify({login:'passed',create:'passed',tax}));
+ await page.getByLabel('Certificate tax identifier').fill(tax);
+ await page.getByRole('button',{name:'Provide tax certificate'}).click();
+ await page.locator('.status-banner').filter({hasText:'Ready for independent review'}).waitFor();
+ await page.getByRole('heading',{name:'Proposed supplier record'}).waitFor();
+ console.log(JSON.stringify({login:'passed',create:'passed',resume:'passed',tax}));
 } finally {await browser.close();}
