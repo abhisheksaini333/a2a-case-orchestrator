@@ -1,4 +1,6 @@
 """Application orchestration; approval and effects stay outside agent authority."""
+import os
+from .model import extract, extract_rules
 from .domain import DomainError, proposal, digest
 from .security import verify_artifact, require_role
 from .protocol import agent_card, RPCError
@@ -65,6 +67,14 @@ class Coordinator:
 
     def api(self, method, path, payload, principal):
         require_role(principal, {'operator', 'reviewer'})
+        if method == 'GET' and path == '/api/session':
+            return {'principal': principal}
+        if method == 'POST' and path == '/api/extract':
+            if payload.get('mode') == 'rules':
+                return extract_rules(payload.get('text', ''))
+            if payload.get('mode') == 'local-model':
+                return extract(payload.get('text'), os.environ.get('MODEL_ENDPOINT', ''), os.environ.get('MODEL_NAME', 'default_model'))
+            raise DomainError('invalid_mode', 'Choose rules or local-model extraction')
         parts = path.strip('/').split('/')
         if method == 'GET' and path == '/api/cases':
             return {'cases': self.store.list_cases(), 'pending': self.store.pending_count()}

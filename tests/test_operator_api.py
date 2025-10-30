@@ -27,3 +27,10 @@ class Flow(DatabaseCase):
   with self.assertRaises(DomainError):self.c.api('GET','/api/cases',{},'document')
   response=self.c.api('GET','/api/cases/'+self.row['id'],{},'reviewer')
   self.assertEqual(response['case']['id'],self.row['id'])
+ def test_operator_session_identifies_role_without_disclosing_credentials(self):
+  session=self.c.api('GET','/api/session',{},'reviewer')
+  self.assertEqual(session,{'principal':'reviewer'})
+ def test_extraction_is_a_preview_and_does_not_create_a_case(self):
+  before=len(self.s.list_cases())
+  result=self.c.api('POST','/api/extract',{'mode':'rules','text':'name: Acme; tax_id: AB1; description: paper'},'operator')
+  self.assertEqual(result['supplier']['name'],'Acme');self.assertEqual(len(self.s.list_cases()),before)
