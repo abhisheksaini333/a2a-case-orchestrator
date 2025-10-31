@@ -49,3 +49,10 @@ class CatalogHTTP(unittest.TestCase):
   changed['message']['parts'][0]['data']['description']='industrial steel'
   response=self.rpc('message/send',changed)
   self.assertIn('error',response)
+ def test_v03_discovery_and_task_conform_to_the_same_pinned_schema(self):
+  from jsonschema import Draft7Validator
+  schema=json.loads((ROOT/'contracts/v0.3.0.json').read_text())
+  with urllib.request.urlopen(self.url+'/.well-known/agent-card.json') as r:card=json.load(r)
+  self.assertEqual(card['protocolVersion'],'0.3.0')
+  Draft7Validator({**schema,'$ref':'#/definitions/AgentCard'}).validate(card)
+  Draft7Validator({**schema,'$ref':'#/definitions/Task'}).validate(self.rpc('message/send',self.message())['result'])

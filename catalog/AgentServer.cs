@@ -39,6 +39,7 @@ sealed class AgentServer
     }
     private JsonObject Card() => new()
     {
+        ["protocolVersion"] = "0.3.0", ["preferredTransport"] = "JSONRPC",
         ["name"] = "catalog", ["description"] = "Supplier catalog matching service", ["url"] = url + "/a2a", ["version"] = "1.0.0",
         ["capabilities"] = new JsonObject { ["streaming"] = false, ["pushNotifications"] = false },
         ["defaultInputModes"] = new JsonArray("application/json"), ["defaultOutputModes"] = new JsonArray("application/json"),
@@ -52,7 +53,7 @@ sealed class AgentServer
         try
         {
             if (request.HttpMethod == "GET" && request.Url!.AbsolutePath == "/health") { await Send(context, 200, new JsonObject { ["status"] = "ok", ["service"] = "catalog" }); return; }
-            if (request.HttpMethod == "GET" && request.Url!.AbsolutePath == "/.well-known/agent.json") { await Send(context, 200, Card()); return; }
+            if (request.HttpMethod == "GET" && request.Url!.AbsolutePath is "/.well-known/agent.json" or "/.well-known/agent-card.json") { await Send(context, 200, Card()); return; }
             var auth = request.Headers["Authorization"] ?? "";
             if (!CryptographicOperations.FixedTimeEquals(Encoding.UTF8.GetBytes(auth), Encoding.UTF8.GetBytes("Bearer " + token))) { await Send(context, 401, new JsonObject { ["error"] = "unauthorized" }); return; }
             if (request.HttpMethod != "POST" || request.Url!.AbsolutePath is not ("/a2a" or "/direct")) { await Send(context, 404, new JsonObject { ["error"] = "not_found" }); return; }
