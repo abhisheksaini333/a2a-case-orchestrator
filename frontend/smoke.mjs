@@ -21,5 +21,16 @@ try {
  await page.getByRole('button',{name:'Provide tax certificate'}).click();
  await page.locator('.status-banner').filter({hasText:'Ready for independent review'}).waitFor();
  await page.getByRole('heading',{name:'Proposed supplier record'}).waitFor();
- console.log(JSON.stringify({login:'passed',create:'passed',resume:'passed',tax}));
+ await page.getByRole('heading',{name:'Evidence trail'}).waitFor();
+ await page.getByRole('button',{name:'Sign out'}).click();
+ await page.getByLabel('Access key').fill(process.env.REVIEWER_TOKEN);
+ await page.getByRole('button',{name:'Open supplier desk'}).click();
+ await page.locator('.case-item').filter({hasText:tax}).click();
+ await page.getByRole('button',{name:'Approve this exact record'}).click();
+ await page.locator('.status-banner').filter({hasText:'Supplier onboarded'}).waitFor();
+ assert.equal(await page.evaluate(()=>localStorage.length+sessionStorage.length),0);
+ if(process.env.SCREENSHOT)await page.screenshot({path:process.env.SCREENSHOT,fullPage:true});
+ await page.setViewportSize({width:390,height:844});
+ assert.equal(await page.locator('body').evaluate(e=>e.scrollWidth>innerWidth),false);
+ console.log(JSON.stringify({login:'passed',create:'passed',resume:'passed',approval:'passed',mobile:'passed',tax}));
 } finally {await browser.close();}
