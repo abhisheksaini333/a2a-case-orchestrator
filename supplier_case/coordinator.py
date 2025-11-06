@@ -73,7 +73,7 @@ class Coordinator:
             if payload.get('mode') == 'rules':
                 return extract_rules(payload.get('text', ''))
             if payload.get('mode') == 'local-model':
-                return extract(payload.get('text'), os.environ.get('MODEL_ENDPOINT', ''), os.environ.get('MODEL_NAME', 'default_model'))
+                return extract(payload.get('text'), os.environ.get('MODEL_ENDPOINT', ''), os.environ.get('MODEL_NAME', 'default_model'), os.environ.get('MODEL_NO_THINK') == '1')
             raise DomainError('invalid_mode', 'Choose rules or local-model extraction')
         parts = path.strip('/').split('/')
         if method == 'GET' and path == '/api/cases':
