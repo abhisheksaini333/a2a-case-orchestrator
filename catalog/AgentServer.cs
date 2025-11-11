@@ -1,4 +1,9 @@
-using System.Net;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
@@ -13,10 +18,12 @@ sealed class AgentServer
     private readonly object gate = new();
     private readonly string url;
     private readonly string statePath;
+    private readonly int deadlineMs = int.Parse(Environment.GetEnvironmentVariable("REQUEST_DEADLINE_MS") ?? "10000");
+    private readonly SemaphoreSlim admission = new(int.Parse(Environment.GetEnvironmentVariable("MAX_REQUESTS") ?? "16"));
     public AgentServer()
     {
         if (token.Length < 32) throw new ArgumentException("AGENT_TOKEN requires at least 32 characters");
-        url = "http://127.0.0.1:" + (Environment.GetEnvironmentVariable("PORT") ?? "18132");
+        url = Environment.GetEnvironmentVariable("PUBLIC_URL") ?? "http://127.0.0.1:" + (Environment.GetEnvironmentVariable("PORT") ?? "18132");
         var directory = Environment.GetEnvironmentVariable("CATALOG_STATE") ?? ".runtime/catalog";
         Directory.CreateDirectory(directory); statePath = Path.Combine(directory, "tasks.json");
         if (File.Exists(statePath))
@@ -29,13 +36,28 @@ sealed class AgentServer
     }
     public async Task Run()
     {
-        using var listener = new HttpListener();
-        listener.Prefixes.Add(url + "/"); listener.Start();
-        while (true)
+        var builder = WebApplication.CreateSlimBuilder();
+        builder.Logging.ClearProviders();
+        builder.WebHost.ConfigureKestrel(options =>
         {
-            var context = await listener.GetContextAsync();
-            _ = Task.Run(() => Handle(context));
-        }
+            options.Limits.MaxConcurrentConnections = 32;
+            options.Limits.RequestHeadersTimeout = TimeSpan.FromSeconds(2);
+            options.Limits.KeepAliveTimeout = TimeSpan.FromSeconds(5);
+            options.Limits.MaxRequestBodySize = 65536;
+            options.Limits.MaxRequestHeadersTotalSize = 8192;
+        });
+        var app = builder.Build();
+        app.Run(async context =>
+        {
+            if (!await admission.WaitAsync(0))
+            {
+                await Send(context, 503, new JsonObject { ["error"] = "capacity_limit" }); return;
+            }
+            try { await Handle(context); }
+            finally { admission.Release(); }
+        });
+        var bind = Environment.GetEnvironmentVariable("BIND_ADDRESS") ?? "127.0.0.1";
+        await app.RunAsync("http://" + bind + ":" + (Environment.GetEnvironmentVariable("PORT") ?? "18132"));
     }
     private JsonObject Card() => new()
     {
@@ -47,25 +69,31 @@ sealed class AgentServer
         ["security"] = new JsonArray(new JsonObject { ["bearer"] = new JsonArray() }),
         ["skills"] = new JsonArray(new JsonObject { ["id"] = "catalog-match", ["name"] = "Catalog matching", ["description"] = "Classify supplier goods and apply a local risk rule", ["tags"] = new JsonArray("supplier", "catalog") })
     };
-    private async Task Handle(HttpListenerContext context)
+    private async Task Handle(HttpContext context)
     {
         var request = context.Request; JsonNode? id = null;
         try
         {
-            if (request.HttpMethod == "GET" && request.Url!.AbsolutePath == "/health") { await Send(context, 200, new JsonObject { ["status"] = "ok", ["service"] = "catalog" }); return; }
-            if (request.HttpMethod == "GET" && request.Url!.AbsolutePath is "/.well-known/agent.json" or "/.well-known/agent-card.json") { await Send(context, 200, Card()); return; }
-            var auth = request.Headers["Authorization"] ?? "";
+            if (request.Method == "GET" && request.Path == "/health") { await Send(context, 200, new JsonObject { ["status"] = "ok", ["service"] = "catalog" }); return; }
+            if (request.Method == "GET" && (request.Path == "/.well-known/agent.json" || request.Path == "/.well-known/agent-card.json")) { await Send(context, 200, Card()); return; }
+            var auth = request.Headers.Authorization.ToString();
             if (!CryptographicOperations.FixedTimeEquals(Encoding.UTF8.GetBytes(auth), Encoding.UTF8.GetBytes("Bearer " + token))) { await Send(context, 401, new JsonObject { ["error"] = "unauthorized" }); return; }
-            if (request.HttpMethod != "POST" || request.Url!.AbsolutePath is not ("/a2a" or "/direct")) { await Send(context, 404, new JsonObject { ["error"] = "not_found" }); return; }
-            if (request.ContentLength64 is <= 0 or > 65536) { await Send(context, 413, new JsonObject { ["error"] = "body_limit" }); return; }
+            if (request.Method != "POST" || (request.Path != "/a2a" && request.Path != "/direct")) { await Send(context, 404, new JsonObject { ["error"] = "not_found" }); return; }
+            if (request.Headers.ContainsKey("Transfer-Encoding")) { await Send(context, 400, new JsonObject { ["error"] = "unsupported_transfer_encoding" }); return; }
+            if (request.ContentLength is null or <= 0 or > 65536) { await Send(context, 413, new JsonObject { ["error"] = "body_limit" }); return; }
             if (request.ContentType?.Split(';')[0] != "application/json") { await Send(context, 415, new JsonObject { ["error"] = "json_required" }); return; }
-            using var deadline = new CancellationTokenSource(TimeSpan.FromSeconds(10));
-            var envelope = (await JsonNode.ParseAsync(request.InputStream, cancellationToken: deadline.Token))?.AsObject() ?? throw new ArgumentException("JSON object required");
+            using var deadline = CancellationTokenSource.CreateLinkedTokenSource(context.RequestAborted);
+            deadline.CancelAfter(deadlineMs);
+            var envelope = (await JsonNode.ParseAsync(request.Body, cancellationToken: deadline.Token))?.AsObject() ?? throw new ArgumentException("JSON object required");
             id = envelope["id"]?.DeepClone();
             if (envelope["jsonrpc"]?.GetValue<string>() != "2.0") throw new ArgumentException("JSON-RPC 2.0 required");
             JsonObject result;
             lock (gate) result = Dispatch(envelope["method"]?.GetValue<string>() ?? "", envelope["params"]?.AsObject() ?? new());
             await Send(context, 200, new JsonObject { ["jsonrpc"] = "2.0", ["id"] = id, ["result"] = result });
+        }
+        catch (OperationCanceledException)
+        {
+            if (!context.RequestAborted.IsCancellationRequested) await Send(context, 408, new JsonObject { ["error"] = "request_deadline" });
         }
         catch (Exception error) when (error is ArgumentException or JsonException or InvalidOperationException or KeyNotFoundException)
         {
@@ -73,7 +101,8 @@ sealed class AgentServer
         }
         catch (Exception)
         {
-            try { await Send(context, 500, new JsonObject { ["error"] = "internal_service_error" }); } catch (Exception) { context.Response.Close(); }
+            if (!context.Response.HasStarted) await Send(context, 500, new JsonObject { ["error"] = "internal_service_error" });
+            else context.Abort();
         }
     }
     private JsonObject Dispatch(string method, JsonObject parameters)
@@ -119,13 +148,14 @@ sealed class AgentServer
         }
         File.Move(temporary, statePath, true);
     }
-    private static async Task Send(HttpListenerContext context, int status, JsonNode data)
+    private static async Task Send(HttpContext context, int status, JsonNode data)
     {
         var bytes = Encoding.UTF8.GetBytes(data.ToJsonString());
         context.Response.StatusCode = status; context.Response.ContentType = "application/json";
-        context.Response.Headers["Cache-Control"] = "no-store"; context.Response.Headers["X-Content-Type-Options"] = "nosniff";
+        context.Response.Headers.CacheControl = "no-store"; context.Response.Headers["X-Content-Type-Options"] = "nosniff";
         context.Response.Headers["X-Frame-Options"] = "DENY";
-        context.Response.ContentLength64 = bytes.Length;
-        await context.Response.OutputStream.WriteAsync(bytes); context.Response.Close();
+        context.Response.Headers.ContentSecurityPolicy = "default-src 'none'; frame-ancestors 'none'";
+        context.Response.ContentLength = bytes.Length;
+        await context.Response.Body.WriteAsync(bytes, context.RequestAborted);
     }
 }

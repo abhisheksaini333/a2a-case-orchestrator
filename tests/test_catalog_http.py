@@ -56,3 +56,27 @@ class CatalogHTTP(unittest.TestCase):
   self.assertEqual(card['protocolVersion'],'0.3.0')
   Draft7Validator({**schema,'$ref':'#/definitions/AgentCard'}).validate(card)
   Draft7Validator({**schema,'$ref':'#/definitions/Task'}).validate(self.rpc('message/send',self.message())['result'])
+ def test_incomplete_bodies_have_a_deadline_and_chunked_requests_are_rejected(self):
+  self.process.terminate();self.process.wait(timeout=5);self.env.update(REQUEST_DEADLINE_MS='300',MAX_REQUESTS='2');self.start()
+  client=socket.create_connection(('127.0.0.1',self.port));client.settimeout(3)
+  client.sendall(b'POST /a2a HTTP/1.1\r\nHost: localhost\r\nContent-Type: application/json\r\nAuthorization: Bearer '+b'c'*32+b'\r\nContent-Length: 100\r\n\r\n{')
+  started=time.monotonic();data=client.recv(1024);self.assertLess(time.monotonic()-started,2);self.assertIn(b'408',data);client.close()
+  client=socket.create_connection(('127.0.0.1',self.port));client.settimeout(3)
+  client.sendall(b'POST /a2a HTTP/1.1\r\nHost: localhost\r\nTransfer-Encoding: chunked\r\nContent-Type: application/json\r\nAuthorization: Bearer '+b'c'*32+b'\r\n\r\n0\r\n\r\n')
+  self.assertIn(b'400',client.recv(1024));client.close()
+ def test_catalog_admission_is_bounded_and_partial_headers_expire(self):
+  self.process.terminate();self.process.wait(timeout=5);self.env.update(REQUEST_DEADLINE_MS='1000',MAX_REQUESTS='2');self.start()
+  clients=[]
+  try:
+   for _ in range(2):
+    client=socket.create_connection(('127.0.0.1',self.port));client.settimeout(3)
+    client.sendall(b'POST /a2a HTTP/1.1\r\nHost: localhost\r\nContent-Type: application/json\r\nAuthorization: Bearer '+b'c'*32+b'\r\nContent-Length: 100\r\n\r\n{');clients.append(client)
+   time.sleep(.1)
+   with self.assertRaises(urllib.error.HTTPError) as error:urllib.request.urlopen(self.url+'/health')
+   self.assertEqual(error.exception.code,503)
+  finally:
+   for client in clients:client.close()
+  time.sleep(.2)
+  client=socket.create_connection(('127.0.0.1',self.port));client.settimeout(5)
+  client.sendall(b'GET /health HTTP/1.1\r\nHost: localhost\r\nX-Incomplete: ')
+  self.assertIn(b'408',client.recv(1024));client.close()
