@@ -9,6 +9,8 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 
+sealed class CapacityException : Exception { }
+
 sealed class AgentServer
 {
     private readonly string token = Environment.GetEnvironmentVariable("AGENT_TOKEN") ?? "";
@@ -18,6 +20,7 @@ sealed class AgentServer
     private readonly object gate = new();
     private readonly string url;
     private readonly string statePath;
+    private readonly int maxTasks = int.Parse(Environment.GetEnvironmentVariable("MAX_TASKS") ?? "1000");
     private readonly int deadlineMs = int.Parse(Environment.GetEnvironmentVariable("REQUEST_DEADLINE_MS") ?? "10000");
     private readonly SemaphoreSlim admission = new(int.Parse(Environment.GetEnvironmentVariable("MAX_REQUESTS") ?? "16"));
     public AgentServer()
@@ -28,7 +31,9 @@ sealed class AgentServer
         Directory.CreateDirectory(directory); statePath = Path.Combine(directory, "tasks.json");
         if (File.Exists(statePath))
         {
+            if (new FileInfo(statePath).Length > 16 * 1024 * 1024) throw new ArgumentException("Catalog journal exceeds 16 MiB");
             var saved = JsonNode.Parse(File.ReadAllText(statePath))!.AsObject();
+            if (saved["tasks"]!.AsObject().Count > maxTasks) throw new ArgumentException("Catalog journal exceeds MAX_TASKS; archive before starting");
             foreach (var entry in saved["tasks"]!.AsObject()) tasks.Add(entry.Key, entry.Value!.DeepClone().AsObject());
             foreach (var entry in saved["messages"]!.AsObject()) messages.Add(entry.Key, entry.Value!.GetValue<string>());
             foreach (var entry in saved["requests"]!.AsObject()) requestDigests.Add(entry.Key, entry.Value!.GetValue<string>());
@@ -91,6 +96,10 @@ sealed class AgentServer
             lock (gate) result = Dispatch(envelope["method"]?.GetValue<string>() ?? "", envelope["params"]?.AsObject() ?? new());
             await Send(context, 200, new JsonObject { ["jsonrpc"] = "2.0", ["id"] = id, ["result"] = result });
         }
+        catch (CapacityException)
+        {
+            await Send(context, 503, new JsonObject { ["error"] = "catalog_capacity_limit" });
+        }
         catch (OperationCanceledException)
         {
             if (!context.RequestAborted.IsCancellationRequested) await Send(context, 408, new JsonObject { ["error"] = "request_deadline" });
@@ -123,6 +132,7 @@ sealed class AgentServer
             if (requestDigests[messageId] != requestDigest) throw new ArgumentException("Message content changed");
             return tasks[prior].DeepClone().AsObject();
         }
+        if (tasks.Count >= maxTasks) throw new CapacityException();
         var taskId = Guid.NewGuid().ToString("N"); var result = CatalogRules.Evaluate(data);
         var task = new JsonObject
         {

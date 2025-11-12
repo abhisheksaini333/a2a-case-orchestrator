@@ -80,3 +80,10 @@ class CatalogHTTP(unittest.TestCase):
   client=socket.create_connection(('127.0.0.1',self.port));client.settimeout(5)
   client.sendall(b'GET /health HTTP/1.1\r\nHost: localhost\r\nX-Incomplete: ')
   self.assertIn(b'408',client.recv(1024));client.close()
+ def test_catalog_state_limit_keeps_old_receipts_available(self):
+  self.process.terminate();self.process.wait(timeout=5);self.env.update(MAX_TASKS='1',PUBLIC_URL='http://catalog.example.test:18132');self.start()
+  original=self.rpc('message/send',self.message())['result'];other=self.message();other['message']['messageId']='message-2'
+  with self.assertRaises(urllib.error.HTTPError) as error:self.rpc('message/send',other)
+  self.assertEqual(error.exception.code,503)
+  self.assertEqual(self.rpc('message/send',self.message())['result'],original)
+  with urllib.request.urlopen(self.url+'/.well-known/agent-card.json') as response:self.assertEqual(json.load(response)['url'],'http://catalog.example.test:18132/a2a')
