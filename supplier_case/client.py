@@ -8,12 +8,16 @@ from .domain import DomainError
 class Client:
     def __init__(self, url, token, name, skill):
         self.url, self.token, self.name, self.skill = url.rstrip('/'), token, name, skill
+        self.measurements = {'requests': 0, 'request_bytes': 0, 'response_bytes': 0}
     def fetch(self, path, data=None):
         request = urllib.request.Request(self.url + path, data=None if data is None else json.dumps(data).encode(),
                 headers={'Authorization': 'Bearer ' + self.token, 'Content-Type': 'application/json'})
+        self.measurements['requests'] += 1
+        self.measurements['request_bytes'] += len(request.data or b'')
         try:
             with urllib.request.urlopen(request, timeout=10) as response:
                 raw = response.read(1048577)
+                self.measurements['response_bytes'] += len(raw)
                 if len(raw) > 1048576:
                     raise DomainError('response_limit', 'Agent response exceeded its size limit')
                 return json.loads(raw)
@@ -48,4 +52,19 @@ class Client:
         result = self.rpc('message/send', {'message': message})
         if result.get('contextId') != context or (task_id and result.get('id') != task_id):
             raise DomainError('context_mismatch', 'Agent changed the task or context binding')
+        return result
+
+
+class DirectClient(Client):
+    """Comparison adapter: simple JSON input/output, same durable application logic."""
+    def discover(self):
+        return {'name': self.name, 'skill': self.skill, 'configured': True}
+
+    def send(self, data, context, message_id, task_id=None):
+        payload = {'data': data, 'contextId': context, 'messageId': message_id}
+        if task_id:
+            payload['taskId'] = task_id
+        result = self.fetch('/direct', payload)
+        if result.get('kind') != 'task' or result.get('contextId') != context or (task_id and result.get('id') != task_id):
+            raise DomainError('invalid_agent_response', 'Direct service changed the task binding')
         return result

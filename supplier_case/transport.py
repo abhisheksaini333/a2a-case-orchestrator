@@ -123,6 +123,14 @@ def server(service, tokens, host='127.0.0.1', port=0, ui_dir=None, max_connectio
                     if not isinstance(payload, dict):
                         return self.send(400, {'error': 'object_required'})
                     return self.send(200, service.api('POST', self.path, payload, principal))
+                if self.path == '/direct':
+                    if not isinstance(payload, dict) or set(payload) - {'data', 'contextId', 'messageId', 'taskId'}:
+                        raise DomainError('invalid_direct_request', 'Expected a plain data and context request')
+                    message = {'kind': 'message', 'role': 'user', 'messageId': payload.get('messageId'), 'contextId': payload.get('contextId'),
+                               'parts': [{'kind': 'data', 'data': payload.get('data')}]}
+                    if payload.get('taskId'):
+                        message['taskId'] = payload['taskId']
+                    return self.send(200, service.rpc('message/send', {'message': message}, principal))
                 method, params, request_id = request(payload)
                 result = service.rpc(method, params, principal)
                 if method == 'message/stream':
