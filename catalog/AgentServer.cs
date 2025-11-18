@@ -90,6 +90,16 @@ sealed class AgentServer
             using var deadline = CancellationTokenSource.CreateLinkedTokenSource(context.RequestAborted);
             deadline.CancelAfter(deadlineMs);
             var envelope = (await JsonNode.ParseAsync(request.Body, cancellationToken: deadline.Token))?.AsObject() ?? throw new ArgumentException("JSON object required");
+            if (request.Path == "/direct")
+            {
+                if (envelope.Any(x => !new[] { "data", "contextId", "messageId", "taskId" }.Contains(x.Key))) throw new ArgumentException("Plain data request required");
+                var message = new JsonObject { ["kind"] = "message", ["role"] = "user", ["contextId"] = envelope["contextId"]?.DeepClone(), ["messageId"] = envelope["messageId"]?.DeepClone(),
+                    ["parts"] = new JsonArray(new JsonObject { ["kind"] = "data", ["data"] = envelope["data"]?.DeepClone() }) };
+                if (envelope["taskId"] != null) message["taskId"] = envelope["taskId"]!.DeepClone();
+                JsonObject direct;
+                lock (gate) direct = Dispatch("message/send", new JsonObject { ["message"] = message });
+                await Send(context, 200, direct); return;
+            }
             id = envelope["id"]?.DeepClone();
             if (envelope["jsonrpc"]?.GetValue<string>() != "2.0") throw new ArgumentException("JSON-RPC 2.0 required");
             JsonObject result;

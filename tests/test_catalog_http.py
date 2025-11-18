@@ -87,3 +87,9 @@ class CatalogHTTP(unittest.TestCase):
   self.assertEqual(error.exception.code,503)
   self.assertEqual(self.rpc('message/send',self.message())['result'],original)
   with urllib.request.urlopen(self.url+'/.well-known/agent-card.json') as response:self.assertEqual(json.load(response)['url'],'http://catalog.example.test:18132/a2a')
+ def test_direct_http_reuses_catalog_business_logic_and_receipt(self):
+  from supplier_case.client import DirectClient
+  original=self.rpc('message/send',self.message())['result']
+  direct=DirectClient(self.url,self.token,'catalog','catalog-match')
+  result=direct.send({'description':'laptop repair'},'case-1','message-1')
+  self.assertEqual(result,original);self.assertEqual(direct.measurements['requests'],1)
