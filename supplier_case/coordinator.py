@@ -3,7 +3,7 @@ import os
 from .model import extract, extract_rules
 from .domain import DomainError, proposal, digest
 from .security import verify_artifact, require_role
-from .protocol import agent_card, RPCError
+from .protocol import agent_card, RPCError, message_data, task
 
 class Coordinator:
     name = 'coordinator'
@@ -108,3 +108,35 @@ class Coordinator:
             except DomainError:
                 continue  # The durable case event holds the operator-visible failure.
         return results
+
+
+    def protocol_task(self, row):
+        states = {'review': 'input-required', 'approved': 'working'}
+        state = states.get(row['state'], row['state'])
+        detail = {'reason': 'human-review' if row['state'] == 'review' else row['state']}
+        if row['proposal'] is not None:
+            detail.update(record=row['proposal'], digest=row['proposal_digest'])
+        return task(row['id'], row['id'], state, detail)
+
+    def rpc(self, method, params, principal):
+        require_role(principal, {'case-client', 'operator', 'reviewer'})
+        if method in {'tasks/get', 'tasks/cancel'}:
+            row = self.store.get_case(params.get('id'))
+            if row['creator'] != principal:
+                raise DomainError('forbidden', 'Onboarding task belongs to another principal')
+            if method == 'tasks/cancel':
+                row = self.cancel(row['id'], principal)
+            return self.protocol_task(row)
+        if method not in {'message/send', 'message/stream'}:
+            raise RPCError(-32601, 'Method not supported')
+        message, data = message_data(params)
+        if message.get('taskId'):
+            row = self.store.get_case(message['taskId'])
+            if row['creator'] != principal or message.get('contextId') != row['id']:
+                raise DomainError('forbidden', 'Task ownership or context does not match')
+            return self.protocol_task(self.resume(row['id'], data))
+        if message.get('contextId'):
+            raise RPCError(-32602, 'New onboarding tasks allocate their own context')
+        request_key = digest({'principal': principal, 'messageId': message['messageId']})
+        row = self.store.create_case(data, principal, request_key)
+        return self.protocol_task(self.run(row['id']))

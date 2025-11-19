@@ -34,7 +34,7 @@ def main():
                 Client(os.environ.get('DOCUMENT_URL', 'http://127.0.0.1:18131'), coordinator_token, 'document', 'document-check'),
                 Client(os.environ.get('CATALOG_URL', 'http://127.0.0.1:18132'), coordinator_token, 'catalog', 'catalog-match'),
                 {'document': required('DOCUMENT_KEY'), 'catalog': required('CATALOG_KEY')})
-        tokens = {'operator': required('OPERATOR_TOKEN'), 'reviewer': required('REVIEWER_TOKEN')}
+        tokens = {'operator': required('OPERATOR_TOKEN'), 'reviewer': required('REVIEWER_TOKEN'), 'case-client': coordinator_token}
         if len(set(tokens.values())) != len(tokens):
             raise SystemExit('Operator and reviewer credentials must differ')
         if args.command == 'recover':
