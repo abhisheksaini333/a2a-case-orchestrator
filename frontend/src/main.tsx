@@ -4,7 +4,7 @@ import './style.css';
 
 type Case = {id:string; creator:string; state:string; input:{name:string;tax_id:string;description:string}; proposal?:Record<string,string>; proposal_digest?:string; created_at:string};
 type CaseEvent = {id:number;actor:string;kind:string;detail:unknown;created_at:string};
-const labels:Record<string,string>={'input-required':'Tax certificate needed',review:'Ready for independent review',completed:'Supplier onboarded',failed:'Checks need attention',working:'Checking evidence',submitted:'Queued for checks',canceled:'Case canceled',approved:'Creating supplier record'};
+const labels:Record<string,string>={'input-required':'Tax certificate needed',review:'Ready for independent review',conflict:'Supplier identifier already exists',completed:'Supplier onboarded',failed:'Checks need attention',working:'Checking evidence',submitted:'Queued for checks',canceled:'Case canceled',approved:'Creating supplier record'};
 function App(){
  const [key,setKey]=useState('');
  const [principal,setPrincipal]=useState('');

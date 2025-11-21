@@ -14,7 +14,7 @@ class Coordinator:
 
     def run(self, case_id):
         row = self.store.get_case(case_id)
-        if row['state'] in {'approved', 'completed', 'canceled', 'review'}:
+        if row['state'] in {'approved', 'completed', 'canceled', 'conflict', 'review'}:
             return row
         revision, data = row['revision'], row['input']
         self.store.update_case(case_id, revision, state='working')
@@ -111,7 +111,7 @@ class Coordinator:
 
 
     def protocol_task(self, row):
-        states = {'review': 'input-required', 'approved': 'working'}
+        states = {'review': 'input-required', 'approved': 'working', 'conflict': 'failed'}
         state = states.get(row['state'], row['state'])
         detail = {'reason': 'human-review' if row['state'] == 'review' else row['state']}
         if row['proposal'] is not None:

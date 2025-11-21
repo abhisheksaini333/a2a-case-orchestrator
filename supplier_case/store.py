@@ -79,7 +79,7 @@ class Store:
         assignments = ', '.join(f'{name}=%s' for name in fields)
         values = [Json(v) if name == 'proposal' and v is not None else v for name, v in fields.items()]
         with self.connection() as c, c.cursor() as q:
-            q.execute(f"UPDATE cases SET {assignments},updated_at=now() WHERE id=%s AND revision=%s AND state NOT IN ('approved','completed','canceled')", (*values, case_id, revision))
+            q.execute(f"UPDATE cases SET {assignments},updated_at=now() WHERE id=%s AND revision=%s AND state NOT IN ('approved','completed','canceled','conflict')", (*values, case_id, revision))
             if q.rowcount != 1:
                 raise DomainError('stale_case', 'Case changed while agent work was in progress')
 
@@ -118,8 +118,18 @@ class Store:
                 payload = row['payload']
                 if digest(payload['record']) != payload['digest']:
                     raise DomainError('corrupt_command', 'Approved outbox command failed its digest check')
-                q.execute('INSERT INTO suppliers(id,case_id,tax_id,record,approved_by) VALUES(%s,%s,%s,%s,%s) ON CONFLICT(case_id) DO NOTHING',
+                q.execute('INSERT INTO suppliers(id,case_id,tax_id,record,approved_by) VALUES(%s,%s,%s,%s,%s) ON CONFLICT DO NOTHING RETURNING id',
                           (uuid.uuid4().hex, row['case_id'], payload['record']['tax_id'], Json(payload['record']), payload['approved_by']))
+                inserted = q.fetchone()
+                if inserted is None:
+                    q.execute('SELECT case_id FROM suppliers WHERE tax_id=%s', (payload['record']['tax_id'],))
+                    existing = q.fetchone()
+                    if existing and existing['case_id'] != row['case_id']:
+                        q.execute("UPDATE cases SET state='conflict',updated_at=now() WHERE id=%s", (row['case_id'],))
+                        q.execute('UPDATE outbox SET delivered=true WHERE case_id=%s', (row['case_id'],))
+                        q.execute('INSERT INTO events(case_id,actor,kind,detail) VALUES(%s,%s,%s,%s)',
+                                  (row['case_id'], 'coordinator', 'supplier-conflict', Json({'message': 'A supplier already uses this tax identifier'})))
+                        continue
                 q.execute('UPDATE outbox SET delivered=true WHERE case_id=%s', (row['case_id'],))
                 q.execute("UPDATE cases SET state='completed',updated_at=now() WHERE id=%s", (row['case_id'],))
                 delivered.append(row['case_id'])
@@ -139,7 +149,7 @@ class Store:
 
     def cancel_case(self, case_id, actor):
         with self.connection() as c, c.cursor() as q:
-            q.execute("UPDATE cases SET state='canceled',revision=revision+1,updated_at=now() WHERE id=%s AND state NOT IN ('approved','completed','canceled')", (case_id,))
+            q.execute("UPDATE cases SET state='canceled',revision=revision+1,updated_at=now() WHERE id=%s AND state NOT IN ('approved','completed','canceled','conflict')", (case_id,))
             if q.rowcount != 1:
                 raise DomainError('not_cancelable', 'Approved or terminal cases cannot be canceled')
             q.execute('INSERT INTO events(case_id,actor,kind,detail) VALUES(%s,%s,%s,%s)', (case_id, actor, 'canceled', Json({})))
