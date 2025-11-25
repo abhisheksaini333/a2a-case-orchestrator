@@ -34,3 +34,8 @@ class Flow(DatabaseCase):
   before=len(self.s.list_cases())
   result=self.c.api('POST','/api/extract',{'mode':'rules','text':'name: Acme; tax_id: AB1; description: paper'},'operator')
   self.assertEqual(result['supplier']['name'],'Acme');self.assertEqual(len(self.s.list_cases()),before)
+ def test_metrics_distinguish_transport_counts_from_pending_work(self):
+  self.c.document.measurements={'requests':3,'request_bytes':100,'response_bytes':200}
+  self.c.catalog.measurements={'requests':2,'request_bytes':120,'response_bytes':160}
+  result=self.c.api('GET','/api/metrics',{},'operator')
+  self.assertEqual(result['agents']['document']['requests'],3);self.assertEqual(result['pending_effects'],0)

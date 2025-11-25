@@ -6,7 +6,7 @@ import threading
 from pathlib import Path
 from .store import Store
 from .document import DocumentAgent
-from .client import Client
+from .client import Client, DirectClient
 from .coordinator import Coordinator
 from .transport import server
 
@@ -30,9 +30,13 @@ def main():
         service = DocumentAgent(store, required('DOCUMENT_KEY'), f'http://{args.host}:{args.port}/a2a')
         tokens = {'coordinator': coordinator_token}
     else:
+        transport = os.environ.get('AGENT_TRANSPORT', 'a2a')
+        if transport not in {'a2a', 'direct'}:
+            raise SystemExit('AGENT_TRANSPORT must be a2a or direct')
+        client_type = Client if transport == 'a2a' else DirectClient
         service = Coordinator(store,
-                Client(os.environ.get('DOCUMENT_URL', 'http://127.0.0.1:18131'), coordinator_token, 'document', 'document-check'),
-                Client(os.environ.get('CATALOG_URL', 'http://127.0.0.1:18132'), coordinator_token, 'catalog', 'catalog-match'),
+                client_type(os.environ.get('DOCUMENT_URL', 'http://127.0.0.1:18131'), coordinator_token, 'document', 'document-check'),
+                client_type(os.environ.get('CATALOG_URL', 'http://127.0.0.1:18132'), coordinator_token, 'catalog', 'catalog-match'),
                 {'document': required('DOCUMENT_KEY'), 'catalog': required('CATALOG_KEY')})
         tokens = {'operator': required('OPERATOR_TOKEN'), 'reviewer': required('REVIEWER_TOKEN'), 'case-client': coordinator_token}
         if len(set(tokens.values())) != len(tokens):

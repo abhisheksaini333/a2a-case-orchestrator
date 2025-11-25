@@ -67,6 +67,9 @@ class Coordinator:
 
     def api(self, method, path, payload, principal):
         require_role(principal, {'operator', 'reviewer'})
+        if method == 'GET' and path == '/api/metrics':
+            return {'agents': {name: dict(getattr(client, 'measurements', {})) for name, client in [('document', self.document), ('catalog', self.catalog)]},
+                    'pending_effects': self.store.pending_count(), 'byte_scope': 'JSON request and response bodies; HTTP headers excluded'}
         if method == 'GET' and path == '/api/session':
             return {'principal': principal}
         if method == 'POST' and path == '/api/extract':
