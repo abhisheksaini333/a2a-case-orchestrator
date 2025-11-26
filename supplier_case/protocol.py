@@ -49,7 +49,7 @@ def error_response(request_id, exc):
     if isinstance(exc, RPCError):
         number, message = exc.number, str(exc)
     elif isinstance(exc, DomainError):
-        number, message = -32602, str(exc)
+        number, message = {'task_not_found': -32001, 'not_found': -32001, 'not_cancelable': -32002}.get(exc.code, -32602), str(exc)
     else:
         number, message = -32603, 'Internal service error'
     return {'jsonrpc': '2.0', 'id': request_id, 'error': {'code': number, 'message': message}}

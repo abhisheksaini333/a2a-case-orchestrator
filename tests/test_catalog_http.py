@@ -93,3 +93,8 @@ class CatalogHTTP(unittest.TestCase):
   direct=DirectClient(self.url,self.token,'catalog','catalog-match')
   result=direct.send({'description':'laptop repair'},'case-1','message-1')
   self.assertEqual(result,original);self.assertEqual(direct.measurements['requests'],1)
+ def test_standard_method_task_and_cancellation_error_codes(self):
+  self.assertEqual(self.rpc('unknown/method',{})['error']['code'],-32601)
+  self.assertEqual(self.rpc('tasks/get',{'id':'absent'})['error']['code'],-32001)
+  task=self.rpc('message/send',self.message())['result']
+  self.assertEqual(self.rpc('tasks/cancel',{'id':task['id']})['error']['code'],-32002)

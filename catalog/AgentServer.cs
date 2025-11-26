@@ -10,6 +10,7 @@ using System.Text.Json;
 using System.Text.Json.Nodes;
 
 sealed class CapacityException : Exception { }
+sealed class ProtocolException(int code, string message) : Exception(message) { public int Code { get; } = code; }
 
 sealed class AgentServer
 {
@@ -106,6 +107,10 @@ sealed class AgentServer
             lock (gate) result = Dispatch(envelope["method"]?.GetValue<string>() ?? "", envelope["params"]?.AsObject() ?? new());
             await Send(context, 200, new JsonObject { ["jsonrpc"] = "2.0", ["id"] = id, ["result"] = result });
         }
+        catch (ProtocolException error)
+        {
+            await Send(context, 200, new JsonObject { ["jsonrpc"] = "2.0", ["id"] = id, ["error"] = new JsonObject { ["code"] = error.Code, ["message"] = error.Message } });
+        }
         catch (CapacityException)
         {
             await Send(context, 503, new JsonObject { ["error"] = "catalog_capacity_limit" });
@@ -126,8 +131,14 @@ sealed class AgentServer
     }
     private JsonObject Dispatch(string method, JsonObject parameters)
     {
-        if (method == "tasks/get") return tasks[parameters["id"]!.GetValue<string>()].DeepClone().AsObject();
-        if (method != "message/send") throw new ArgumentException("Unsupported method");
+        if (method is "tasks/get" or "tasks/cancel")
+        {
+            var lookupId = parameters["id"]?.GetValue<string>() ?? throw new ArgumentException("Task ID required");
+            if (!tasks.TryGetValue(lookupId, out var found)) throw new ProtocolException(-32001, "Task not found");
+            if (method == "tasks/cancel") throw new ProtocolException(-32002, "Completed catalog task cannot be canceled");
+            return found.DeepClone().AsObject();
+        }
+        if (method != "message/send") throw new ProtocolException(-32601, "Method not supported");
         var message = parameters["message"]!.AsObject();
         if (message["kind"]?.GetValue<string>() != "message" || message["role"]?.GetValue<string>() != "user") throw new ArgumentException("User message required");
         var messageId = message["messageId"]!.GetValue<string>(); var contextId = message["contextId"]!.GetValue<string>();
