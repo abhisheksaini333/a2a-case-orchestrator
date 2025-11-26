@@ -1,0 +1,201 @@
+{
+  "scope": "Local three-process comparison; same checks, database effects and case classes. Includes approval. Direct mode removes discovery and JSON-RPC envelope, retains application task receipts. Body bytes exclude HTTP headers. Startup/build time excluded.",
+  "results": [
+    {
+      "mode": "a2a",
+      "cases": 12,
+      "completed": 12,
+      "median_latency_ms": 441.62,
+      "max_latency_ms": 1143.93,
+      "transport": {
+        "agents": {
+          "document": {
+            "requests": 32,
+            "request_bytes": 7476,
+            "response_bytes": 23904
+          },
+          "catalog": {
+            "requests": 28,
+            "request_bytes": 5624,
+            "response_bytes": 15860
+          }
+        },
+        "pending_effects": 0,
+        "byte_scope": "JSON request and response bodies; HTTP headers excluded"
+      },
+      "coordinator_kill_restart_and_duplicate_approval": "passed",
+      "samples": [
+        {
+          "scenario": "technology",
+          "repeat": 1,
+          "completed": true,
+          "latency_ms": 485.81
+        },
+        {
+          "scenario": "industrial",
+          "repeat": 1,
+          "completed": true,
+          "latency_ms": 433.06
+        },
+        {
+          "scenario": "office",
+          "repeat": 1,
+          "completed": true,
+          "latency_ms": 501.45
+        },
+        {
+          "scenario": "technology",
+          "repeat": 2,
+          "completed": true,
+          "latency_ms": 1143.93
+        },
+        {
+          "scenario": "industrial",
+          "repeat": 2,
+          "completed": true,
+          "latency_ms": 1057.2
+        },
+        {
+          "scenario": "office",
+          "repeat": 2,
+          "completed": true,
+          "latency_ms": 286.55
+        },
+        {
+          "scenario": "technology",
+          "repeat": 3,
+          "completed": true,
+          "latency_ms": 360.03
+        },
+        {
+          "scenario": "industrial",
+          "repeat": 3,
+          "completed": true,
+          "latency_ms": 450.18
+        },
+        {
+          "scenario": "office",
+          "repeat": 3,
+          "completed": true,
+          "latency_ms": 275.76
+        },
+        {
+          "scenario": "technology",
+          "repeat": 4,
+          "completed": true,
+          "latency_ms": 281.54
+        },
+        {
+          "scenario": "industrial",
+          "repeat": 4,
+          "completed": true,
+          "latency_ms": 698.6
+        },
+        {
+          "scenario": "office",
+          "repeat": 4,
+          "completed": true,
+          "latency_ms": 265.44
+        }
+      ]
+    },
+    {
+      "mode": "direct",
+      "cases": 12,
+      "completed": 12,
+      "median_latency_ms": 263.91,
+      "max_latency_ms": 505.05,
+      "transport": {
+        "agents": {
+          "document": {
+            "requests": 16,
+            "request_bytes": 4676,
+            "response_bytes": 13072
+          },
+          "catalog": {
+            "requests": 12,
+            "request_bytes": 3524,
+            "response_bytes": 5936
+          }
+        },
+        "pending_effects": 0,
+        "byte_scope": "JSON request and response bodies; HTTP headers excluded"
+      },
+      "coordinator_kill_restart_and_duplicate_approval": "passed",
+      "samples": [
+        {
+          "scenario": "technology",
+          "repeat": 1,
+          "completed": true,
+          "latency_ms": 361.41
+        },
+        {
+          "scenario": "industrial",
+          "repeat": 1,
+          "completed": true,
+          "latency_ms": 341.53
+        },
+        {
+          "scenario": "office",
+          "repeat": 1,
+          "completed": true,
+          "latency_ms": 206.42
+        },
+        {
+          "scenario": "technology",
+          "repeat": 2,
+          "completed": true,
+          "latency_ms": 180.35
+        },
+        {
+          "scenario": "industrial",
+          "repeat": 2,
+          "completed": true,
+          "latency_ms": 299.46
+        },
+        {
+          "scenario": "office",
+          "repeat": 2,
+          "completed": true,
+          "latency_ms": 262.17
+        },
+        {
+          "scenario": "technology",
+          "repeat": 3,
+          "completed": true,
+          "latency_ms": 214.15
+        },
+        {
+          "scenario": "industrial",
+          "repeat": 3,
+          "completed": true,
+          "latency_ms": 315.12
+        },
+        {
+          "scenario": "office",
+          "repeat": 3,
+          "completed": true,
+          "latency_ms": 505.05
+        },
+        {
+          "scenario": "technology",
+          "repeat": 4,
+          "completed": true,
+          "latency_ms": 230.72
+        },
+        {
+          "scenario": "industrial",
+          "repeat": 4,
+          "completed": true,
+          "latency_ms": 265.65
+        },
+        {
+          "scenario": "office",
+          "repeat": 4,
+          "completed": true,
+          "latency_ms": 211.84
+        }
+      ]
+    }
+  ]
+}
