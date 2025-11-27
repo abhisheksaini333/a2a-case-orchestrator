@@ -1,0 +1,61 @@
+services:
+  postgres:
+    image: postgres:16.4-alpine
+    environment:
+      POSTGRES_DB: cases
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Run python scripts/init_env.py}
+    ports: ["127.0.0.1:${POSTGRES_PORT:-18139}:5432"]
+    volumes: ["case-db:/var/lib/postgresql/data"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d cases"]
+      interval: 2s
+      timeout: 2s
+      retries: 20
+  document:
+    build: .
+    command: ["serve", "document", "--host", "0.0.0.0", "--port", "18131"]
+    environment:
+      DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD}@postgres:5432/cases
+      COORDINATOR_TOKEN: ${COORDINATOR_TOKEN:?Run init_env.py}
+      DOCUMENT_KEY: ${DOCUMENT_KEY:?Run init_env.py}
+    depends_on:
+      postgres: {condition: service_healthy}
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:18131/health', timeout=2)"]
+      interval: 2s
+      timeout: 3s
+      retries: 20
+  catalog:
+    build: {context: ., dockerfile: catalog/Dockerfile}
+    environment:
+      AGENT_TOKEN: ${COORDINATOR_TOKEN}
+      ARTIFACT_KEY: ${CATALOG_KEY:?Run init_env.py}
+      PUBLIC_URL: http://catalog:18132
+      MAX_TASKS: "1000"
+    volumes: ["catalog-state:/state"]
+  coordinator:
+    build: .
+    environment:
+      DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD}@postgres:5432/cases
+      COORDINATOR_TOKEN: ${COORDINATOR_TOKEN}
+      OPERATOR_TOKEN: ${OPERATOR_TOKEN:?Run init_env.py}
+      REVIEWER_TOKEN: ${REVIEWER_TOKEN:?Run init_env.py}
+      DOCUMENT_KEY: ${DOCUMENT_KEY}
+      CATALOG_KEY: ${CATALOG_KEY}
+      DOCUMENT_URL: http://document:18131
+      CATALOG_URL: http://catalog:18132
+      AGENT_TRANSPORT: ${AGENT_TRANSPORT:-a2a}
+      MODEL_ENDPOINT: ${MODEL_ENDPOINT:-}
+      MODEL_NO_THINK: ${MODEL_NO_THINK:-0}
+    ports: ["127.0.0.1:${COORDINATOR_PORT:-18130}:18130"]
+    depends_on:
+      document: {condition: service_healthy}
+      catalog: {condition: service_started}
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:18130/health', timeout=2)"]
+      interval: 2s
+      timeout: 3s
+      retries: 20
+volumes:
+  case-db:
+  catalog-state:

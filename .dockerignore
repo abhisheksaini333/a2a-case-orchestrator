@@ -1,0 +1,11 @@
+.git
+**/node_modules
+**/bin
+**/obj
+frontend/dist
+.env
+.runtime
+__pycache__
+**/__pycache__
+*.egg-info
+artifacts
