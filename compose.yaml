@@ -33,6 +33,11 @@ services:
       PUBLIC_URL: http://catalog:18132
       MAX_TASKS: "1000"
     volumes: ["catalog-state:/state"]
+    healthcheck:
+      test: ["CMD", "dotnet", "Catalog.dll", "health"]
+      interval: 2s
+      timeout: 3s
+      retries: 20
   coordinator:
     build: .
     environment:
@@ -50,7 +55,7 @@ services:
     ports: ["127.0.0.1:${COORDINATOR_PORT:-18130}:18130"]
     depends_on:
       document: {condition: service_healthy}
-      catalog: {condition: service_started}
+      catalog: {condition: service_healthy}
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:18130/health', timeout=2)"]
       interval: 2s

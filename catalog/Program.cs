@@ -1,5 +1,17 @@
 using System.Text.Json.Nodes;
 
+if (args.FirstOrDefault() == "health")
+{
+    using var client = new HttpClient { Timeout = TimeSpan.FromSeconds(2) };
+    try
+    {
+        var response = await client.GetAsync("http://127.0.0.1:" + (Environment.GetEnvironmentVariable("PORT") ?? "18132") + "/health");
+        Environment.Exit(response.IsSuccessStatusCode ? 0 : 1);
+    }
+    catch (HttpRequestException) { Environment.Exit(1); }
+    catch (TaskCanceledException) { Environment.Exit(1); }
+    return;
+}
 if (args.FirstOrDefault() == "evaluate")
 {
     var input = JsonNode.Parse(Console.In.ReadToEnd())!.AsObject();

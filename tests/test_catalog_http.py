@@ -98,3 +98,6 @@ class CatalogHTTP(unittest.TestCase):
   self.assertEqual(self.rpc('tasks/get',{'id':'absent'})['error']['code'],-32001)
   task=self.rpc('message/send',self.message())['result']
   self.assertEqual(self.rpc('tasks/cancel',{'id':task['id']})['error']['code'],-32002)
+ def test_catalog_health_command_observes_the_running_service(self):
+  result=subprocess.run([os.environ['DOTNET'],str(ROOT/'catalog/bin/test/Catalog.dll'),'health'],env=self.env,capture_output=True,text=True,timeout=5)
+  self.assertEqual(result.returncode,0,result.stderr)
