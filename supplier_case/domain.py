@@ -11,8 +11,10 @@ class DomainError(ValueError):
 def supplier_identity(data):
     if not isinstance(data, dict):
         raise DomainError('invalid_input', 'Supplier must be an object')
-    name = str(data.get('name', '')).strip()
-    tax_id = str(data.get('tax_id', '')).strip().upper()
+    if not isinstance(data.get('name'), str) or not isinstance(data.get('tax_id'), str):
+        raise DomainError('invalid_identity', 'Legal name and tax identifier must be text')
+    name = data['name'].strip()
+    tax_id = data['tax_id'].strip().upper()
     if not 2 <= len(name) <= 120 or not re.fullmatch(r'[A-Z0-9-]{3,40}', tax_id):
         raise DomainError('invalid_identity', 'Provide a legal name and a valid tax identifier')
     return {'name': name, 'tax_id': tax_id}

@@ -12,7 +12,7 @@ class RPCError(DomainError):
 def request(value):
     if not isinstance(value, dict) or value.get('jsonrpc') != '2.0' or not isinstance(value.get('method'), str):
         raise RPCError(-32600, 'Invalid JSON-RPC request')
-    if not isinstance(value.get('params', {}), dict) or isinstance(value.get('id'), (dict, list, bool)):
+    if not isinstance(value.get('params', {}), dict) or type(value.get('id')) not in {str, int}:
         raise RPCError(-32602, 'Invalid JSON-RPC parameters')
     return value['method'], value.get('params', {}), value.get('id')
 
