@@ -30,6 +30,10 @@ class Client:
             raise DomainError('skill_mismatch', 'Discovered agent does not offer the configured skill')
         if 'application/json' not in card.get('defaultInputModes', []):
             raise DomainError('mode_mismatch', 'Agent cannot accept structured supplier records')
+        version = card.get('protocolVersion', '0.2.0')
+        if version not in {'0.2.0', '0.3.0'} or card.get('preferredTransport', 'JSONRPC') != 'JSONRPC':
+            raise DomainError('unsupported_profile', 'Agent protocol revision or transport is not supported')
+        self.negotiated_version = version
         return card
 
     def rpc(self, method, params):

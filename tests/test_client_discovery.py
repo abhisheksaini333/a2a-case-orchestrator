@@ -16,3 +16,9 @@ class ClientTest(unittest.TestCase):
   self.assertEqual(self.client.discover()['name'],'document')
   self.client.skill='wrong'
   with self.assertRaises(DomainError):self.client.discover()
+ def test_unsupported_protocol_revision_fails_before_sending_business_data(self):
+  original=Fake.card
+  Fake.card=lambda self:{**original(self),'protocolVersion':'9.9.0'}
+  try:
+   with self.assertRaises(DomainError):self.client.discover()
+  finally:Fake.card=original
