@@ -1,5 +1,11 @@
-import {build} from 'esbuild';
-import {mkdir,copyFile} from 'node:fs/promises';
-await mkdir('dist',{recursive:true});
-await build({entryPoints:['src/main.tsx'],bundle:true,minify:true,outdir:'dist',target:['es2022']});
-await copyFile('index.html','dist/index.html');
+import { build } from "esbuild";
+import { mkdir, copyFile } from "node:fs/promises";
+await mkdir("dist", { recursive: true });
+await build({
+  entryPoints: ["src/main.tsx"],
+  bundle: true,
+  minify: true,
+  outdir: "dist",
+  target: ["es2022"],
+});
+await copyFile("index.html", "dist/index.html");

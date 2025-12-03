@@ -1,19 +1,23 @@
 """PostgreSQL state, transactional approval and outbox delivery."""
+
 import json
 import uuid
 import psycopg2
 from psycopg2.extras import Json, RealDictCursor
 from .domain import DomainError, case_input, digest, authorize_approval
 
+
 class Store:
     def __init__(self, url):
         self.url = url
+
     def connection(self):
         return psycopg2.connect(self.url, connect_timeout=5)
 
     def migrate(self):
         with self.connection() as c, c.cursor() as q:
-            q.execute("""
+            q.execute(
+                """
             CREATE TABLE IF NOT EXISTS cases (
               id text PRIMARY KEY, creator text NOT NULL, request_key text UNIQUE NOT NULL,
               input jsonb NOT NULL, input_digest text NOT NULL, state text NOT NULL DEFAULT 'submitted',
@@ -33,162 +37,282 @@ class Store:
               id text PRIMARY KEY, case_id text UNIQUE NOT NULL REFERENCES cases(id),
               tax_id text UNIQUE NOT NULL, record jsonb NOT NULL, approved_by text NOT NULL,
               created_at timestamptz NOT NULL DEFAULT now());
-            """)
+            """
+            )
 
     def create_case(self, data, creator, request_key):
         data = case_input(data)
         if not isinstance(request_key, str) or not 8 <= len(request_key) <= 100:
-            raise DomainError('invalid_request_key', 'Use an idempotency key of 8 to 100 characters')
+            raise DomainError(
+                "invalid_request_key", "Use an idempotency key of 8 to 100 characters"
+            )
         with self.connection() as c, c.cursor(cursor_factory=RealDictCursor) as q:
-            q.execute('INSERT INTO cases(id,creator,request_key,input,input_digest) VALUES(%s,%s,%s,%s,%s) ON CONFLICT(request_key) DO NOTHING RETURNING *',
-                      (uuid.uuid4().hex, creator, request_key, Json(data), digest(data)))
+            q.execute(
+                "INSERT INTO cases(id,creator,request_key,input,input_digest) VALUES(%s,%s,%s,%s,%s) ON CONFLICT(request_key) DO NOTHING RETURNING *",
+                (uuid.uuid4().hex, creator, request_key, Json(data), digest(data)),
+            )
             result = q.fetchone()
             if result is None:
-                q.execute('SELECT * FROM cases WHERE request_key=%s', (request_key,))
+                q.execute("SELECT * FROM cases WHERE request_key=%s", (request_key,))
                 result = q.fetchone()
-                if result['creator'] != creator or result['input_digest'] != digest(data):
-                    raise DomainError('idempotency_conflict', 'Submission key was already used for different content')
+                if result["creator"] != creator or result["input_digest"] != digest(
+                    data
+                ):
+                    raise DomainError(
+                        "idempotency_conflict",
+                        "Submission key was already used for different content",
+                    )
             return dict(result)
 
     def get_case(self, case_id):
         with self.connection() as c, c.cursor(cursor_factory=RealDictCursor) as q:
-            q.execute('SELECT * FROM cases WHERE id=%s', (case_id,))
+            q.execute("SELECT * FROM cases WHERE id=%s", (case_id,))
             result = q.fetchone()
             if not result:
-                raise DomainError('not_found', 'Case does not exist')
+                raise DomainError("not_found", "Case does not exist")
             return dict(result)
 
     def list_cases(self):
         with self.connection() as c, c.cursor(cursor_factory=RealDictCursor) as q:
-            q.execute('SELECT * FROM cases ORDER BY created_at DESC LIMIT 200')
+            q.execute("SELECT * FROM cases ORDER BY created_at DESC LIMIT 200")
             return [dict(x) for x in q.fetchall()]
 
     def event(self, case_id, actor, kind, detail):
         with self.connection() as c, c.cursor() as q:
-            q.execute('INSERT INTO events(case_id,actor,kind,detail) VALUES(%s,%s,%s,%s)', (case_id, actor, kind, Json(detail)))
+            q.execute(
+                "INSERT INTO events(case_id,actor,kind,detail) VALUES(%s,%s,%s,%s)",
+                (case_id, actor, kind, Json(detail)),
+            )
 
     def events(self, case_id):
         with self.connection() as c, c.cursor(cursor_factory=RealDictCursor) as q:
-            q.execute('SELECT * FROM events WHERE case_id=%s ORDER BY id', (case_id,))
+            q.execute("SELECT * FROM events WHERE case_id=%s ORDER BY id", (case_id,))
             return [dict(x) for x in q.fetchall()]
 
     def update_case(self, case_id, revision, **fields):
-        allowed = {'state', 'proposal', 'proposal_digest'}
+        allowed = {"state", "proposal", "proposal_digest"}
         if not fields or set(fields) - allowed:
-            raise DomainError('invalid_update', 'Invalid case update')
-        assignments = ', '.join(f'{name}=%s' for name in fields)
-        values = [Json(v) if name == 'proposal' and v is not None else v for name, v in fields.items()]
+            raise DomainError("invalid_update", "Invalid case update")
+        assignments = ", ".join(f"{name}=%s" for name in fields)
+        values = [
+            Json(v) if name == "proposal" and v is not None else v
+            for name, v in fields.items()
+        ]
         with self.connection() as c, c.cursor() as q:
-            q.execute(f"UPDATE cases SET {assignments},updated_at=now() WHERE id=%s AND revision=%s AND state NOT IN ('approved','completed','canceled','conflict')", (*values, case_id, revision))
+            q.execute(
+                f"UPDATE cases SET {assignments},updated_at=now() WHERE id=%s AND revision=%s AND state NOT IN ('approved','completed','canceled','conflict')",
+                (*values, case_id, revision),
+            )
             if q.rowcount != 1:
-                raise DomainError('stale_case', 'Case changed while agent work was in progress')
+                raise DomainError(
+                    "stale_case", "Case changed while agent work was in progress"
+                )
 
     def resume_case(self, case_id, patch):
-        if set(patch) != {'documents'}:
-            raise DomainError('invalid_resume', 'Resume accepts only the requested documents')
+        if set(patch) != {"documents"}:
+            raise DomainError(
+                "invalid_resume", "Resume accepts only the requested documents"
+            )
         with self.connection() as c, c.cursor(cursor_factory=RealDictCursor) as q:
-            q.execute('SELECT * FROM cases WHERE id=%s FOR UPDATE', (case_id,))
+            q.execute("SELECT * FROM cases WHERE id=%s FOR UPDATE", (case_id,))
             row = q.fetchone()
-            if not row or row['state'] != 'input-required':
-                raise DomainError('invalid_resume', 'Case is not waiting for documents')
-            data = case_input({**row['input'], **patch})
-            q.execute("UPDATE cases SET input=%s,revision=revision+1,state='submitted',proposal=NULL,proposal_digest=NULL,updated_at=now() WHERE id=%s RETURNING *", (Json(data), case_id))
+            if not row or row["state"] != "input-required":
+                raise DomainError("invalid_resume", "Case is not waiting for documents")
+            data = case_input({**row["input"], **patch})
+            q.execute(
+                "UPDATE cases SET input=%s,revision=revision+1,state='submitted',proposal=NULL,proposal_digest=NULL,updated_at=now() WHERE id=%s RETURNING *",
+                (Json(data), case_id),
+            )
             return dict(q.fetchone())
 
     def approve(self, case_id, supplied_digest, reviewer):
         with self.connection() as c, c.cursor(cursor_factory=RealDictCursor) as q:
-            q.execute('SELECT * FROM cases WHERE id=%s FOR UPDATE', (case_id,))
+            q.execute("SELECT * FROM cases WHERE id=%s FOR UPDATE", (case_id,))
             row = q.fetchone()
-            if not row or row['state'] not in {'review', 'approved', 'completed'}:
-                raise DomainError('not_approvable', 'Case is not ready for approval')
-            authorize_approval(row['proposal'], supplied_digest, reviewer, row['creator'])
-            if row['state'] in {'approved', 'completed'}:
+            if not row or row["state"] not in {"review", "approved", "completed"}:
+                raise DomainError("not_approvable", "Case is not ready for approval")
+            authorize_approval(
+                row["proposal"], supplied_digest, reviewer, row["creator"]
+            )
+            if row["state"] in {"approved", "completed"}:
                 return
-            q.execute("UPDATE cases SET state='approved',approved_by=%s,updated_at=now() WHERE id=%s", (reviewer, case_id))
-            payload = {'record': row['proposal'], 'approved_by': reviewer, 'digest': supplied_digest}
-            q.execute('INSERT INTO outbox(case_id,payload) VALUES(%s,%s)', (case_id, Json(payload)))
-            q.execute('INSERT INTO events(case_id,actor,kind,detail) VALUES(%s,%s,%s,%s)',
-                      (case_id, reviewer, 'approved', Json({'digest': supplied_digest})))
+            q.execute(
+                "UPDATE cases SET state='approved',approved_by=%s,updated_at=now() WHERE id=%s",
+                (reviewer, case_id),
+            )
+            payload = {
+                "record": row["proposal"],
+                "approved_by": reviewer,
+                "digest": supplied_digest,
+            }
+            q.execute(
+                "INSERT INTO outbox(case_id,payload) VALUES(%s,%s)",
+                (case_id, Json(payload)),
+            )
+            q.execute(
+                "INSERT INTO events(case_id,actor,kind,detail) VALUES(%s,%s,%s,%s)",
+                (case_id, reviewer, "approved", Json({"digest": supplied_digest})),
+            )
 
     def deliver(self, before_commit=None):
         delivered = []
         with self.connection() as c, c.cursor(cursor_factory=RealDictCursor) as q:
-            q.execute('SELECT * FROM outbox WHERE NOT delivered ORDER BY created_at FOR UPDATE SKIP LOCKED LIMIT 20')
+            q.execute(
+                "SELECT * FROM outbox WHERE NOT delivered ORDER BY created_at FOR UPDATE SKIP LOCKED LIMIT 20"
+            )
             for row in q.fetchall():
-                payload = row['payload']
-                if digest(payload['record']) != payload['digest']:
-                    raise DomainError('corrupt_command', 'Approved outbox command failed its digest check')
-                q.execute('INSERT INTO suppliers(id,case_id,tax_id,record,approved_by) VALUES(%s,%s,%s,%s,%s) ON CONFLICT DO NOTHING RETURNING id',
-                          (uuid.uuid4().hex, row['case_id'], payload['record']['tax_id'], Json(payload['record']), payload['approved_by']))
+                payload = row["payload"]
+                if digest(payload["record"]) != payload["digest"]:
+                    raise DomainError(
+                        "corrupt_command",
+                        "Approved outbox command failed its digest check",
+                    )
+                q.execute(
+                    "INSERT INTO suppliers(id,case_id,tax_id,record,approved_by) VALUES(%s,%s,%s,%s,%s) ON CONFLICT DO NOTHING RETURNING id",
+                    (
+                        uuid.uuid4().hex,
+                        row["case_id"],
+                        payload["record"]["tax_id"],
+                        Json(payload["record"]),
+                        payload["approved_by"],
+                    ),
+                )
                 inserted = q.fetchone()
                 if inserted is None:
-                    q.execute('SELECT case_id FROM suppliers WHERE tax_id=%s', (payload['record']['tax_id'],))
+                    q.execute(
+                        "SELECT case_id FROM suppliers WHERE tax_id=%s",
+                        (payload["record"]["tax_id"],),
+                    )
                     existing = q.fetchone()
-                    if existing and existing['case_id'] != row['case_id']:
-                        q.execute("UPDATE cases SET state='conflict',updated_at=now() WHERE id=%s", (row['case_id'],))
-                        q.execute('UPDATE outbox SET delivered=true WHERE case_id=%s', (row['case_id'],))
-                        q.execute('INSERT INTO events(case_id,actor,kind,detail) VALUES(%s,%s,%s,%s)',
-                                  (row['case_id'], 'coordinator', 'supplier-conflict', Json({'message': 'A supplier already uses this tax identifier'})))
+                    if existing and existing["case_id"] != row["case_id"]:
+                        q.execute(
+                            "UPDATE cases SET state='conflict',updated_at=now() WHERE id=%s",
+                            (row["case_id"],),
+                        )
+                        q.execute(
+                            "UPDATE outbox SET delivered=true WHERE case_id=%s",
+                            (row["case_id"],),
+                        )
+                        q.execute(
+                            "INSERT INTO events(case_id,actor,kind,detail) VALUES(%s,%s,%s,%s)",
+                            (
+                                row["case_id"],
+                                "coordinator",
+                                "supplier-conflict",
+                                Json(
+                                    {
+                                        "message": "A supplier already uses this tax identifier"
+                                    }
+                                ),
+                            ),
+                        )
                         continue
-                q.execute('UPDATE outbox SET delivered=true WHERE case_id=%s', (row['case_id'],))
-                q.execute("UPDATE cases SET state='completed',updated_at=now() WHERE id=%s", (row['case_id'],))
-                delivered.append(row['case_id'])
+                q.execute(
+                    "UPDATE outbox SET delivered=true WHERE case_id=%s",
+                    (row["case_id"],),
+                )
+                q.execute(
+                    "UPDATE cases SET state='completed',updated_at=now() WHERE id=%s",
+                    (row["case_id"],),
+                )
+                delivered.append(row["case_id"])
             if before_commit:
                 before_commit()
         return delivered
 
     def suppliers(self):
         with self.connection() as c, c.cursor(cursor_factory=RealDictCursor) as q:
-            q.execute('SELECT * FROM suppliers ORDER BY created_at DESC LIMIT 200')
+            q.execute("SELECT * FROM suppliers ORDER BY created_at DESC LIMIT 200")
             return [dict(x) for x in q.fetchall()]
 
     def pending_count(self):
         with self.connection() as c, c.cursor() as q:
-            q.execute('SELECT count(*) FROM outbox WHERE NOT delivered')
+            q.execute("SELECT count(*) FROM outbox WHERE NOT delivered")
             return q.fetchone()[0]
 
     def cancel_case(self, case_id, actor):
         with self.connection() as c, c.cursor() as q:
-            q.execute("UPDATE cases SET state='canceled',revision=revision+1,updated_at=now() WHERE id=%s AND state NOT IN ('approved','completed','canceled','conflict')", (case_id,))
+            q.execute(
+                "UPDATE cases SET state='canceled',revision=revision+1,updated_at=now() WHERE id=%s AND state NOT IN ('approved','completed','canceled','conflict')",
+                (case_id,),
+            )
             if q.rowcount != 1:
-                raise DomainError('not_cancelable', 'Approved or terminal cases cannot be canceled')
-            q.execute('INSERT INTO events(case_id,actor,kind,detail) VALUES(%s,%s,%s,%s)', (case_id, actor, 'canceled', Json({})))
+                raise DomainError(
+                    "not_cancelable", "Approved or terminal cases cannot be canceled"
+                )
+            q.execute(
+                "INSERT INTO events(case_id,actor,kind,detail) VALUES(%s,%s,%s,%s)",
+                (case_id, actor, "canceled", Json({})),
+            )
 
     def create_task(self, agent, owner, message_id, context_id, data):
         with self.connection() as c, c.cursor(cursor_factory=RealDictCursor) as q:
             task_id = uuid.uuid4().hex
-            saved = {'state': 'submitted', 'input': data, 'artifacts': []}
-            q.execute('INSERT INTO agent_tasks(id,agent,owner,context_id,message_id,input_digest,data) VALUES(%s,%s,%s,%s,%s,%s,%s) ON CONFLICT(agent,owner,message_id) DO NOTHING RETURNING *',
-                      (task_id, agent, owner, context_id, message_id, digest(data), Json(saved)))
+            saved = {"state": "submitted", "input": data, "artifacts": []}
+            q.execute(
+                "INSERT INTO agent_tasks(id,agent,owner,context_id,message_id,input_digest,data) VALUES(%s,%s,%s,%s,%s,%s,%s) ON CONFLICT(agent,owner,message_id) DO NOTHING RETURNING *",
+                (
+                    task_id,
+                    agent,
+                    owner,
+                    context_id,
+                    message_id,
+                    digest(data),
+                    Json(saved),
+                ),
+            )
             row = q.fetchone()
             if row is None:
-                q.execute('SELECT * FROM agent_tasks WHERE agent=%s AND owner=%s AND message_id=%s', (agent, owner, message_id))
+                q.execute(
+                    "SELECT * FROM agent_tasks WHERE agent=%s AND owner=%s AND message_id=%s",
+                    (agent, owner, message_id),
+                )
                 row = q.fetchone()
-                if row['input_digest'] != digest(data) or row['context_id'] != context_id:
-                    raise DomainError('idempotency_conflict', 'Message ID was reused with different content')
+                if (
+                    row["input_digest"] != digest(data)
+                    or row["context_id"] != context_id
+                ):
+                    raise DomainError(
+                        "idempotency_conflict",
+                        "Message ID was reused with different content",
+                    )
             return dict(row)
 
     def get_task(self, task_id, agent):
         with self.connection() as c, c.cursor(cursor_factory=RealDictCursor) as q:
-            q.execute('SELECT * FROM agent_tasks WHERE id=%s AND agent=%s', (task_id, agent))
+            q.execute(
+                "SELECT * FROM agent_tasks WHERE id=%s AND agent=%s", (task_id, agent)
+            )
             row = q.fetchone()
             if not row:
-                raise DomainError('task_not_found', 'Task does not exist for this agent')
+                raise DomainError(
+                    "task_not_found", "Task does not exist for this agent"
+                )
             return dict(row)
 
     def mutate_task(self, task_id, agent, owner, update):
         with self.connection() as c, c.cursor(cursor_factory=RealDictCursor) as q:
-            q.execute('SELECT * FROM agent_tasks WHERE id=%s AND agent=%s FOR UPDATE', (task_id, agent))
+            q.execute(
+                "SELECT * FROM agent_tasks WHERE id=%s AND agent=%s FOR UPDATE",
+                (task_id, agent),
+            )
             row = q.fetchone()
             if not row:
-                raise DomainError('task_not_found', 'Task does not exist for this agent')
-            if row['owner'] != owner:
-                raise DomainError('forbidden', 'Task belongs to another principal')
-            data = update(row['data'])
-            q.execute('UPDATE agent_tasks SET data=%s WHERE id=%s RETURNING *', (Json(data), task_id))
+                raise DomainError(
+                    "task_not_found", "Task does not exist for this agent"
+                )
+            if row["owner"] != owner:
+                raise DomainError("forbidden", "Task belongs to another principal")
+            data = update(row["data"])
+            q.execute(
+                "UPDATE agent_tasks SET data=%s WHERE id=%s RETURNING *",
+                (Json(data), task_id),
+            )
             return dict(q.fetchone())
 
     def recoverable_cases(self):
         with self.connection() as c, c.cursor() as q:
-            q.execute("SELECT id FROM cases WHERE state IN ('submitted','working') ORDER BY created_at LIMIT 50")
+            q.execute(
+                "SELECT id FROM cases WHERE state IN ('submitted','working') ORDER BY created_at LIMIT 50"
+            )
             return [x[0] for x in q.fetchall()]

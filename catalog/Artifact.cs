@@ -19,8 +19,10 @@ static class Artifact
         if (key.Length < 32) throw new ArgumentException("ARTIFACT_KEY requires at least 32 characters");
         var signed = new JsonObject { ["owner"] = "catalog", ["taskId"] = taskId, ["contextId"] = contextId, ["data"] = data.DeepClone() };
         var signature = Convert.ToHexString(HMACSHA256.HashData(Encoding.UTF8.GetBytes(key), Encoding.UTF8.GetBytes(Canonical(signed)))).ToLowerInvariant();
-        return new JsonObject {
-            ["artifactId"] = Guid.NewGuid().ToString("N"), ["name"] = "catalog evidence",
+        return new JsonObject
+        {
+            ["artifactId"] = Guid.NewGuid().ToString("N"),
+            ["name"] = "catalog evidence",
             ["parts"] = new JsonArray(new JsonObject { ["kind"] = "data", ["data"] = data.DeepClone() }),
             ["metadata"] = new JsonObject { ["owner"] = "catalog", ["taskId"] = taskId, ["contextId"] = contextId, ["signature"] = signature }
         };

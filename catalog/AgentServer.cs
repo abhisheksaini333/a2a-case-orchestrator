@@ -67,10 +67,15 @@ sealed class AgentServer
     }
     private JsonObject Card() => new()
     {
-        ["protocolVersion"] = "0.3.0", ["preferredTransport"] = "JSONRPC",
-        ["name"] = "catalog", ["description"] = "Supplier catalog matching service", ["url"] = url + "/a2a", ["version"] = "1.0.0",
+        ["protocolVersion"] = "0.3.0",
+        ["preferredTransport"] = "JSONRPC",
+        ["name"] = "catalog",
+        ["description"] = "Supplier catalog matching service",
+        ["url"] = url + "/a2a",
+        ["version"] = "1.0.0",
         ["capabilities"] = new JsonObject { ["streaming"] = false, ["pushNotifications"] = false },
-        ["defaultInputModes"] = new JsonArray("application/json"), ["defaultOutputModes"] = new JsonArray("application/json"),
+        ["defaultInputModes"] = new JsonArray("application/json"),
+        ["defaultOutputModes"] = new JsonArray("application/json"),
         ["securitySchemes"] = new JsonObject { ["bearer"] = new JsonObject { ["type"] = "http", ["scheme"] = "bearer" } },
         ["security"] = new JsonArray(new JsonObject { ["bearer"] = new JsonArray() }),
         ["skills"] = new JsonArray(new JsonObject { ["id"] = "catalog-match", ["name"] = "Catalog matching", ["description"] = "Classify supplier goods and apply a local risk rule", ["tags"] = new JsonArray("supplier", "catalog") })
@@ -94,8 +99,14 @@ sealed class AgentServer
             if (request.Path == "/direct")
             {
                 if (envelope.Any(x => !new[] { "data", "contextId", "messageId", "taskId" }.Contains(x.Key))) throw new ArgumentException("Plain data request required");
-                var message = new JsonObject { ["kind"] = "message", ["role"] = "user", ["contextId"] = envelope["contextId"]?.DeepClone(), ["messageId"] = envelope["messageId"]?.DeepClone(),
-                    ["parts"] = new JsonArray(new JsonObject { ["kind"] = "data", ["data"] = envelope["data"]?.DeepClone() }) };
+                var message = new JsonObject
+                {
+                    ["kind"] = "message",
+                    ["role"] = "user",
+                    ["contextId"] = envelope["contextId"]?.DeepClone(),
+                    ["messageId"] = envelope["messageId"]?.DeepClone(),
+                    ["parts"] = new JsonArray(new JsonObject { ["kind"] = "data", ["data"] = envelope["data"]?.DeepClone() })
+                };
                 if (envelope["taskId"] != null) message["taskId"] = envelope["taskId"]!.DeepClone();
                 JsonObject direct;
                 lock (gate) direct = Dispatch("message/send", new JsonObject { ["message"] = message });
@@ -157,7 +168,9 @@ sealed class AgentServer
         var taskId = Guid.NewGuid().ToString("N"); var result = CatalogRules.Evaluate(data);
         var task = new JsonObject
         {
-            ["kind"] = "task", ["id"] = taskId, ["contextId"] = contextId,
+            ["kind"] = "task",
+            ["id"] = taskId,
+            ["contextId"] = contextId,
             ["status"] = new JsonObject { ["state"] = "completed" },
             ["artifacts"] = new JsonArray(Artifact.Sign(taskId, contextId, result))
         };
