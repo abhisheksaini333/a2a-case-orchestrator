@@ -22,6 +22,10 @@ class Coordinator:
         return agent_card(self.name, "/a2a", "supplier-onboarding")
 
     def run(self, case_id):
+        with self.store.case_lock(case_id):
+            return self._run(case_id)
+
+    def _run(self, case_id):
         row = self.store.get_case(case_id)
         if row["state"] in {"approved", "completed", "canceled", "conflict", "review"}:
             return row

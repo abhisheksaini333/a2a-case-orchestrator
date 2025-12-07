@@ -1,6 +1,7 @@
 """PostgreSQL state, transactional approval and outbox delivery."""
 
 import json
+from contextlib import contextmanager
 import uuid
 import psycopg2
 from psycopg2.extras import Json, RealDictCursor
@@ -11,8 +12,27 @@ class Store:
     def __init__(self, url):
         self.url = url
 
+    @contextmanager
     def connection(self):
-        return psycopg2.connect(self.url, connect_timeout=5)
+        connection = psycopg2.connect(self.url, connect_timeout=5)
+        try:
+            with connection:
+                yield connection
+        finally:
+            connection.close()
+
+    @contextmanager
+    def case_lock(self, case_id):
+        with self.connection() as connection, connection.cursor() as cursor:
+            cursor.execute(
+                "SELECT pg_try_advisory_xact_lock(hashtextextended(%s, 0))", (case_id,)
+            )
+            if not cursor.fetchone()[0]:
+                raise DomainError(
+                    "case_busy",
+                    "Another worker is processing this case; retry after it finishes",
+                )
+            yield
 
     def migrate(self):
         with self.connection() as c, c.cursor() as q:
