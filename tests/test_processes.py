@@ -196,3 +196,37 @@ class Processes(DatabaseCase):
         ]
         self.assertEqual(len(records), 1)
         self.assertEqual(records[0]["record"], ready["proposal"])
+
+    def test_wrong_agent_signing_key_cannot_create_an_approvable_case(self):
+        self.children[0].terminate()
+        self.children[0].wait(timeout=5)
+        self.env["ARTIFACT_KEY"] = "z" * 32
+        self.start(
+            [os.environ["DOTNET"], str(ROOT / "catalog/bin/test/Catalog.dll"), "serve"],
+            self.ports[2],
+        )
+        tax = "UNTRUSTED-" + uuid.uuid4().hex[:8].upper()
+        with self.assertRaises(urllib.error.HTTPError) as error:
+            self.call(
+                "/api/cases",
+                {
+                    "request_key": uuid.uuid4().hex,
+                    "supplier": {
+                        "name": "Untrusted Evidence",
+                        "tax_id": tax,
+                        "description": "paper",
+                        "documents": [{"type": "tax_certificate", "tax_id": tax}],
+                    },
+                },
+            )
+        self.assertEqual(json.load(error.exception)["error"], "invalid_artifact")
+        case = next(
+            c for c in self.call("/api/cases")["cases"] if c["input"]["tax_id"] == tax
+        )
+        self.assertEqual(case["state"], "failed")
+        self.assertIsNone(case["proposal"])
+        self.assertFalse(
+            any(
+                row["tax_id"] == tax for row in self.call("/api/suppliers")["suppliers"]
+            )
+        )
