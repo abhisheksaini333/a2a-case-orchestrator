@@ -54,6 +54,9 @@ def main():
                 "catalog-match",
             ),
             {"document": required("DOCUMENT_KEY"), "catalog": required("CATALOG_KEY")},
+            os.environ.get(
+                "COORDINATOR_PUBLIC_URL", f"http://127.0.0.1:{args.port}/a2a"
+            ),
         )
         tokens = {
             "operator": required("OPERATOR_TOKEN"),

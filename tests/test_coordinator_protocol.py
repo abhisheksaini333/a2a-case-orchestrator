@@ -39,3 +39,6 @@ class CoordinatorProtocol(Flow):
         self.assertEqual(
             result["status"]["message"]["parts"][0]["data"]["reason"], "human-review"
         )
+
+    def test_coordinator_advertises_an_absolute_public_endpoint(self):
+        self.assertTrue(self.c.card()["url"].startswith("http://"))

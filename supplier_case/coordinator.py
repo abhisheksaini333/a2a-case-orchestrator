@@ -10,7 +10,10 @@ from .protocol import agent_card, RPCError, message_data, task
 class Coordinator:
     name = "coordinator"
 
-    def __init__(self, store, document, catalog, keys):
+    def __init__(
+        self, store, document, catalog, keys, public_url="http://127.0.0.1:18130/a2a"
+    ):
+        self.public_url = public_url
         self.store, self.document, self.catalog, self.keys = (
             store,
             document,
@@ -19,7 +22,7 @@ class Coordinator:
         )
 
     def card(self):
-        return agent_card(self.name, "/a2a", "supplier-onboarding")
+        return agent_card(self.name, self.public_url, "supplier-onboarding")
 
     def run(self, case_id):
         with self.store.case_lock(case_id):

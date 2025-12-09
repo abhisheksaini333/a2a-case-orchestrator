@@ -18,6 +18,7 @@ services:
       DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD}@postgres:5432/cases
       COORDINATOR_TOKEN: ${COORDINATOR_TOKEN:?Run init_env.py}
       DOCUMENT_KEY: ${DOCUMENT_KEY:?Run init_env.py}
+      DOCUMENT_PUBLIC_URL: http://document:18131/a2a
     depends_on:
       postgres: {condition: service_healthy}
     healthcheck:
@@ -47,6 +48,7 @@ services:
       REVIEWER_TOKEN: ${REVIEWER_TOKEN:?Run init_env.py}
       DOCUMENT_KEY: ${DOCUMENT_KEY}
       CATALOG_KEY: ${CATALOG_KEY}
+      COORDINATOR_PUBLIC_URL: http://127.0.0.1:${COORDINATOR_PORT:-18130}/a2a
       DOCUMENT_URL: http://document:18131
       CATALOG_URL: http://catalog:18132
       AGENT_TRANSPORT: ${AGENT_TRANSPORT:-a2a}
