@@ -230,3 +230,26 @@ class Processes(DatabaseCase):
                 row["tax_id"] == tax for row in self.call("/api/suppliers")["suppliers"]
             )
         )
+
+    def test_document_public_url_is_independent_of_its_bind_address(self):
+        self.children[1].terminate()
+        self.children[1].wait(timeout=5)
+        self.env["DOCUMENT_PUBLIC_URL"] = "https://agents.example.test/document/a2a"
+        self.start(
+            [
+                sys.executable,
+                "-m",
+                "supplier_case",
+                "serve",
+                "document",
+                "--port",
+                str(self.ports[1]),
+            ],
+            self.ports[1],
+        )
+        with urllib.request.urlopen(
+            f"http://127.0.0.1:{self.ports[1]}/.well-known/agent-card.json"
+        ) as response:
+            self.assertEqual(
+                json.load(response)["url"], self.env["DOCUMENT_PUBLIC_URL"]
+            )

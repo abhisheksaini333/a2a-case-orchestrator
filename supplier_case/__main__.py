@@ -31,7 +31,9 @@ def main():
     coordinator_token = required("COORDINATOR_TOKEN")
     if args.service == "document":
         service = DocumentAgent(
-            store, required("DOCUMENT_KEY"), f"http://{args.host}:{args.port}/a2a"
+            store,
+            required("DOCUMENT_KEY"),
+            os.environ.get("DOCUMENT_PUBLIC_URL", f"http://127.0.0.1:{args.port}/a2a"),
         )
         tokens = {"coordinator": coordinator_token}
     else:
