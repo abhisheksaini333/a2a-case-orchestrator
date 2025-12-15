@@ -3,6 +3,7 @@
 import json
 import threading
 import socket
+from urllib.parse import urlsplit
 from pathlib import Path
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from .domain import DomainError
@@ -104,7 +105,29 @@ def server(
             except OSError:
                 pass
 
+        def guard(self):
+            if (
+                len(self.headers.get_all("Host", [])) != 1
+                or len(self.headers.get_all("Authorization", [])) > 1
+                or len(self.headers.get_all("Origin", [])) > 1
+            ):
+                self.send(400, {"error": "ambiguous_headers"})
+                return False
+            if (
+                self.headers.get("Host", "").strip().lower()
+                not in self.server.allowed_hosts
+            ):
+                self.send(403, {"error": "untrusted_host"})
+                return False
+            origin = self.headers.get("Origin")
+            if origin is not None and origin not in self.server.allowed_origins:
+                self.send(403, {"error": "untrusted_origin"})
+                return False
+            return True
+
         def do_GET(self):
+            if not self.guard():
+                return
             assets = {
                 "/": ("index.html", "text/html"),
                 "/assets/main.js": ("main.js", "text/javascript"),
@@ -135,6 +158,8 @@ def server(
             self.send(404, {"error": "not_found"})
 
         def do_POST(self):
+            if not self.guard():
+                return
             request_id = None
             try:
                 if len(self.headers.get_all("Content-Length", [])) > 1:
@@ -158,7 +183,10 @@ def server(
                     return self.send(415, {"error": "json_required"})
                 principal = authenticate(self.headers.get("Authorization"), tokens)
                 length = int(self.headers.get("Content-Length", "0"))
-                payload = json.loads(self.rfile.read(length))
+                raw = self.rfile.read(length)
+                if len(raw) != length:
+                    return self.send(400, {"error": "incomplete_body"})
+                payload = json.loads(raw)
                 if self.path.startswith("/api/") and hasattr(service, "api"):
                     if not isinstance(payload, dict):
                         return self.send(400, {"error": "object_required"})
@@ -223,4 +251,15 @@ def server(
             except Exception as exc:
                 self.send(500, error_response(request_id, exc))
 
-    return BoundedServer((host, port), Handler, max_connections)
+    http = BoundedServer((host, port), Handler, max_connections)
+    http.allowed_hosts = {
+        f"127.0.0.1:{http.server_port}",
+        f"localhost:{http.server_port}",
+    }
+    http.allowed_origins = {"http://" + authority for authority in http.allowed_hosts}
+    card = service.card() if hasattr(service, "card") else {}
+    public = urlsplit(card.get("url", ""))
+    if public.scheme in {"http", "https"} and public.netloc:
+        http.allowed_hosts.add(public.netloc.lower())
+        http.allowed_origins.add(public.scheme + "://" + public.netloc)
+    return http

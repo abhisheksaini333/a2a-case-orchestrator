@@ -16,12 +16,20 @@ class Capacity(unittest.TestCase):
         try:
             for _ in range(2):
                 client = socket.create_connection(http.server_address)
-                client.sendall(b"GET /health HTTP/1.1\r\nHost: localhost\r\nX-Slow: ")
+                client.sendall(
+                    (
+                        f"GET /health HTTP/1.1\r\nHost: 127.0.0.1:{http.server_port}\r\nX-Slow: "
+                    ).encode()
+                )
                 clients.append(client)
             time.sleep(0.05)
             third = socket.create_connection(http.server_address)
             third.settimeout(1)
-            third.sendall(b"GET /health HTTP/1.1\r\nHost: localhost\r\n\r\n")
+            third.sendall(
+                (
+                    f"GET /health HTTP/1.1\r\nHost: 127.0.0.1:{http.server_port}\r\n\r\n"
+                ).encode()
+            )
             self.assertIn(b"503", third.recv(1024))
             third.close()
             time.sleep(0.4)
@@ -51,7 +59,9 @@ class Capacity(unittest.TestCase):
             client = socket.create_connection(http.server_address)
             client.settimeout(1)
             client.sendall(
-                b"POST /a2a HTTP/1.1\r\nHost: localhost\r\nContent-Type: application/json\r\nAuthorization: Bearer "
+                (
+                    f"POST /a2a HTTP/1.1\r\nHost: 127.0.0.1:{http.server_port}\r\nContent-Type: application/json\r\nAuthorization: Bearer "
+                ).encode()
                 + b"t" * 32
                 + b"\r\nContent-Length: 100\r\n\r\n{"
             )
@@ -61,7 +71,9 @@ class Capacity(unittest.TestCase):
             client = socket.create_connection(http.server_address)
             client.settimeout(1)
             client.sendall(
-                b"POST /a2a HTTP/1.1\r\nHost: localhost\r\nContent-Type: application/json\r\nContent-Length: 1\r\nContent-Length: 2\r\n\r\n{}"
+                (
+                    f"POST /a2a HTTP/1.1\r\nHost: 127.0.0.1:{http.server_port}\r\nContent-Type: application/json\r\nContent-Length: 1\r\nContent-Length: 2\r\n\r\n{{}}"
+                ).encode()
             )
             self.assertIn(b"400", client.recv(1024))
             client.close()

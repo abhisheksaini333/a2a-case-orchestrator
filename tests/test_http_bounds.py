@@ -49,3 +49,22 @@ class HTTP(unittest.TestCase):
         with self.assertRaises(urllib.error.HTTPError) as ctx:
             urllib.request.urlopen(request)
         self.assertEqual(ctx.exception.code, 400)
+
+    def test_eof_before_declared_body_length_never_dispatches_valid_json(self):
+        import socket
+
+        client = socket.create_connection(self.s.server_address)
+        client.settimeout(2)
+        host = ("127.0.0.1:" + str(self.s.server_port)).encode()
+        body = b'{"jsonrpc":"2.0","id":1,"method":"message/send","params":{}}'
+        client.sendall(
+            b"POST /a2a HTTP/1.1\r\nHost: "
+            + host
+            + b"\r\nContent-Type: application/json\r\nAuthorization: Bearer "
+            + b"t" * 32
+            + b"\r\nContent-Length: 200\r\n\r\n"
+            + body
+        )
+        client.shutdown(socket.SHUT_WR)
+        self.assertIn(b"400", client.recv(1024))
+        client.close()

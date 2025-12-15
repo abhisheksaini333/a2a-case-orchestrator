@@ -54,3 +54,38 @@ class HTTP(unittest.TestCase):
         )
         with urllib.request.urlopen(req) as r:
             self.assertEqual(json.load(r)["principal"], "coordinator")
+
+    def test_forged_host_matching_origin_and_duplicate_credentials_are_rejected(self):
+        req = urllib.request.Request(
+            self.url + "/health",
+            headers={"Host": "evil.example", "Origin": "http://evil.example"},
+        )
+        with self.assertRaises(urllib.error.HTTPError) as error:
+            urllib.request.urlopen(req)
+        self.assertEqual(error.exception.code, 403)
+        req = urllib.request.Request(
+            self.url + "/health", headers={"Origin": "http://evil.example"}
+        )
+        with self.assertRaises(urllib.error.HTTPError) as error:
+            urllib.request.urlopen(req)
+        self.assertEqual(error.exception.code, 403)
+        import socket
+
+        client = socket.create_connection(self.s.server_address)
+        client.settimeout(2)
+        host = ("127.0.0.1:" + str(self.s.server_port)).encode()
+        client.sendall(
+            b"GET /health HTTP/1.1\r\nHost: "
+            + host
+            + b"\r\nAuthorization: Bearer one\r\nAuthorization: Bearer two\r\n\r\n"
+        )
+        self.assertIn(b"400", client.recv(1024))
+        client.close()
+
+    def test_non_ascii_bearer_is_an_http_unauthorized_response(self):
+        request = urllib.request.Request(
+            self.url + "/api/cases", headers={"Authorization": "Bearer café"}
+        )
+        with self.assertRaises(urllib.error.HTTPError) as error:
+            urllib.request.urlopen(request)
+        self.assertEqual(error.exception.code, 401)

@@ -10,8 +10,14 @@ def authenticate(header, tokens):
     if not isinstance(header, str) or not header.startswith("Bearer "):
         raise DomainError("unauthorized", "A bearer credential is required")
     candidate = header[7:]
+    if not candidate.isascii():
+        raise DomainError("unauthorized", "Credential was not accepted")
     for principal, token in tokens.items():
-        if len(token) >= 32 and hmac.compare_digest(candidate, token):
+        if (
+            len(token) >= 32
+            and token.isascii()
+            and hmac.compare_digest(candidate.encode(), token.encode())
+        ):
             return principal
     raise DomainError("unauthorized", "Credential was not accepted")
 

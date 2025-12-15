@@ -11,3 +11,8 @@ class Bearer(unittest.TestCase):
         for value in ["", "Basic aaa", "Bearer wrong"]:
             with self.assertRaises(DomainError):
                 s.authenticate(value, {"alice": "a" * 32})
+
+    def test_non_ascii_credentials_fail_as_unauthorized(self):
+        with self.assertRaises(DomainError) as error:
+            s.authenticate("Bearer café", {"alice": "a" * 32})
+        self.assertEqual(error.exception.code, "unauthorized")
