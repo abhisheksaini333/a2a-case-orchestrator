@@ -21,6 +21,8 @@ sealed class AgentServer
     private readonly object gate = new();
     private readonly string url;
     private readonly string statePath;
+    private readonly HashSet<string> allowedHosts;
+    private readonly HashSet<string> allowedOrigins;
     private readonly int maxTasks = int.Parse(Environment.GetEnvironmentVariable("MAX_TASKS") ?? "1000");
     private readonly int deadlineMs = int.Parse(Environment.GetEnvironmentVariable("REQUEST_DEADLINE_MS") ?? "10000");
     private readonly SemaphoreSlim admission = new(int.Parse(Environment.GetEnvironmentVariable("MAX_REQUESTS") ?? "16"));
@@ -28,6 +30,19 @@ sealed class AgentServer
     {
         if (token.Length < 32) throw new ArgumentException("AGENT_TOKEN requires at least 32 characters");
         url = Environment.GetEnvironmentVariable("PUBLIC_URL") ?? "http://127.0.0.1:" + (Environment.GetEnvironmentVariable("PORT") ?? "18132");
+        var port = Environment.GetEnvironmentVariable("PORT") ?? "18132";
+        var publicUri = new Uri(url, UriKind.Absolute);
+        if (publicUri.Scheme is not ("http" or "https") || publicUri.UserInfo.Length > 0)
+            throw new ArgumentException("PUBLIC_URL requires an HTTP(S) service origin");
+        allowedHosts = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+        {
+            "127.0.0.1:" + port, "localhost:" + port, publicUri.Authority
+        };
+        allowedOrigins = new HashSet<string>(StringComparer.Ordinal)
+        {
+            "http://127.0.0.1:" + port, "http://localhost:" + port,
+            publicUri.GetLeftPart(UriPartial.Authority)
+        };
         var directory = Environment.GetEnvironmentVariable("CATALOG_STATE") ?? ".runtime/catalog";
         Directory.CreateDirectory(directory); statePath = Path.Combine(directory, "tasks.json");
         if (File.Exists(statePath))
@@ -85,6 +100,17 @@ sealed class AgentServer
         var request = context.Request; JsonNode? id = null;
         try
         {
+            if (request.Headers.Host.Count != 1 || request.Headers.Authorization.Count > 1 || request.Headers.Origin.Count > 1)
+            {
+                await Send(context, 400, new JsonObject { ["error"] = "ambiguous_headers" });
+                return;
+            }
+            if (!allowedHosts.Contains(request.Host.Value) ||
+                (request.Headers.Origin.Count == 1 && !allowedOrigins.Contains(request.Headers.Origin.ToString())))
+            {
+                await Send(context, 403, new JsonObject { ["error"] = "untrusted_origin" });
+                return;
+            }
             if (request.Method == "GET" && request.Path == "/health") { await Send(context, 200, new JsonObject { ["status"] = "ok", ["service"] = "catalog" }); return; }
             if (request.Method == "GET" && (request.Path == "/.well-known/agent.json" || request.Path == "/.well-known/agent-card.json")) { await Send(context, 200, Card()); return; }
             var auth = request.Headers.Authorization.ToString();
