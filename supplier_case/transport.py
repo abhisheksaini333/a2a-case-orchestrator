@@ -155,6 +155,8 @@ def server(
                         ),
                         {"error": exc.code, "message": str(exc)},
                     )
+                except Exception:
+                    return self.send(500, {"error": "internal_service_error"})
             self.send(404, {"error": "not_found"})
 
         def do_POST(self):

@@ -89,3 +89,23 @@ class HTTP(unittest.TestCase):
         with self.assertRaises(urllib.error.HTTPError) as error:
             urllib.request.urlopen(request)
         self.assertEqual(error.exception.code, 401)
+
+    def test_unexpected_application_error_returns_redacted_http_failure(self):
+        def fail(*args):
+            raise RuntimeError("secret-deployment-key")
+
+        prior = getattr(Fake, "api", None)
+        Fake.api = staticmethod(fail)
+        try:
+            request = urllib.request.Request(
+                self.url + "/api/cases", headers={"Authorization": "Bearer " + "t" * 32}
+            )
+            with self.assertRaises(urllib.error.HTTPError) as error:
+                urllib.request.urlopen(request)
+            self.assertEqual(error.exception.code, 500)
+            self.assertNotIn(b"secret-deployment-key", error.exception.read())
+        finally:
+            if prior is None:
+                del Fake.api
+            else:
+                Fake.api = staticmethod(prior)
