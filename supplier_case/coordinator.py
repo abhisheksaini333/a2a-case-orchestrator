@@ -156,6 +156,7 @@ class Coordinator:
                     os.environ.get("MODEL_ENDPOINT", ""),
                     os.environ.get("MODEL_NAME", "default_model"),
                     os.environ.get("MODEL_NO_THINK") == "1",
+                    os.environ.get("MODEL_TIMEOUT_SECONDS", "10"),
                 )
             raise DomainError("invalid_mode", "Choose rules or local-model extraction")
         parts = path.strip("/").split("/")

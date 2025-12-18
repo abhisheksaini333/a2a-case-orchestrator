@@ -54,6 +54,7 @@ services:
       AGENT_TRANSPORT: ${AGENT_TRANSPORT:-a2a}
       MODEL_ENDPOINT: ${MODEL_ENDPOINT:-}
       MODEL_NO_THINK: ${MODEL_NO_THINK:-0}
+      MODEL_TIMEOUT_SECONDS: ${MODEL_TIMEOUT_SECONDS:-10}
     ports: ["127.0.0.1:${COORDINATOR_PORT:-18130}:18130"]
     depends_on:
       document: {condition: service_healthy}

@@ -3,8 +3,11 @@
 import json
 import re
 import time
-import urllib.request
-import urllib.error
+import http.client
+import math
+import socket
+import threading
+from urllib.parse import urlsplit
 from .domain import DomainError, case_input
 
 
@@ -48,12 +51,82 @@ SYSTEM_PROMPT = (
 )
 
 
-def extract(text, endpoint, model="default_model", no_think=False):
+def _generate(endpoint, payload, timeout):
+    target = urlsplit(endpoint)
+    if (
+        target.scheme not in {"http", "https"}
+        or not target.hostname
+        or target.username
+        or target.password
+    ):
+        raise DomainError(
+            "model_not_configured", "Model endpoint must be an HTTP(S) service URL"
+        )
+    connection_type = (
+        http.client.HTTPSConnection
+        if target.scheme == "https"
+        else http.client.HTTPConnection
+    )
+    connection = connection_type(target.hostname, target.port, timeout=timeout)
+    started = time.monotonic()
+    timer = None
+    try:
+        connection.connect()
+        transport = connection.sock
+        remaining = max(0.001, timeout - (time.monotonic() - started))
+        transport.settimeout(remaining)
+
+        def expire():
+            try:
+                transport.shutdown(socket.SHUT_RDWR)
+            except OSError:
+                pass
+
+        timer = threading.Timer(remaining, expire)
+        timer.daemon = True
+        timer.start()
+        path = target.path or "/"
+        if target.query:
+            path += "?" + target.query
+        connection.request(
+            "POST",
+            path,
+            body=json.dumps(payload).encode(),
+            headers={"Content-Type": "application/json"},
+        )
+        with connection.getresponse() as response:
+            if response.status != 200:
+                raise DomainError(
+                    "model_unavailable", "Local model did not return a usable response"
+                )
+            raw = response.read(65537)
+            if len(raw) > 65536:
+                raise DomainError(
+                    "invalid_model_output", "Model response exceeded the size limit"
+                )
+            return json.loads(raw)["choices"][0]["message"]["content"]
+    finally:
+        if timer:
+            timer.cancel()
+        connection.close()
+
+
+def extract(text, endpoint, model="default_model", no_think=False, timeout=10):
     if not isinstance(text, str) or not 1 <= len(text) <= 4000:
         raise DomainError("invalid_intake", "Intake must contain 1 to 4000 characters")
     if not endpoint:
         raise DomainError(
             "model_not_configured", "Local model extraction is not configured"
+        )
+    try:
+        timeout = float(timeout)
+    except (ValueError, TypeError) as exc:
+        raise DomainError(
+            "invalid_model_timeout", "Model timeout must be between 0.05 and 10 seconds"
+        ) from exc
+    if not math.isfinite(timeout) or not 0.05 <= timeout <= 10:
+        raise DomainError(
+            "invalid_model_timeout", "Model timeout must be between 0.05 and 10 seconds"
         )
     payload = {
         "model": model,
@@ -67,24 +140,12 @@ def extract(text, endpoint, model="default_model", no_think=False):
         "temperature": 0,
         "max_tokens": 256,
     }
-    request = urllib.request.Request(
-        endpoint,
-        data=json.dumps(payload).encode(),
-        headers={"Content-Type": "application/json"},
-    )
     started = time.perf_counter()
     try:
-        with urllib.request.urlopen(request, timeout=90) as response:
-            raw = response.read(65537)
-            if len(raw) > 65536:
-                raise DomainError(
-                    "invalid_model_output", "Model response exceeded the size limit"
-                )
-            reply = json.loads(raw)
-            text = reply["choices"][0]["message"]["content"]
+        text = _generate(endpoint, payload, timeout)
     except (
-        urllib.error.URLError,
-        TimeoutError,
+        OSError,
+        http.client.HTTPException,
         ValueError,
         KeyError,
         IndexError,
