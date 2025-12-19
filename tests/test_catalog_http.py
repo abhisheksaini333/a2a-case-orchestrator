@@ -149,7 +149,11 @@ class CatalogHTTP(unittest.TestCase):
         client = socket.create_connection(("127.0.0.1", self.port))
         client.settimeout(3)
         client.sendall(
-            ("POST /a2a HTTP/1.1\r\nHost: 127.0.0.1:" + str(self.port) + "\r\nContent-Type: application/json\r\nAuthorization: Bearer ").encode()
+            (
+                "POST /a2a HTTP/1.1\r\nHost: 127.0.0.1:"
+                + str(self.port)
+                + "\r\nContent-Type: application/json\r\nAuthorization: Bearer "
+            ).encode()
             + b"c" * 32
             + b"\r\nContent-Length: 100\r\n\r\n{"
         )
@@ -161,7 +165,11 @@ class CatalogHTTP(unittest.TestCase):
         client = socket.create_connection(("127.0.0.1", self.port))
         client.settimeout(3)
         client.sendall(
-            ("POST /a2a HTTP/1.1\r\nHost: 127.0.0.1:" + str(self.port) + "\r\nTransfer-Encoding: chunked\r\nContent-Type: application/json\r\nAuthorization: Bearer ").encode()
+            (
+                "POST /a2a HTTP/1.1\r\nHost: 127.0.0.1:"
+                + str(self.port)
+                + "\r\nTransfer-Encoding: chunked\r\nContent-Type: application/json\r\nAuthorization: Bearer "
+            ).encode()
             + b"c" * 32
             + b"\r\n\r\n0\r\n\r\n"
         )
@@ -179,7 +187,11 @@ class CatalogHTTP(unittest.TestCase):
                 client = socket.create_connection(("127.0.0.1", self.port))
                 client.settimeout(3)
                 client.sendall(
-                    ("POST /a2a HTTP/1.1\r\nHost: 127.0.0.1:" + str(self.port) + "\r\nContent-Type: application/json\r\nAuthorization: Bearer ").encode()
+                    (
+                        "POST /a2a HTTP/1.1\r\nHost: 127.0.0.1:"
+                        + str(self.port)
+                        + "\r\nContent-Type: application/json\r\nAuthorization: Bearer "
+                    ).encode()
                     + b"c" * 32
                     + b"\r\nContent-Length: 100\r\n\r\n{"
                 )
@@ -261,8 +273,13 @@ class CatalogHTTP(unittest.TestCase):
             self.assertEqual(error.exception.code, 403)
         with socket.create_connection(("127.0.0.1", self.port)) as client:
             client.settimeout(3)
-            client.sendall(("GET /health HTTP/1.1\r\nHost: 127.0.0.1:" + str(self.port)
-                + "\r\nAuthorization: Bearer one\r\nAuthorization: Bearer two\r\n\r\n").encode())
+            client.sendall(
+                (
+                    "GET /health HTTP/1.1\r\nHost: 127.0.0.1:"
+                    + str(self.port)
+                    + "\r\nAuthorization: Bearer one\r\nAuthorization: Bearer two\r\n\r\n"
+                ).encode()
+            )
             self.assertIn(b"400", client.recv(1024))
 
     def test_catalog_accepts_configured_public_authority(self):
@@ -270,7 +287,12 @@ class CatalogHTTP(unittest.TestCase):
         self.process.wait(timeout=5)
         self.env["PUBLIC_URL"] = "http://catalog.example.test:18132"
         self.start()
-        request = urllib.request.Request(self.url + "/health", headers={
-            "Host": "catalog.example.test:18132", "Origin": "http://catalog.example.test:18132"})
+        request = urllib.request.Request(
+            self.url + "/health",
+            headers={
+                "Host": "catalog.example.test:18132",
+                "Origin": "http://catalog.example.test:18132",
+            },
+        )
         with urllib.request.urlopen(request) as response:
             self.assertEqual(response.status, 200)

@@ -1,5 +1,4 @@
 using System.Text.Json.Nodes;
-
 if (args.FirstOrDefault() == "health")
 {
     using var client = new HttpClient { Timeout = TimeSpan.FromSeconds(2) };
@@ -8,8 +7,14 @@ if (args.FirstOrDefault() == "health")
         var response = await client.GetAsync("http://127.0.0.1:" + (Environment.GetEnvironmentVariable("PORT") ?? "18132") + "/health");
         Environment.Exit(response.IsSuccessStatusCode ? 0 : 1);
     }
-    catch (HttpRequestException) { Environment.Exit(1); }
-    catch (TaskCanceledException) { Environment.Exit(1); }
+    catch (HttpRequestException)
+    {
+        Environment.Exit(1);
+    }
+    catch (TaskCanceledException)
+    {
+        Environment.Exit(1);
+    }
     return;
 }
 if (args.FirstOrDefault() == "evaluate")
@@ -19,7 +24,6 @@ if (args.FirstOrDefault() == "evaluate")
     return;
 }
 await new AgentServer().Run();
-
 static class CatalogRules
 {
     public static JsonObject Evaluate(JsonObject input)
