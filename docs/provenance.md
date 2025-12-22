@@ -1,0 +1,11 @@
+# Source and dependency provenance
+
+Original application code is MIT licensed under [LICENSE](../LICENSE). The unmodified official A2A JSON schemas are Apache-2.0 material: their exact tagged URLs and SHA-256 values are in [contracts/sources.json](../contracts/sources.json), with the upstream [license](../contracts/LICENSE) and attribution notice retained separately. No official SDK or certification is implied by the bounded adapters.
+
+Python runtime/build/test versions, upstream artifact URLs, SHA-256 hashes and release evidence are recorded in [dependencies-lock.json](../dependencies-lock.json). Package installation uses exact versions from `pyproject.toml`, `requirements-test.txt` and the Dockerfile. The artifact catalogue includes alternative platform wheels; it does not imply that every wheel was installed. C# uses only the .NET shared framework, with no third-party NuGet package dependencies. SDK archive provenance accompanies the Python records.
+
+The frontend has an npm lockfile plus a [publication/license/integrity catalogue](../frontend/dependencies-lock.json) covering all lockfile versions, including optional platform packages. React 18.3.1, TypeScript 5.7.2, esbuild 0.25.5 and Playwright 1.55.1 are pinned. The final npm audit returned zero reported vulnerabilities; that result describes the audit at verification time and is not a permanent security guarantee.
+
+Model weights remain external and retain their upstream licenses. [evaluation/models.json](../evaluation/models.json) records exact immutable Qwen model revisions and every measured file hash. Separate optional MLX environments under `evaluation/runtime/` include all selected package pins and artifact evidence. Those environments are development-only model servers; the application itself calls a configured HTTP endpoint and does not load model weights.
+
+Container base versions and GitHub Actions revisions are pinned in source. Rebuilding today uses the current host, container engine and registry delivery; dependency release evidence does not make the host OS, compiler execution or rebuilt container layers historical artifacts. Base-image patching and current vulnerability review remain deployment responsibilities.

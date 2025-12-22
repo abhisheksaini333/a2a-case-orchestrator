@@ -62,4 +62,4 @@ PYTHONPATH=. python scripts/run_browser_check.py
 
 `CHROME=/path/to/chrome` uses an already installed browser instead. The harness launches three separate services and verifies intake, missing-input resume, exact independent approval and mobile layout. The GitHub Actions workflow runs the same path on Linux; hosted execution is separate from local evidence.
 
-[Acceptance and evidence](docs/acceptance.md) · [Architecture](docs/architecture.md) · [Operations and recovery](docs/runbook.md) · [API examples](docs/api.md) · [Measured evaluation](docs/evaluation.md)
+[Acceptance and evidence](docs/acceptance.md) · [Architecture](docs/architecture.md) · [Operations and recovery](docs/runbook.md) · [API examples](docs/api.md) · [Measured evaluation](docs/evaluation.md) · [Source and dependency provenance](docs/provenance.md)

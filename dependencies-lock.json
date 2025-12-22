@@ -1,0 +1,1181 @@
+{
+  "python": [
+    {
+      "name": "setuptools",
+      "version": "75.8.0",
+      "source": "https://pypi.org/pypi/setuptools/75.8.0/json",
+      "released": "2025-01-08T18:28:20.912929Z",
+      "license": null,
+      "artifacts": [
+        {
+          "filename": "setuptools-75.8.0-py3-none-any.whl",
+          "url": "https://files.pythonhosted.org/packages/69/8a/b9dc7678803429e4a3bc9ba462fa3dd9066824d3c607490235c6a796be5a/setuptools-75.8.0-py3-none-any.whl",
+          "sha256": "e3982f444617239225d675215d51f6ba05f845d4eec313da4418fdbb56fb27e3",
+          "released": "2025-01-08T18:28:20.912929Z"
+        },
+        {
+          "filename": "setuptools-75.8.0.tar.gz",
+          "url": "https://files.pythonhosted.org/packages/92/ec/089608b791d210aec4e7f97488e67ab0d33add3efccb83a056cbafe3a2a6/setuptools-75.8.0.tar.gz",
+          "sha256": "c5afc8f407c626b8313a86e10311dd3f661c6cd9c09d4bf8c15c0e11f9f2b0e6",
+          "released": "2025-01-08T18:28:23.980930Z"
+        }
+      ]
+    },
+    {
+      "name": "psycopg2-binary",
+      "version": "2.9.10",
+      "source": "https://pypi.org/pypi/psycopg2-binary/2.9.10/json",
+      "released": "2024-10-16T11:18:58.647504Z",
+      "license": "LGPL with exceptions",
+      "artifacts": [
+        {
+          "filename": "psycopg2_binary-2.9.10-cp310-cp310-macosx_12_0_x86_64.whl",
+          "url": "https://files.pythonhosted.org/packages/7a/81/331257dbf2801cdb82105306042f7a1637cc752f65f2bb688188e0de5f0b/psycopg2_binary-2.9.10-cp310-cp310-macosx_12_0_x86_64.whl",
+          "sha256": "0ea8e3d0ae83564f2fc554955d327fa081d065c8ca5cc6d2abb643e2c9c1200f",
+          "released": "2024-10-16T11:18:58.647504Z"
+        },
+        {
+          "filename": "psycopg2_binary-2.9.10-cp310-cp310-macosx_14_0_arm64.whl",
+          "url": "https://files.pythonhosted.org/packages/e7/9a/7f4f2f031010bbfe6a02b4a15c01e12eb6b9b7b358ab33229f28baadbfc1/psycopg2_binary-2.9.10-cp310-cp310-macosx_14_0_arm64.whl",
+          "sha256": "3e9c76f0ac6f92ecfc79516a8034a544926430f7b080ec5a0537bca389ee0906",
+          "released": "2024-10-16T11:19:03.935594Z"
+        },
+        {
+          "filename": "psycopg2_binary-2.9.10-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl",
+          "url": "https://files.pythonhosted.org/packages/e5/57/8ddd4b374fa811a0b0a0f49b6abad1cde9cb34df73ea3348cc283fcd70b4/psycopg2_binary-2.9.10-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl",
+          "sha256": "2ad26b467a405c798aaa1458ba09d7e2b6e5f96b1ce0ac15d82fd9f95dc38a92",
+          "released": "2024-10-16T11:19:07.277574Z"
+        },
+        {
+          "filename": "psycopg2_binary-2.9.10-cp310-cp310-manylinux_2_17_i686.manylinux2014_i686.whl",
+          "url": "https://files.pythonhosted.org/packages/f9/66/d1e52c20d283f1f3a8e7e5c1e06851d432f123ef57b13043b4f9b21ffa1f/psycopg2_binary-2.9.10-cp310-cp310-manylinux_2_17_i686.manylinux2014_i686.whl",
+          "sha256": "270934a475a0e4b6925b5f804e3809dd5f90f8613621d062848dd82f9cd62007",
+          "released": "2024-10-16T11:19:11.033139Z"
+        },
+        {
+          "filename": "psycopg2_binary-2.9.10-cp310-cp310-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl",
+          "url": "https://files.pythonhosted.org/packages/a0/cb/592d44a9546aba78f8a1249021fe7c59d3afb8a0ba51434d6610cc3462b6/psycopg2_binary-2.9.10-cp310-cp310-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl",
+          "sha256": "48b338f08d93e7be4ab2b5f1dbe69dc5e9ef07170fe1f86514422076d9c010d0",
+          "released": "2024-10-16T11:19:14.606538Z"
+        },
+        {
+          "filename": "psycopg2_binary-2.9.10-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+          "url": "https://files.pythonhosted.org/packages/64/33/c8548560b94b7617f203d7236d6cdf36fe1a5a3645600ada6efd79da946f/psycopg2_binary-2.9.10-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+          "sha256": "7f4152f8f76d2023aac16285576a9ecd2b11a9895373a1f10fd9db54b3ff06b4",
+          "released": "2024-10-16T11:19:18.889577Z"
+        },
+        {
+          "filename": "psycopg2_binary-2.9.10-cp310-cp310-musllinux_1_2_aarch64.whl",
+          "url": "https://files.pythonhosted.org/packages/b0/0e/c2da0db5bea88a3be52307f88b75eec72c4de62814cbe9ee600c29c06334/psycopg2_binary-2.9.10-cp310-cp310-musllinux_1_2_aarch64.whl",
+          "sha256": "32581b3020c72d7a421009ee1c6bf4a131ef5f0a968fab2e2de0c9d2bb4577f1",
+          "released": "2024-10-16T11:19:23.023689Z"
+        },
+        {
+          "filename": "psycopg2_binary-2.9.10-cp310-cp310-musllinux_1_2_i686.whl",
+          "url": "https://files.pythonhosted.org/packages/15/d7/774afa1eadb787ddf41aab52d4c62785563e29949613c958955031408ae6/psycopg2_binary-2.9.10-cp310-cp310-musllinux_1_2_i686.whl",
+          "sha256": "2ce3e21dc3437b1d960521eca599d57408a695a0d3c26797ea0f72e834c7ffe5",
+          "released": "2024-10-16T11:19:26.906042Z"
+        },
+        {
+          "filename": "psycopg2_binary-2.9.10-cp310-cp310-musllinux_1_2_ppc64le.whl",
+          "url": "https://files.pythonhosted.org/packages/5e/ed/440dc3f5991a8c6172a1cde44850ead0e483a375277a1aef7cfcec00af07/psycopg2_binary-2.9.10-cp310-cp310-musllinux_1_2_ppc64le.whl",
+          "sha256": "e984839e75e0b60cfe75e351db53d6db750b00de45644c5d1f7ee5d1f34a1ce5",
+          "released": "2024-10-16T11:19:30.027726Z"
+        },
+        {
+          "filename": "psycopg2_binary-2.9.10-cp310-cp310-musllinux_1_2_x86_64.whl",
+          "url": "https://files.pythonhosted.org/packages/03/be/2cc8f4282898306732d2ae7b7378ae14e8df3c1231b53579efa056aae887/psycopg2_binary-2.9.10-cp310-cp310-musllinux_1_2_x86_64.whl",
+          "sha256": "3c4745a90b78e51d9ba06e2088a2fe0c693ae19cc8cb051ccda44e8df8a6eb53",
+          "released": "2024-10-16T11:19:32.864977Z"
+        },
+        {
+          "filename": "psycopg2_binary-2.9.10-cp310-cp310-win32.whl",
+          "url": "https://files.pythonhosted.org/packages/d0/12/fb8e4f485d98c570e00dad5800e9a2349cfe0f71a767c856857160d343a5/psycopg2_binary-2.9.10-cp310-cp310-win32.whl",
+          "sha256": "e5720a5d25e3b99cd0dc5c8a440570469ff82659bb09431c1439b92caf184d3b",
+          "released": "2024-10-16T11:19:35.462937Z"
+        },
+        {
+          "filename": "psycopg2_binary-2.9.10-cp310-cp310-win_amd64.whl",
+          "url": "https://files.pythonhosted.org/packages/22/4f/217cd2471ecf45d82905dd09085e049af8de6cfdc008b6663c3226dc1c98/psycopg2_binary-2.9.10-cp310-cp310-win_amd64.whl",
+          "sha256": "3c18f74eb4386bf35e92ab2354a12c17e5eb4d9798e4c0ad3a00783eae7cd9f1",
+          "released": "2024-10-16T11:19:37.384017Z"
+        },
+        {
+          "filename": "psycopg2_binary-2.9.10-cp311-cp311-macosx_12_0_x86_64.whl",
+          "url": "https://files.pythonhosted.org/packages/9c/8f/9feb01291d0d7a0a4c6a6bab24094135c2b59c6a81943752f632c75896d6/psycopg2_binary-2.9.10-cp311-cp311-macosx_12_0_x86_64.whl",
+          "sha256": "04392983d0bb89a8717772a193cfaac58871321e3ec69514e1c4e0d4957b5aff",
+          "released": "2024-10-16T11:19:40.033269Z"
+        },
+        {
+          "filename": "psycopg2_binary-2.9.10-cp311-cp311-macosx_14_0_arm64.whl",
+          "url": "https://files.pythonhosted.org/packages/15/30/346e4683532011561cd9c8dfeac6a8153dd96452fee0b12666058ab7893c/psycopg2_binary-2.9.10-cp311-cp311-macosx_14_0_arm64.whl",
+          "sha256": "1a6784f0ce3fec4edc64e985865c17778514325074adf5ad8f80636cd029ef7c",
+          "released": "2024-10-16T11:19:43.500317Z"
+        },
+        {
+          "filename": "psycopg2_binary-2.9.10-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl",
+          "url": "https://files.pythonhosted.org/packages/66/6e/4efebe76f76aee7ec99166b6c023ff8abdc4e183f7b70913d7c047701b79/psycopg2_binary-2.9.10-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl",
+          "sha256": "b5f86c56eeb91dc3135b3fd8a95dc7ae14c538a2f3ad77a19645cf55bab1799c",
+          "released": "2024-10-16T11:19:46.986927Z"
+        },
+        {
+          "filename": "psycopg2_binary-2.9.10-cp311-cp311-manylinux_2_17_i686.manylinux2014_i686.whl",
+          "url": "https://files.pythonhosted.org/packages/7f/fd/ff83313f86b50f7ca089b161b8e0a22bb3c319974096093cd50680433fdb/psycopg2_binary-2.9.10-cp311-cp311-manylinux_2_17_i686.manylinux2014_i686.whl",
+          "sha256": "2b3d2491d4d78b6b14f76881905c7a8a8abcf974aad4a8a0b065273a0ed7a2cb",
+          "released": "2024-10-16T11:19:50.242861Z"
+        },
+        {
+          "filename": "psycopg2_binary-2.9.10-cp311-cp311-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl",
+          "url": "https://files.pythonhosted.org/packages/e6/c4/bfadd202dcda8333a7ccafdc51c541dbdfce7c2c7cda89fa2374455d795f/psycopg2_binary-2.9.10-cp311-cp311-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl",
+          "sha256": "2286791ececda3a723d1910441c793be44625d86d1a4e79942751197f4d30341",
+          "released": "2024-10-16T11:19:54.424117Z"
+        },
+        {
+          "filename": "psycopg2_binary-2.9.10-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+          "url": "https://files.pythonhosted.org/packages/5d/f1/09f45ac25e704ac954862581f9f9ae21303cc5ded3d0b775532b407f0e90/psycopg2_binary-2.9.10-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+          "sha256": "512d29bb12608891e349af6a0cccedce51677725a921c07dba6342beaf576f9a",
+          "released": "2024-10-16T11:19:57.762119Z"
+        },
+        {
+          "filename": "psycopg2_binary-2.9.10-cp311-cp311-musllinux_1_2_aarch64.whl",
+          "url": "https://files.pythonhosted.org/packages/9e/2e/9beaea078095cc558f215e38f647c7114987d9febfc25cb2beed7c3582a5/psycopg2_binary-2.9.10-cp311-cp311-musllinux_1_2_aarch64.whl",
+          "sha256": "5a507320c58903967ef7384355a4da7ff3f28132d679aeb23572753cbf2ec10b",
+          "released": "2024-10-16T11:20:04.693082Z"
+        },
+        {
+          "filename": "psycopg2_binary-2.9.10-cp311-cp311-musllinux_1_2_i686.whl",
+          "url": "https://files.pythonhosted.org/packages/01/9e/ef93c5d93f3dc9fc92786ffab39e323b9aed066ba59fdc34cf85e2722271/psycopg2_binary-2.9.10-cp311-cp311-musllinux_1_2_i686.whl",
+          "sha256": "6d4fa1079cab9018f4d0bd2db307beaa612b0d13ba73b5c6304b9fe2fb441ff7",
+          "released": "2024-10-16T11:20:11.401015Z"
+        },
+        {
+          "filename": "psycopg2_binary-2.9.10-cp311-cp311-musllinux_1_2_ppc64le.whl",
+          "url": "https://files.pythonhosted.org/packages/a5/f0/049e9631e3268fe4c5a387f6fc27e267ebe199acf1bc1bc9cbde4bd6916c/psycopg2_binary-2.9.10-cp311-cp311-musllinux_1_2_ppc64le.whl",
+          "sha256": "851485a42dbb0bdc1edcdabdb8557c09c9655dfa2ca0460ff210522e073e319e",
+          "released": "2024-10-16T11:20:17.959351Z"
+        },
+        {
+          "filename": "psycopg2_binary-2.9.10-cp311-cp311-musllinux_1_2_x86_64.whl",
+          "url": "https://files.pythonhosted.org/packages/dc/9a/bcb8773b88e45fb5a5ea8339e2104d82c863a3b8558fbb2aadfe66df86b3/psycopg2_binary-2.9.10-cp311-cp311-musllinux_1_2_x86_64.whl",
+          "sha256": "35958ec9e46432d9076286dda67942ed6d968b9c3a6a2fd62b48939d1d78bf68",
+          "released": "2024-10-16T11:20:24.711207Z"
+        },
+        {
+          "filename": "psycopg2_binary-2.9.10-cp311-cp311-win32.whl",
+          "url": "https://files.pythonhosted.org/packages/e2/6b/144336a9bf08a67d217b3af3246abb1d027095dab726f0687f01f43e8c03/psycopg2_binary-2.9.10-cp311-cp311-win32.whl",
+          "sha256": "ecced182e935529727401b24d76634a357c71c9275b356efafd8a2a91ec07392",
+          "released": "2024-10-16T11:20:27.718849Z"
+        },
+        {
+          "filename": "psycopg2_binary-2.9.10-cp311-cp311-win_amd64.whl",
+          "url": "https://files.pythonhosted.org/packages/61/69/3b3d7bd583c6d3cbe5100802efa5beacaacc86e37b653fc708bf3d6853b8/psycopg2_binary-2.9.10-cp311-cp311-win_amd64.whl",
+          "sha256": "ee0e8c683a7ff25d23b55b11161c2663d4b099770f6085ff0a20d4505778d6b4",
+          "released": "2024-10-16T11:20:30.777076Z"
+        },
+        {
+          "filename": "psycopg2_binary-2.9.10-cp312-cp312-macosx_12_0_x86_64.whl",
+          "url": "https://files.pythonhosted.org/packages/49/7d/465cc9795cf76f6d329efdafca74693714556ea3891813701ac1fee87545/psycopg2_binary-2.9.10-cp312-cp312-macosx_12_0_x86_64.whl",
+          "sha256": "880845dfe1f85d9d5f7c412efea7a08946a46894537e4e5d091732eb1d34d9a0",
+          "released": "2024-10-16T11:20:35.234241Z"
+        },
+        {
+          "filename": "psycopg2_binary-2.9.10-cp312-cp312-macosx_14_0_arm64.whl",
+          "url": "https://files.pythonhosted.org/packages/8b/31/6d225b7b641a1a2148e3ed65e1aa74fc86ba3fee850545e27be9e1de893d/psycopg2_binary-2.9.10-cp312-cp312-macosx_14_0_arm64.whl",
+          "sha256": "9440fa522a79356aaa482aa4ba500b65f28e5d0e63b801abf6aa152a29bd842a",
+          "released": "2024-10-16T11:20:38.742971Z"
+        },
+        {
+          "filename": "psycopg2_binary-2.9.10-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl",
+          "url": "https://files.pythonhosted.org/packages/30/b7/a68c2b4bff1cbb1728e3ec864b2d92327c77ad52edcd27922535a8366f68/psycopg2_binary-2.9.10-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl",
+          "sha256": "e3923c1d9870c49a2d44f795df0c889a22380d36ef92440ff618ec315757e539",
+          "released": "2024-10-16T11:20:42.145817Z"
+        },
+        {
+          "filename": "psycopg2_binary-2.9.10-cp312-cp312-manylinux_2_17_i686.manylinux2014_i686.whl",
+          "url": "https://files.pythonhosted.org/packages/0b/b1/cfedc0e0e6f9ad61f8657fd173b2f831ce261c02a08c0b09c652b127d813/psycopg2_binary-2.9.10-cp312-cp312-manylinux_2_17_i686.manylinux2014_i686.whl",
+          "sha256": "7b2c956c028ea5de47ff3a8d6b3cc3330ab45cf0b7c3da35a2d6ff8420896526",
+          "released": "2024-10-16T11:20:46.185583Z"
+        },
+        {
+          "filename": "psycopg2_binary-2.9.10-cp312-cp312-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl",
+          "url": "https://files.pythonhosted.org/packages/18/ed/0a8e4153c9b769f59c02fb5e7914f20f0b2483a19dae7bf2db54b743d0d0/psycopg2_binary-2.9.10-cp312-cp312-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl",
+          "sha256": "f758ed67cab30b9a8d2833609513ce4d3bd027641673d4ebc9c067e4d208eec1",
+          "released": "2024-10-16T11:20:50.879513Z"
+        },
+        {
+          "filename": "psycopg2_binary-2.9.10-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+          "url": "https://files.pythonhosted.org/packages/10/db/d09da68c6a0cdab41566b74e0a6068a425f077169bed0946559b7348ebe9/psycopg2_binary-2.9.10-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+          "sha256": "8cd9b4f2cfab88ed4a9106192de509464b75a906462fb846b936eabe45c2063e",
+          "released": "2024-10-16T11:20:56.819523Z"
+        },
+        {
+          "filename": "psycopg2_binary-2.9.10-cp312-cp312-musllinux_1_2_aarch64.whl",
+          "url": "https://files.pythonhosted.org/packages/94/28/4d6f8c255f0dfffb410db2b3f9ac5218d959a66c715c34cac31081e19b95/psycopg2_binary-2.9.10-cp312-cp312-musllinux_1_2_aarch64.whl",
+          "sha256": "6dc08420625b5a20b53551c50deae6e231e6371194fa0651dbe0fb206452ae1f",
+          "released": "2024-10-16T11:21:02.411099Z"
+        },
+        {
+          "filename": "psycopg2_binary-2.9.10-cp312-cp312-musllinux_1_2_i686.whl",
+          "url": "https://files.pythonhosted.org/packages/05/f7/20d7bf796593c4fea95e12119d6cc384ff1f6141a24fbb7df5a668d29d29/psycopg2_binary-2.9.10-cp312-cp312-musllinux_1_2_i686.whl",
+          "sha256": "d7cd730dfa7c36dbe8724426bf5612798734bff2d3c3857f36f2733f5bfc7c00",
+          "released": "2024-10-16T11:21:09.010239Z"
+        },
+        {
+          "filename": "psycopg2_binary-2.9.10-cp312-cp312-musllinux_1_2_ppc64le.whl",
+          "url": "https://files.pythonhosted.org/packages/4d/e4/0c407ae919ef626dbdb32835a03b6737013c3cc7240169843965cada2bdf/psycopg2_binary-2.9.10-cp312-cp312-musllinux_1_2_ppc64le.whl",
+          "sha256": "155e69561d54d02b3c3209545fb08938e27889ff5a10c19de8d23eb5a41be8a5",
+          "released": "2024-10-16T11:21:16.339539Z"
+        },
+        {
+          "filename": "psycopg2_binary-2.9.10-cp312-cp312-musllinux_1_2_x86_64.whl",
+          "url": "https://files.pythonhosted.org/packages/2d/70/aa69c9f69cf09a01da224909ff6ce8b68faeef476f00f7ec377e8f03be70/psycopg2_binary-2.9.10-cp312-cp312-musllinux_1_2_x86_64.whl",
+          "sha256": "c3cc28a6fd5a4a26224007712e79b81dbaee2ffb90ff406256158ec4d7b52b47",
+          "released": "2024-10-16T11:21:25.584458Z"
+        },
+        {
+          "filename": "psycopg2_binary-2.9.10-cp312-cp312-win32.whl",
+          "url": "https://files.pythonhosted.org/packages/d3/bd/213e59854fafe87ba47814bf413ace0dcee33a89c8c8c814faca6bc7cf3c/psycopg2_binary-2.9.10-cp312-cp312-win32.whl",
+          "sha256": "ec8a77f521a17506a24a5f626cb2aee7850f9b69a0afe704586f63a464f3cd64",
+          "released": "2024-10-16T11:21:29.912295Z"
+        },
+        {
+          "filename": "psycopg2_binary-2.9.10-cp312-cp312-win_amd64.whl",
+          "url": "https://files.pythonhosted.org/packages/92/29/06261ea000e2dc1e22907dbbc483a1093665509ea586b29b8986a0e56733/psycopg2_binary-2.9.10-cp312-cp312-win_amd64.whl",
+          "sha256": "18c5ee682b9c6dd3696dad6e54cc7ff3a1a9020df6a5c0f861ef8bfd338c3ca0",
+          "released": "2024-10-16T11:21:34.211594Z"
+        },
+        {
+          "filename": "psycopg2_binary-2.9.10-cp313-cp313-macosx_12_0_x86_64.whl",
+          "url": "https://files.pythonhosted.org/packages/3e/30/d41d3ba765609c0763505d565c4d12d8f3c79793f0d0f044ff5a28bf395b/psycopg2_binary-2.9.10-cp313-cp313-macosx_12_0_x86_64.whl",
+          "sha256": "26540d4a9a4e2b096f1ff9cce51253d0504dca5a85872c7f7be23be5a53eb18d",
+          "released": "2024-10-16T11:21:42.841061Z"
+        },
+        {
+          "filename": "psycopg2_binary-2.9.10-cp313-cp313-macosx_14_0_arm64.whl",
+          "url": "https://files.pythonhosted.org/packages/35/44/257ddadec7ef04536ba71af6bc6a75ec05c5343004a7ec93006bee66c0bc/psycopg2_binary-2.9.10-cp313-cp313-macosx_14_0_arm64.whl",
+          "sha256": "e217ce4d37667df0bc1c397fdcd8de5e81018ef305aed9415c3b093faaeb10fb",
+          "released": "2024-10-16T11:21:51.989760Z"
+        },
+        {
+          "filename": "psycopg2_binary-2.9.10-cp313-cp313-manylinux_2_17_aarch64.manylinux2014_aarch64.whl",
+          "url": "https://files.pythonhosted.org/packages/1b/11/48ea1cd11de67f9efd7262085588790a95d9dfcd9b8a687d46caf7305c1a/psycopg2_binary-2.9.10-cp313-cp313-manylinux_2_17_aarch64.manylinux2014_aarch64.whl",
+          "sha256": "245159e7ab20a71d989da00f280ca57da7641fa2cdcf71749c193cea540a74f7",
+          "released": "2024-10-16T11:21:57.584358Z"
+        },
+        {
+          "filename": "psycopg2_binary-2.9.10-cp313-cp313-manylinux_2_17_i686.manylinux2014_i686.whl",
+          "url": "https://files.pythonhosted.org/packages/62/e0/62ce5ee650e6c86719d621a761fe4bc846ab9eff8c1f12b1ed5741bf1c9b/psycopg2_binary-2.9.10-cp313-cp313-manylinux_2_17_i686.manylinux2014_i686.whl",
+          "sha256": "3c4ded1a24b20021ebe677b7b08ad10bf09aac197d6943bfe6fec70ac4e4690d",
+          "released": "2024-10-16T11:22:02.005436Z"
+        },
+        {
+          "filename": "psycopg2_binary-2.9.10-cp313-cp313-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl",
+          "url": "https://files.pythonhosted.org/packages/27/ce/63f946c098611f7be234c0dd7cb1ad68b0b5744d34f68062bb3c5aa510c8/psycopg2_binary-2.9.10-cp313-cp313-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl",
+          "sha256": "3abb691ff9e57d4a93355f60d4f4c1dd2d68326c968e7db17ea96df3c023ef73",
+          "released": "2024-10-16T11:22:06.412349Z"
+        },
+        {
+          "filename": "psycopg2_binary-2.9.10-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+          "url": "https://files.pythonhosted.org/packages/43/25/c603cd81402e69edf7daa59b1602bd41eb9859e2824b8c0855d748366ac9/psycopg2_binary-2.9.10-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+          "sha256": "8608c078134f0b3cbd9f89b34bd60a943b23fd33cc5f065e8d5f840061bd0673",
+          "released": "2024-10-16T11:22:11.583904Z"
+        },
+        {
+          "filename": "psycopg2_binary-2.9.10-cp313-cp313-musllinux_1_2_aarch64.whl",
+          "url": "https://files.pythonhosted.org/packages/5f/d6/8708d8c6fca531057fa170cdde8df870e8b6a9b136e82b361c65e42b841e/psycopg2_binary-2.9.10-cp313-cp313-musllinux_1_2_aarch64.whl",
+          "sha256": "230eeae2d71594103cd5b93fd29d1ace6420d0b86f4778739cb1a5a32f607d1f",
+          "released": "2024-10-16T11:22:16.406066Z"
+        },
+        {
+          "filename": "psycopg2_binary-2.9.10-cp313-cp313-musllinux_1_2_i686.whl",
+          "url": "https://files.pythonhosted.org/packages/ce/ac/5b1ea50fc08a9df82de7e1771537557f07c2632231bbab652c7e22597908/psycopg2_binary-2.9.10-cp313-cp313-musllinux_1_2_i686.whl",
+          "sha256": "bb89f0a835bcfc1d42ccd5f41f04870c1b936d8507c6df12b7737febc40f0909",
+          "released": "2024-10-16T11:22:21.366375Z"
+        },
+        {
+          "filename": "psycopg2_binary-2.9.10-cp313-cp313-musllinux_1_2_ppc64le.whl",
+          "url": "https://files.pythonhosted.org/packages/c4/fc/504d4503b2abc4570fac3ca56eb8fed5e437bf9c9ef13f36b6621db8ef00/psycopg2_binary-2.9.10-cp313-cp313-musllinux_1_2_ppc64le.whl",
+          "sha256": "f0c2d907a1e102526dd2986df638343388b94c33860ff3bbe1384130828714b1",
+          "released": "2024-10-16T11:22:25.684314Z"
+        },
+        {
+          "filename": "psycopg2_binary-2.9.10-cp313-cp313-musllinux_1_2_x86_64.whl",
+          "url": "https://files.pythonhosted.org/packages/b2/d1/323581e9273ad2c0dbd1902f3fb50c441da86e894b6e25a73c3fda32c57e/psycopg2_binary-2.9.10-cp313-cp313-musllinux_1_2_x86_64.whl",
+          "sha256": "f8157bed2f51db683f31306aa497311b560f2265998122abe1dce6428bd86567",
+          "released": "2024-10-16T11:22:30.562457Z"
+        },
+        {
+          "filename": "psycopg2_binary-2.9.10-cp313-cp313-win_amd64.whl",
+          "url": "https://files.pythonhosted.org/packages/08/50/d13ea0a054189ae1bc21af1d85b6f8bb9bbc5572991055d70ad9006fe2d6/psycopg2_binary-2.9.10-cp313-cp313-win_amd64.whl",
+          "sha256": "27422aa5f11fbcd9b18da48373eb67081243662f9b46e6fd07c3eb46e4535142",
+          "released": "2025-01-04T20:09:19.234146Z"
+        },
+        {
+          "filename": "psycopg2_binary-2.9.10-cp38-cp38-macosx_12_0_x86_64.whl",
+          "url": "https://files.pythonhosted.org/packages/03/a7/7aa45bea9c790da0ec4765902d714ee7c43b73ccff34916261090849b715/psycopg2_binary-2.9.10-cp38-cp38-macosx_12_0_x86_64.whl",
+          "sha256": "eb09aa7f9cecb45027683bb55aebaaf45a0df8bf6de68801a6afdc7947bb09d4",
+          "released": "2024-10-16T11:22:35.998016Z"
+        },
+        {
+          "filename": "psycopg2_binary-2.9.10-cp38-cp38-manylinux_2_17_aarch64.manylinux2014_aarch64.whl",
+          "url": "https://files.pythonhosted.org/packages/0e/ea/e0197035d74cc1065e94f2ebf7cdd9fa4aa00bb06b1850091568345441cd/psycopg2_binary-2.9.10-cp38-cp38-manylinux_2_17_aarch64.manylinux2014_aarch64.whl",
+          "sha256": "b73d6d7f0ccdad7bc43e6d34273f70d587ef62f824d7261c4ae9b8b1b6af90e8",
+          "released": "2024-10-16T11:22:41.573182Z"
+        },
+        {
+          "filename": "psycopg2_binary-2.9.10-cp38-cp38-manylinux_2_17_i686.manylinux2014_i686.whl",
+          "url": "https://files.pythonhosted.org/packages/23/bf/9be0b2dd105299860e6b001ad7519e36208944609c8382d5aa2dfc58294c/psycopg2_binary-2.9.10-cp38-cp38-manylinux_2_17_i686.manylinux2014_i686.whl",
+          "sha256": "ce5ab4bf46a211a8e924d307c1b1fcda82368586a19d0a24f8ae166f5c784864",
+          "released": "2024-10-16T11:22:46.431816Z"
+        },
+        {
+          "filename": "psycopg2_binary-2.9.10-cp38-cp38-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl",
+          "url": "https://files.pythonhosted.org/packages/04/19/bd5324737573f1278d65a2abb907332b31b42622421232c42909c8802378/psycopg2_binary-2.9.10-cp38-cp38-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl",
+          "sha256": "056470c3dc57904bbf63d6f534988bafc4e970ffd50f6271fc4ee7daad9498a5",
+          "released": "2024-10-16T11:22:52.542085Z"
+        },
+        {
+          "filename": "psycopg2_binary-2.9.10-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+          "url": "https://files.pythonhosted.org/packages/23/ac/e39fa755f7c99aed7a2ff5f0550519248aa8f9d39c2b0705dfc3b4f13a27/psycopg2_binary-2.9.10-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+          "sha256": "73aa0e31fa4bb82578f3a6c74a73c273367727de397a7a0f07bd83cbea696baa",
+          "released": "2024-10-16T11:23:00.250877Z"
+        },
+        {
+          "filename": "psycopg2_binary-2.9.10-cp38-cp38-musllinux_1_2_aarch64.whl",
+          "url": "https://files.pythonhosted.org/packages/93/0d/4be488917130cde91431d859fce2b004417bce96a5fbb854d813ab9c2bde/psycopg2_binary-2.9.10-cp38-cp38-musllinux_1_2_aarch64.whl",
+          "sha256": "8de718c0e1c4b982a54b41779667242bc630b2197948405b7bd8ce16bcecac92",
+          "released": "2024-10-16T11:23:09.287602Z"
+        },
+        {
+          "filename": "psycopg2_binary-2.9.10-cp38-cp38-musllinux_1_2_i686.whl",
+          "url": "https://files.pythonhosted.org/packages/6f/db/45ca7735a461ea2669ee579afa9e23af9d0f9453ca34c357dd648625ed39/psycopg2_binary-2.9.10-cp38-cp38-musllinux_1_2_i686.whl",
+          "sha256": "5c370b1e4975df846b0277b4deba86419ca77dbc25047f535b0bb03d1a544d44",
+          "released": "2024-10-16T11:23:19.016670Z"
+        },
+        {
+          "filename": "psycopg2_binary-2.9.10-cp38-cp38-musllinux_1_2_ppc64le.whl",
+          "url": "https://files.pythonhosted.org/packages/90/2b/1123431e34df437768fd0d1fbb2ddde36bf44d8b3288cf1512ff66306bc3/psycopg2_binary-2.9.10-cp38-cp38-musllinux_1_2_ppc64le.whl",
+          "sha256": "ffe8ed017e4ed70f68b7b371d84b7d4a790368db9203dfc2d222febd3a9c8863",
+          "released": "2024-10-16T11:23:26.735406Z"
+        },
+        {
+          "filename": "psycopg2_binary-2.9.10-cp38-cp38-musllinux_1_2_x86_64.whl",
+          "url": "https://files.pythonhosted.org/packages/a0/9d/d4ef15458a9b879ea3bdde77c93b16ea49762cc281f44cfd8850bb537050/psycopg2_binary-2.9.10-cp38-cp38-musllinux_1_2_x86_64.whl",
+          "sha256": "8aecc5e80c63f7459a1a2ab2c64df952051df196294d9f739933a9f6687e86b3",
+          "released": "2024-10-16T11:23:33.904323Z"
+        },
+        {
+          "filename": "psycopg2_binary-2.9.10-cp39-cp39-macosx_12_0_x86_64.whl",
+          "url": "https://files.pythonhosted.org/packages/a2/bc/e77648009b6e61af327c607543f65fdf25bcfb4100f5a6f3bdb62ddac03c/psycopg2_binary-2.9.10-cp39-cp39-macosx_12_0_x86_64.whl",
+          "sha256": "7a813c8bdbaaaab1f078014b9b0b13f5de757e2b5d9be6403639b298a04d218b",
+          "released": "2024-10-16T11:23:42.946630Z"
+        },
+        {
+          "filename": "psycopg2_binary-2.9.10-cp39-cp39-manylinux_2_17_aarch64.manylinux2014_aarch64.whl",
+          "url": "https://files.pythonhosted.org/packages/e0/e8/5a12211a1f5b959f3e3ccd342eace60c1f26422f53e06d687821dc268780/psycopg2_binary-2.9.10-cp39-cp39-manylinux_2_17_aarch64.manylinux2014_aarch64.whl",
+          "sha256": "d00924255d7fc916ef66e4bf22f354a940c67179ad3fd7067d7a0a9c84d2fbfc",
+          "released": "2024-10-16T11:23:50.038340Z"
+        },
+        {
+          "filename": "psycopg2_binary-2.9.10-cp39-cp39-manylinux_2_17_i686.manylinux2014_i686.whl",
+          "url": "https://files.pythonhosted.org/packages/47/ed/5932b0458a7fc61237b653df050513c8d18a6f4083cc7f90dcef967f7bce/psycopg2_binary-2.9.10-cp39-cp39-manylinux_2_17_i686.manylinux2014_i686.whl",
+          "sha256": "7559bce4b505762d737172556a4e6ea8a9998ecac1e39b5233465093e8cee697",
+          "released": "2024-10-16T11:23:57.932510Z"
+        },
+        {
+          "filename": "psycopg2_binary-2.9.10-cp39-cp39-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl",
+          "url": "https://files.pythonhosted.org/packages/71/df/8047d85c3d23864aca4613c3be1ea0fe61dbe4e050a89ac189f9dce4403e/psycopg2_binary-2.9.10-cp39-cp39-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl",
+          "sha256": "e8b58f0a96e7a1e341fc894f62c1177a7c83febebb5ff9123b579418fdc8a481",
+          "released": "2024-10-16T11:24:06.122230Z"
+        },
+        {
+          "filename": "psycopg2_binary-2.9.10-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+          "url": "https://files.pythonhosted.org/packages/f3/de/6157e4ef242920e8f2749f7708d5cc8815414bdd4a27a91996e7cd5c80df/psycopg2_binary-2.9.10-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+          "sha256": "6b269105e59ac96aba877c1707c600ae55711d9dcd3fc4b5012e4af68e30c648",
+          "released": "2024-10-16T11:24:17.025192Z"
+        },
+        {
+          "filename": "psycopg2_binary-2.9.10-cp39-cp39-musllinux_1_2_aarch64.whl",
+          "url": "https://files.pythonhosted.org/packages/25/f9/0fc49efd2d4d6db3a8d0a3f5749b33a0d3fdd872cad49fbf5bfce1c50027/psycopg2_binary-2.9.10-cp39-cp39-musllinux_1_2_aarch64.whl",
+          "sha256": "79625966e176dc97ddabc142351e0409e28acf4660b88d1cf6adb876d20c490d",
+          "released": "2024-10-16T11:24:24.858632Z"
+        },
+        {
+          "filename": "psycopg2_binary-2.9.10-cp39-cp39-musllinux_1_2_i686.whl",
+          "url": "https://files.pythonhosted.org/packages/57/bc/2ed1bd182219065692ed458d218d311b0b220b20662d25d913bc4e8d3549/psycopg2_binary-2.9.10-cp39-cp39-musllinux_1_2_i686.whl",
+          "sha256": "8aabf1c1a04584c168984ac678a668094d831f152859d06e055288fa515e4d30",
+          "released": "2024-10-16T11:24:29.571549Z"
+        },
+        {
+          "filename": "psycopg2_binary-2.9.10-cp39-cp39-musllinux_1_2_ppc64le.whl",
+          "url": "https://files.pythonhosted.org/packages/71/2a/43f77a9b8ee0b10e2de784d97ddc099d9fe0d9eec462a006e4d2cc74756d/psycopg2_binary-2.9.10-cp39-cp39-musllinux_1_2_ppc64le.whl",
+          "sha256": "19721ac03892001ee8fdd11507e6a2e01f4e37014def96379411ca99d78aeb2c",
+          "released": "2024-10-16T11:24:36.906578Z"
+        },
+        {
+          "filename": "psycopg2_binary-2.9.10-cp39-cp39-musllinux_1_2_x86_64.whl",
+          "url": "https://files.pythonhosted.org/packages/57/86/d2943df70469e6afab3b5b8e1367fccc61891f46de436b24ddee6f2c8404/psycopg2_binary-2.9.10-cp39-cp39-musllinux_1_2_x86_64.whl",
+          "sha256": "7f5d859928e635fa3ce3477704acee0f667b3a3d3e4bb109f2b18d4005f38287",
+          "released": "2024-10-16T11:24:44.423033Z"
+        },
+        {
+          "filename": "psycopg2_binary-2.9.10-cp39-cp39-win32.whl",
+          "url": "https://files.pythonhosted.org/packages/85/21/195d69371330983aa16139e60ba855d0a18164c9295f3a3696be41bbcd54/psycopg2_binary-2.9.10-cp39-cp39-win32.whl",
+          "sha256": "3216ccf953b3f267691c90c6fe742e45d890d8272326b4a8b20850a03d05b7b8",
+          "released": "2024-10-16T11:24:48.056281Z"
+        },
+        {
+          "filename": "psycopg2_binary-2.9.10-cp39-cp39-win_amd64.whl",
+          "url": "https://files.pythonhosted.org/packages/ad/53/73196ebc19d6fbfc22427b982fbc98698b7b9c361e5e7707e3a3247cf06d/psycopg2_binary-2.9.10-cp39-cp39-win_amd64.whl",
+          "sha256": "30e34c4e97964805f715206c7b789d54a78b70f3ff19fbe590104b71c45600e5",
+          "released": "2024-10-16T11:24:51.882936Z"
+        },
+        {
+          "filename": "psycopg2-binary-2.9.10.tar.gz",
+          "url": "https://files.pythonhosted.org/packages/cb/0e/bdc8274dc0585090b4e3432267d7be4dfbfd8971c0fa59167c711105a6bf/psycopg2-binary-2.9.10.tar.gz",
+          "sha256": "4b3df0e6990aa98acda57d983942eff13d824135fe2250e6522edaa782a06de2",
+          "released": "2024-10-16T11:24:58.126574Z"
+        }
+      ]
+    },
+    {
+      "name": "jsonschema",
+      "version": "4.23.0",
+      "source": "https://pypi.org/pypi/jsonschema/4.23.0/json",
+      "released": "2024-07-08T18:40:00.165365Z",
+      "license": "MIT",
+      "artifacts": [
+        {
+          "filename": "jsonschema-4.23.0-py3-none-any.whl",
+          "url": "https://files.pythonhosted.org/packages/69/4a/4f9dbeb84e8850557c02365a0eee0649abe5eb1d84af92a25731c6c0f922/jsonschema-4.23.0-py3-none-any.whl",
+          "sha256": "fbadb6f8b144a8f8cf9f0b89ba94501d143e50411a1278633f56a7acf7fd5566",
+          "released": "2024-07-08T18:40:00.165365Z"
+        },
+        {
+          "filename": "jsonschema-4.23.0.tar.gz",
+          "url": "https://files.pythonhosted.org/packages/38/2e/03362ee4034a4c917f697890ccd4aec0800ccf9ded7f511971c75451deec/jsonschema-4.23.0.tar.gz",
+          "sha256": "d71497fef26351a33265337fa77ffeb82423f3ea21283cd9467bb03999266bc4",
+          "released": "2024-07-08T18:40:05.546878Z"
+        }
+      ]
+    },
+    {
+      "name": "attrs",
+      "version": "24.3.0",
+      "source": "https://pypi.org/pypi/attrs/24.3.0/json",
+      "released": "2024-12-16T06:59:26.977525Z",
+      "license": null,
+      "artifacts": [
+        {
+          "filename": "attrs-24.3.0-py3-none-any.whl",
+          "url": "https://files.pythonhosted.org/packages/89/aa/ab0f7891a01eeb2d2e338ae8fecbe57fcebea1a24dbb64d45801bfab481d/attrs-24.3.0-py3-none-any.whl",
+          "sha256": "ac96cd038792094f438ad1f6ff80837353805ac950cd2aa0e0625ef19850c308",
+          "released": "2024-12-16T06:59:26.977525Z"
+        },
+        {
+          "filename": "attrs-24.3.0.tar.gz",
+          "url": "https://files.pythonhosted.org/packages/48/c8/6260f8ccc11f0917360fc0da435c5c9c7504e3db174d5a12a1494887b045/attrs-24.3.0.tar.gz",
+          "sha256": "8f5c07333d543103541ba7be0e2ce16eeee8130cb0b3f9238ab904ce1e85baff",
+          "released": "2024-12-16T06:59:29.899504Z"
+        }
+      ]
+    },
+    {
+      "name": "jsonschema-specifications",
+      "version": "2024.10.1",
+      "source": "https://pypi.org/pypi/jsonschema-specifications/2024.10.1/json",
+      "released": "2024-10-08T12:29:30.439446Z",
+      "license": null,
+      "artifacts": [
+        {
+          "filename": "jsonschema_specifications-2024.10.1-py3-none-any.whl",
+          "url": "https://files.pythonhosted.org/packages/d1/0f/8910b19ac0670a0f80ce1008e5e751c4a57e14d2c4c13a482aa6079fa9d6/jsonschema_specifications-2024.10.1-py3-none-any.whl",
+          "sha256": "a09a0680616357d9a0ecf05c12ad234479f549239d0f5b55f3deea67475da9bf",
+          "released": "2024-10-08T12:29:30.439446Z"
+        },
+        {
+          "filename": "jsonschema_specifications-2024.10.1.tar.gz",
+          "url": "https://files.pythonhosted.org/packages/10/db/58f950c996c793472e336ff3655b13fbcf1e3b359dcf52dcf3ed3b52c352/jsonschema_specifications-2024.10.1.tar.gz",
+          "sha256": "0f38b83639958ce1152d02a7f062902c41c8fd20d558b0c34344292d417ae272",
+          "released": "2024-10-08T12:29:32.068174Z"
+        }
+      ]
+    },
+    {
+      "name": "referencing",
+      "version": "0.35.1",
+      "source": "https://pypi.org/pypi/referencing/0.35.1/json",
+      "released": "2024-05-01T20:26:02.078362Z",
+      "license": null,
+      "artifacts": [
+        {
+          "filename": "referencing-0.35.1-py3-none-any.whl",
+          "url": "https://files.pythonhosted.org/packages/b7/59/2056f61236782a2c86b33906c025d4f4a0b17be0161b63b70fd9e8775d36/referencing-0.35.1-py3-none-any.whl",
+          "sha256": "eda6d3234d62814d1c64e305c1331c9a3a6132da475ab6382eaa997b21ee75de",
+          "released": "2024-05-01T20:26:02.078362Z"
+        },
+        {
+          "filename": "referencing-0.35.1.tar.gz",
+          "url": "https://files.pythonhosted.org/packages/99/5b/73ca1f8e72fff6fa52119dbd185f73a907b1989428917b24cff660129b6d/referencing-0.35.1.tar.gz",
+          "sha256": "25b42124a6c8b632a425174f24087783efb348a6f1e0008e63cd4466fedf703c",
+          "released": "2024-05-01T20:26:04.574950Z"
+        }
+      ]
+    },
+    {
+      "name": "rpds-py",
+      "version": "0.22.3",
+      "source": "https://pypi.org/pypi/rpds-py/0.22.3/json",
+      "released": "2024-12-04T15:31:31.341172Z",
+      "license": null,
+      "artifacts": [
+        {
+          "filename": "rpds_py-0.22.3-cp310-cp310-macosx_10_12_x86_64.whl",
+          "url": "https://files.pythonhosted.org/packages/42/2a/ead1d09e57449b99dcc190d8d2323e3a167421d8f8fdf0f217c6f6befe47/rpds_py-0.22.3-cp310-cp310-macosx_10_12_x86_64.whl",
+          "sha256": "6c7b99ca52c2c1752b544e310101b98a659b720b21db00e65edca34483259967",
+          "released": "2024-12-04T15:31:31.341172Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp310-cp310-macosx_11_0_arm64.whl",
+          "url": "https://files.pythonhosted.org/packages/8f/7e/1254f406b7793b586c68e217a6a24ec79040f85e030fff7e9049069284f4/rpds_py-0.22.3-cp310-cp310-macosx_11_0_arm64.whl",
+          "sha256": "be2eb3f2495ba669d2a985f9b426c1797b7d48d6963899276d22f23e33d47e37",
+          "released": "2024-12-04T15:31:32.973110Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl",
+          "url": "https://files.pythonhosted.org/packages/aa/da/17c6a2c73730d426df53675ff9cc6653ac7a60b6438d03c18e1c822a576a/rpds_py-0.22.3-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl",
+          "sha256": "70eb60b3ae9245ddea20f8a4190bd79c705a22f8028aaf8bbdebe4716c3fab24",
+          "released": "2024-12-04T15:31:34.586709Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp310-cp310-manylinux_2_17_armv7l.manylinux2014_armv7l.whl",
+          "url": "https://files.pythonhosted.org/packages/aa/13/2dbacd820466aa2a3c4b747afb18d71209523d353cf865bf8f4796c969ea/rpds_py-0.22.3-cp310-cp310-manylinux_2_17_armv7l.manylinux2014_armv7l.whl",
+          "sha256": "4041711832360a9b75cfb11b25a6a97c8fb49c07b8bd43d0d02b45d0b499a4ff",
+          "released": "2024-12-04T15:31:37.237030Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp310-cp310-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl",
+          "url": "https://files.pythonhosted.org/packages/6d/62/96905d0a35ad4e4bc3c098b2f34b2e7266e211d08635baa690643d2227be/rpds_py-0.22.3-cp310-cp310-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl",
+          "sha256": "64607d4cbf1b7e3c3c8a14948b99345eda0e161b852e122c6bb71aab6d1d798c",
+          "released": "2024-12-04T15:31:39.259231Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp310-cp310-manylinux_2_17_s390x.manylinux2014_s390x.whl",
+          "url": "https://files.pythonhosted.org/packages/eb/1b/d12770f2b6a9fc2c3ec0d810d7d440f6d465ccd8b7f16ae5385952c28b89/rpds_py-0.22.3-cp310-cp310-manylinux_2_17_s390x.manylinux2014_s390x.whl",
+          "sha256": "81e69b0a0e2537f26d73b4e43ad7bc8c8efb39621639b4434b76a3de50c6966e",
+          "released": "2024-12-04T15:31:40.477190Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+          "url": "https://files.pythonhosted.org/packages/4d/cf/96f1fd75512a017f8e07408b6d5dbeb492d9ed46bfe0555544294f3681b3/rpds_py-0.22.3-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+          "sha256": "bc27863442d388870c1809a87507727b799c8460573cfbb6dc0eeaef5a11b5ec",
+          "released": "2024-12-04T15:31:41.665539Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp310-cp310-manylinux_2_5_i686.manylinux1_i686.whl",
+          "url": "https://files.pythonhosted.org/packages/ab/f0/d1c5b501c8aea85aeb938b555bfdf7612110a2f8cdc21ae0482c93dd0c24/rpds_py-0.22.3-cp310-cp310-manylinux_2_5_i686.manylinux1_i686.whl",
+          "sha256": "e79dd39f1e8c3504be0607e5fc6e86bb60fe3584bec8b782578c3b0fde8d932c",
+          "released": "2024-12-04T15:31:43.407445Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp310-cp310-musllinux_1_2_aarch64.whl",
+          "url": "https://files.pythonhosted.org/packages/33/3b/45b6c58fb6aad5a569ae40fb890fc494c6b02203505a5008ee6dc68e65f7/rpds_py-0.22.3-cp310-cp310-musllinux_1_2_aarch64.whl",
+          "sha256": "e0fa2d4ec53dc51cf7d3bb22e0aa0143966119f42a0c3e4998293a3dd2856b09",
+          "released": "2024-12-04T15:31:45.271915Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp310-cp310-musllinux_1_2_i686.whl",
+          "url": "https://files.pythonhosted.org/packages/83/62/3fdd2d3d47bf0bb9b931c4c73036b4ab3ec77b25e016ae26fab0f02be2af/rpds_py-0.22.3-cp310-cp310-musllinux_1_2_i686.whl",
+          "sha256": "fda7cb070f442bf80b642cd56483b5548e43d366fe3f39b98e67cce780cded00",
+          "released": "2024-12-04T15:31:47.210990Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp310-cp310-musllinux_1_2_x86_64.whl",
+          "url": "https://files.pythonhosted.org/packages/04/f2/5dced98b64874b84ca824292f9cee2e3f30f3bcf231d15a903126684f74d/rpds_py-0.22.3-cp310-cp310-musllinux_1_2_x86_64.whl",
+          "sha256": "cff63a0272fcd259dcc3be1657b07c929c466b067ceb1c20060e8d10af56f5bf",
+          "released": "2024-12-04T15:31:49.142464Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp310-cp310-win32.whl",
+          "url": "https://files.pythonhosted.org/packages/67/13/2273dea1204eda0aea0ef55145da96a9aa28b3f88bb5c70e994f69eda7c3/rpds_py-0.22.3-cp310-cp310-win32.whl",
+          "sha256": "9bd7228827ec7bb817089e2eb301d907c0d9827a9e558f22f762bb690b131652",
+          "released": "2024-12-04T15:31:51.303912Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp310-cp310-win_amd64.whl",
+          "url": "https://files.pythonhosted.org/packages/4e/80/8c8176b67ad7f4a894967a7a4014ba039626d96f1d4874d53e409b58d69f/rpds_py-0.22.3-cp310-cp310-win_amd64.whl",
+          "sha256": "9beeb01d8c190d7581a4d59522cd3d4b6887040dcfc744af99aa59fef3e041a8",
+          "released": "2024-12-04T15:31:52.611811Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp311-cp311-macosx_10_12_x86_64.whl",
+          "url": "https://files.pythonhosted.org/packages/15/ad/8d1ddf78f2805a71253fcd388017e7b4a0615c22c762b6d35301fef20106/rpds_py-0.22.3-cp311-cp311-macosx_10_12_x86_64.whl",
+          "sha256": "d20cfb4e099748ea39e6f7b16c91ab057989712d31761d3300d43134e26e165f",
+          "released": "2024-12-04T15:31:53.773936Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp311-cp311-macosx_11_0_arm64.whl",
+          "url": "https://files.pythonhosted.org/packages/c8/75/68c15732293a8485d79fe4ebe9045525502a067865fa4278f178851b2d87/rpds_py-0.22.3-cp311-cp311-macosx_11_0_arm64.whl",
+          "sha256": "68049202f67380ff9aa52f12e92b1c30115f32e6895cd7198fa2a7961621fc5a",
+          "released": "2024-12-04T15:31:57.443068Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl",
+          "url": "https://files.pythonhosted.org/packages/3c/4c/7ce50f3070083c2e1b2bbd0fb7046f3da55f510d19e283222f8f33d7d5f4/rpds_py-0.22.3-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl",
+          "sha256": "fb4f868f712b2dd4bcc538b0a0c1f63a2b1d584c925e69a224d759e7070a12d5",
+          "released": "2024-12-04T15:31:58.713593Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp311-cp311-manylinux_2_17_armv7l.manylinux2014_armv7l.whl",
+          "url": "https://files.pythonhosted.org/packages/9a/e9/835196a69cb229d5c31c13b8ae603bd2da9a6695f35fe4270d398e1db44c/rpds_py-0.22.3-cp311-cp311-manylinux_2_17_armv7l.manylinux2014_armv7l.whl",
+          "sha256": "bc51abd01f08117283c5ebf64844a35144a0843ff7b2983e0648e4d3d9f10dbb",
+          "released": "2024-12-04T15:32:01.330535Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp311-cp311-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl",
+          "url": "https://files.pythonhosted.org/packages/f9/8e/33fc4eba6683db71e91e6d594a2cf3a8fbceb5316629f0477f7ece5e3f75/rpds_py-0.22.3-cp311-cp311-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl",
+          "sha256": "0f3cec041684de9a4684b1572fe28c7267410e02450f4561700ca5a3bc6695a2",
+          "released": "2024-12-04T15:32:03.223136Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp311-cp311-manylinux_2_17_s390x.manylinux2014_s390x.whl",
+          "url": "https://files.pythonhosted.org/packages/37/47/2e82d58f8046a98bb9497a8319604c92b827b94d558df30877c4b3c6ccb3/rpds_py-0.22.3-cp311-cp311-manylinux_2_17_s390x.manylinux2014_s390x.whl",
+          "sha256": "7ef9d9da710be50ff6809fed8f1963fecdfecc8b86656cadfca3bc24289414b0",
+          "released": "2024-12-04T15:32:05.109513Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+          "url": "https://files.pythonhosted.org/packages/e1/78/79c128c3e71abbc8e9739ac27af11dc0f91840a86fce67ff83c65d1ba195/rpds_py-0.22.3-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+          "sha256": "59f4a79c19232a5774aee369a0c296712ad0e77f24e62cad53160312b1c1eaa1",
+          "released": "2024-12-04T15:32:06.404323Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp311-cp311-manylinux_2_5_i686.manylinux1_i686.whl",
+          "url": "https://files.pythonhosted.org/packages/c9/5b/2e193be0e8b228c1207f31fa3ea79de64dadb4f6a4833111af8145a6bc33/rpds_py-0.22.3-cp311-cp311-manylinux_2_5_i686.manylinux1_i686.whl",
+          "sha256": "1a60bce91f81ddaac922a40bbb571a12c1070cb20ebd6d49c48e0b101d87300d",
+          "released": "2024-12-04T15:32:07.568944Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp311-cp311-musllinux_1_2_aarch64.whl",
+          "url": "https://files.pythonhosted.org/packages/c2/3f/687c7100b762d62186a1c1100ffdf99825f6fa5ea94556844bbbd2d0f3a9/rpds_py-0.22.3-cp311-cp311-musllinux_1_2_aarch64.whl",
+          "sha256": "e89391e6d60251560f0a8f4bd32137b077a80d9b7dbe6d5cab1cd80d2746f648",
+          "released": "2024-12-04T15:32:09.141716Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp311-cp311-musllinux_1_2_i686.whl",
+          "url": "https://files.pythonhosted.org/packages/8c/a2/c00cbc4b857e8b3d5e7f7fc4c81e23afd8c138b930f4f3ccf9a41a23e9e4/rpds_py-0.22.3-cp311-cp311-musllinux_1_2_i686.whl",
+          "sha256": "e3fb866d9932a3d7d0c82da76d816996d1667c44891bd861a0f97ba27e84fc74",
+          "released": "2024-12-04T15:32:11.170237Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp311-cp311-musllinux_1_2_x86_64.whl",
+          "url": "https://files.pythonhosted.org/packages/d0/08/696c9872cf56effdad9ed617ac072f6774a898d46b8b8964eab39ec562d2/rpds_py-0.22.3-cp311-cp311-musllinux_1_2_x86_64.whl",
+          "sha256": "1352ae4f7c717ae8cba93421a63373e582d19d55d2ee2cbb184344c82d2ae55a",
+          "released": "2024-12-04T15:32:12.701071Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp311-cp311-win32.whl",
+          "url": "https://files.pythonhosted.org/packages/18/1f/4df560be1e994f5adf56cabd6c117e02de7c88ee238bb4ce03ed50da9d56/rpds_py-0.22.3-cp311-cp311-win32.whl",
+          "sha256": "b0b4136a252cadfa1adb705bb81524eee47d9f6aab4f2ee4fa1e9d3cd4581f64",
+          "released": "2024-12-04T15:32:13.903451Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp311-cp311-win_amd64.whl",
+          "url": "https://files.pythonhosted.org/packages/b8/1b/c29b570bc5db8237553002788dc734d6bd71443a2ceac2a58202ec06ef12/rpds_py-0.22.3-cp311-cp311-win_amd64.whl",
+          "sha256": "8bd7c8cfc0b8247c8799080fbff54e0b9619e17cdfeb0478ba7295d43f635d7c",
+          "released": "2024-12-04T15:32:15.137846Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp312-cp312-macosx_10_12_x86_64.whl",
+          "url": "https://files.pythonhosted.org/packages/75/47/3383ee3bd787a2a5e65a9b9edc37ccf8505c0a00170e3a5e6ea5fbcd97f7/rpds_py-0.22.3-cp312-cp312-macosx_10_12_x86_64.whl",
+          "sha256": "27e98004595899949bd7a7b34e91fa7c44d7a97c40fcaf1d874168bb652ec67e",
+          "released": "2024-12-04T15:32:16.432524Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp312-cp312-macosx_11_0_arm64.whl",
+          "url": "https://files.pythonhosted.org/packages/40/14/aa6400fa8158b90a5a250a77f2077c0d0cd8a76fce31d9f2b289f04c6dec/rpds_py-0.22.3-cp312-cp312-macosx_11_0_arm64.whl",
+          "sha256": "1978d0021e943aae58b9b0b196fb4895a25cc53d3956b8e35e0b7682eefb6d56",
+          "released": "2024-12-04T15:32:18.336890Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl",
+          "url": "https://files.pythonhosted.org/packages/7d/06/395a13bfaa8a28b302fb433fb285a67ce0ea2004959a027aea8f9c52bad4/rpds_py-0.22.3-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl",
+          "sha256": "655ca44a831ecb238d124e0402d98f6212ac527a0ba6c55ca26f616604e60a45",
+          "released": "2024-12-04T15:32:19.589489Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp312-cp312-manylinux_2_17_armv7l.manylinux2014_armv7l.whl",
+          "url": "https://files.pythonhosted.org/packages/43/52/d8eeaffab047e6b7b7ef7f00d5ead074a07973968ffa2d5820fa131d7852/rpds_py-0.22.3-cp312-cp312-manylinux_2_17_armv7l.manylinux2014_armv7l.whl",
+          "sha256": "feea821ee2a9273771bae61194004ee2fc33f8ec7db08117ef9147d4bbcbca8e",
+          "released": "2024-12-04T15:32:20.772456Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp312-cp312-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl",
+          "url": "https://files.pythonhosted.org/packages/83/31/52dc4bde85c60b63719610ed6f6d61877effdb5113a72007679b786377b8/rpds_py-0.22.3-cp312-cp312-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl",
+          "sha256": "22bebe05a9ffc70ebfa127efbc429bc26ec9e9b4ee4d15a740033efda515cf3d",
+          "released": "2024-12-04T15:32:23.138516Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp312-cp312-manylinux_2_17_s390x.manylinux2014_s390x.whl",
+          "url": "https://files.pythonhosted.org/packages/70/d5/1bab8e389c2261dba1764e9e793ed6830a63f830fdbec581a242c7c46bda/rpds_py-0.22.3-cp312-cp312-manylinux_2_17_s390x.manylinux2014_s390x.whl",
+          "sha256": "3af6e48651c4e0d2d166dc1b033b7042ea3f871504b6805ba5f4fe31581d8d38",
+          "released": "2024-12-04T15:32:24.399478Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+          "url": "https://files.pythonhosted.org/packages/82/a1/a45f3e30835b553379b3a56ea6c4eb622cf11e72008229af840e4596a8ea/rpds_py-0.22.3-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+          "sha256": "e67ba3c290821343c192f7eae1d8fd5999ca2dc99994114643e2f2d3e6138b15",
+          "released": "2024-12-04T15:32:26.464042Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp312-cp312-manylinux_2_5_i686.manylinux1_i686.whl",
+          "url": "https://files.pythonhosted.org/packages/a6/27/780c942de3120bdd4d0e69583f9c96e179dfff082f6ecbb46b8d6488841f/rpds_py-0.22.3-cp312-cp312-manylinux_2_5_i686.manylinux1_i686.whl",
+          "sha256": "02fbb9c288ae08bcb34fb41d516d5eeb0455ac35b5512d03181d755d80810059",
+          "released": "2024-12-04T15:32:27.742132Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp312-cp312-musllinux_1_2_aarch64.whl",
+          "url": "https://files.pythonhosted.org/packages/94/0b/aa0542ca88ad20ea719b06520f925bae348ea5c1fdf201b7e7202d20871d/rpds_py-0.22.3-cp312-cp312-musllinux_1_2_aarch64.whl",
+          "sha256": "f56a6b404f74ab372da986d240e2e002769a7d7102cc73eb238a4f72eec5284e",
+          "released": "2024-12-04T15:32:29.722469Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp312-cp312-musllinux_1_2_i686.whl",
+          "url": "https://files.pythonhosted.org/packages/0d/92/3ed77d215f82c8f844d7f98929d56cc321bb0bcfaf8f166559b8ec56e5f1/rpds_py-0.22.3-cp312-cp312-musllinux_1_2_i686.whl",
+          "sha256": "0a0461200769ab3b9ab7e513f6013b7a97fdeee41c29b9db343f3c5a8e2b9e61",
+          "released": "2024-12-04T15:32:31.039814Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp312-cp312-musllinux_1_2_x86_64.whl",
+          "url": "https://files.pythonhosted.org/packages/09/42/cacaeb047a22cab6241f107644f230e2935d4efecf6488859a7dd82fc47d/rpds_py-0.22.3-cp312-cp312-musllinux_1_2_x86_64.whl",
+          "sha256": "8633e471c6207a039eff6aa116e35f69f3156b3989ea3e2d755f7bc41754a4a7",
+          "released": "2024-12-04T15:32:32.486112Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp312-cp312-win32.whl",
+          "url": "https://files.pythonhosted.org/packages/e6/52/c921dc6d5f5d45b212a456c1f5b17df1a471127e8037eb0972379e39dff4/rpds_py-0.22.3-cp312-cp312-win32.whl",
+          "sha256": "593eba61ba0c3baae5bc9be2f5232430453fb4432048de28399ca7376de9c627",
+          "released": "2024-12-04T15:32:33.768506Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp312-cp312-win_amd64.whl",
+          "url": "https://files.pythonhosted.org/packages/f2/c7/f82b5be1e8456600395366f86104d1bd8d0faed3802ad511ef6d60c30d98/rpds_py-0.22.3-cp312-cp312-win_amd64.whl",
+          "sha256": "d115bffdd417c6d806ea9069237a4ae02f513b778e3789a359bc5856e0404cc4",
+          "released": "2024-12-04T15:32:34.985924Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp313-cp313-macosx_10_12_x86_64.whl",
+          "url": "https://files.pythonhosted.org/packages/d0/bf/36d5cc1f2c609ae6e8bf0fc35949355ca9d8790eceb66e6385680c951e60/rpds_py-0.22.3-cp313-cp313-macosx_10_12_x86_64.whl",
+          "sha256": "ea7433ce7e4bfc3a85654aeb6747babe3f66eaf9a1d0c1e7a4435bbdf27fea84",
+          "released": "2024-12-04T15:32:36.241366Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp313-cp313-macosx_11_0_arm64.whl",
+          "url": "https://files.pythonhosted.org/packages/24/2a/f1e0fa124e300c26ea9382e59b2d582cba71cedd340f32d1447f4f29fa4e/rpds_py-0.22.3-cp313-cp313-macosx_11_0_arm64.whl",
+          "sha256": "6dd9412824c4ce1aca56c47b0991e65bebb7ac3f4edccfd3f156150c96a7bf25",
+          "released": "2024-12-04T15:32:37.607475Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp313-cp313-manylinux_2_17_aarch64.manylinux2014_aarch64.whl",
+          "url": "https://files.pythonhosted.org/packages/cf/c2/0da1231dd16953845bed60d1a586fcd6b15ceaeb965f4d35cdc71f70f606/rpds_py-0.22.3-cp313-cp313-manylinux_2_17_aarch64.manylinux2014_aarch64.whl",
+          "sha256": "20070c65396f7373f5df4005862fa162db5d25d56150bddd0b3e8214e8ef45b4",
+          "released": "2024-12-04T15:32:38.854532Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp313-cp313-manylinux_2_17_armv7l.manylinux2014_armv7l.whl",
+          "url": "https://files.pythonhosted.org/packages/c7/73/a4407f4e3a00a9d4b68c532bf2d873d6b562854a8eaff8faa6133b3588ec/rpds_py-0.22.3-cp313-cp313-manylinux_2_17_armv7l.manylinux2014_armv7l.whl",
+          "sha256": "0b09865a9abc0ddff4e50b5ef65467cd94176bf1e0004184eb915cbc10fc05c5",
+          "released": "2024-12-04T15:32:40.137569Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp313-cp313-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl",
+          "url": "https://files.pythonhosted.org/packages/a9/c3/04b7353477ab360fe2563f5f0b176d2105982f97cd9ae80a9c5a18f1ae0f/rpds_py-0.22.3-cp313-cp313-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl",
+          "sha256": "3453e8d41fe5f17d1f8e9c383a7473cd46a63661628ec58e07777c2fff7196dc",
+          "released": "2024-12-04T15:32:41.325565Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp313-cp313-manylinux_2_17_s390x.manylinux2014_s390x.whl",
+          "url": "https://files.pythonhosted.org/packages/8d/e6/e4b85b722bcf11398e17d59c0f6049d19cd606d35363221951e6d625fcb0/rpds_py-0.22.3-cp313-cp313-manylinux_2_17_s390x.manylinux2014_s390x.whl",
+          "sha256": "f5d36399a1b96e1a5fdc91e0522544580dbebeb1f77f27b2b0ab25559e103b8b",
+          "released": "2024-12-04T15:32:42.589599Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+          "url": "https://files.pythonhosted.org/packages/27/fc/403e65e56f65fff25f2973216974976d3f0a5c3f30e53758589b6dc9b79b/rpds_py-0.22.3-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+          "sha256": "009de23c9c9ee54bf11303a966edf4d9087cd43a6003672e6aa7def643d06518",
+          "released": "2024-12-04T15:32:44.331186Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp313-cp313-manylinux_2_5_i686.manylinux1_i686.whl",
+          "url": "https://files.pythonhosted.org/packages/57/9b/2be9ff9700d664d51fd96b33d6595791c496d2778cb0b2a634f048437a55/rpds_py-0.22.3-cp313-cp313-manylinux_2_5_i686.manylinux1_i686.whl",
+          "sha256": "1aef18820ef3e4587ebe8b3bc9ba6e55892a6d7b93bac6d29d9f631a3b4befbd",
+          "released": "2024-12-04T15:32:46.599476Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp313-cp313-musllinux_1_2_aarch64.whl",
+          "url": "https://files.pythonhosted.org/packages/bb/a5/03c2ad8ca10994fcf22dd2150dd1d653bc974fa82d9a590494c84c10c641/rpds_py-0.22.3-cp313-cp313-musllinux_1_2_aarch64.whl",
+          "sha256": "f60bd8423be1d9d833f230fdbccf8f57af322d96bcad6599e5a771b151398eb2",
+          "released": "2024-12-04T15:32:47.916226Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp313-cp313-musllinux_1_2_i686.whl",
+          "url": "https://files.pythonhosted.org/packages/ba/2e/be4fdfc8b5b576e588782b56978c5b702c5a2307024120d8aeec1ab818f0/rpds_py-0.22.3-cp313-cp313-musllinux_1_2_i686.whl",
+          "sha256": "62d9cfcf4948683a18a9aff0ab7e1474d407b7bab2ca03116109f8464698ab16",
+          "released": "2024-12-04T15:32:49.274589Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp313-cp313-musllinux_1_2_x86_64.whl",
+          "url": "https://files.pythonhosted.org/packages/67/e0/2034c221937709bf9c542603d25ad43a68b4b0a9a0c0b06a742f2756eb66/rpds_py-0.22.3-cp313-cp313-musllinux_1_2_x86_64.whl",
+          "sha256": "9253fc214112405f0afa7db88739294295f0e08466987f1d70e29930262b4c8f",
+          "released": "2024-12-04T15:32:50.528816Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp313-cp313t-macosx_10_12_x86_64.whl",
+          "url": "https://files.pythonhosted.org/packages/f7/c4/dbe1cc03df013bf2feb5ad00615038050e7859f381e96fb5b7b4572cd814/rpds_py-0.22.3-cp313-cp313t-macosx_10_12_x86_64.whl",
+          "sha256": "f82a116a1d03628a8ace4859556fb39fd1424c933341a08ea3ed6de1edb0283b",
+          "released": "2024-12-04T15:32:54.569526Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp313-cp313t-macosx_11_0_arm64.whl",
+          "url": "https://files.pythonhosted.org/packages/a4/3a/684f66dd6b0f37499cad24cd1c0e523541fd768576fa5ce2d0a8799c3cba/rpds_py-0.22.3-cp313-cp313t-macosx_11_0_arm64.whl",
+          "sha256": "3dfcbc95bd7992b16f3f7ba05af8a64ca694331bd24f9157b49dadeeb287493b",
+          "released": "2024-12-04T15:32:55.993021Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp313-cp313t-manylinux_2_17_aarch64.manylinux2014_aarch64.whl",
+          "url": "https://files.pythonhosted.org/packages/82/eb/e022c08c2ce2e8f7683baa313476492c0e2c1ca97227fe8a75d9f0181e95/rpds_py-0.22.3-cp313-cp313t-manylinux_2_17_aarch64.manylinux2014_aarch64.whl",
+          "sha256": "59259dc58e57b10e7e18ce02c311804c10c5a793e6568f8af4dead03264584d1",
+          "released": "2024-12-04T15:32:57.374292Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp313-cp313t-manylinux_2_17_armv7l.manylinux2014_armv7l.whl",
+          "url": "https://files.pythonhosted.org/packages/e4/21/5a80e653e4c86aeb28eb4fea4add1f72e1787a3299687a9187105c3ee966/rpds_py-0.22.3-cp313-cp313t-manylinux_2_17_armv7l.manylinux2014_armv7l.whl",
+          "sha256": "5725dd9cc02068996d4438d397e255dcb1df776b7ceea3b9cb972bdb11260a83",
+          "released": "2024-12-04T15:32:58.726477Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp313-cp313t-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl",
+          "url": "https://files.pythonhosted.org/packages/37/a4/d320a04ae90f72d080b3d74597074e62be0a8ecad7d7321312dfe2dc5a6a/rpds_py-0.22.3-cp313-cp313t-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl",
+          "sha256": "99b37292234e61325e7a5bb9689e55e48c3f5f603af88b1642666277a81f1fbd",
+          "released": "2024-12-04T15:32:59.997592Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp313-cp313t-manylinux_2_17_s390x.manylinux2014_s390x.whl",
+          "url": "https://files.pythonhosted.org/packages/87/70/674dc47d93db30a6624279284e5631be4c3a12a0340e8e4f349153546728/rpds_py-0.22.3-cp313-cp313t-manylinux_2_17_s390x.manylinux2014_s390x.whl",
+          "sha256": "27b1d3b3915a99208fee9ab092b8184c420f2905b7d7feb4aeb5e4a9c509b8a1",
+          "released": "2024-12-04T15:33:02.057193Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp313-cp313t-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+          "url": "https://files.pythonhosted.org/packages/3f/64/9500f4d66601d55cadd21e90784cfd5d5f4560e129d72e4339823129171c/rpds_py-0.22.3-cp313-cp313t-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+          "sha256": "f612463ac081803f243ff13cccc648578e2279295048f2a8d5eb430af2bae6e3",
+          "released": "2024-12-04T15:33:03.414253Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp313-cp313t-manylinux_2_5_i686.manylinux1_i686.whl",
+          "url": "https://files.pythonhosted.org/packages/4d/45/630327addb1d17173adcf4af01336fd0ee030c04798027dfcb50106001e0/rpds_py-0.22.3-cp313-cp313t-manylinux_2_5_i686.manylinux1_i686.whl",
+          "sha256": "f73d3fef726b3243a811121de45193c0ca75f6407fe66f3f4e183c983573e130",
+          "released": "2024-12-04T15:33:05.504488Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp313-cp313t-musllinux_1_2_aarch64.whl",
+          "url": "https://files.pythonhosted.org/packages/5f/ef/8efb3373cee54ea9d9980b772e5690a0c9e9214045a4e7fa35046e399fee/rpds_py-0.22.3-cp313-cp313t-musllinux_1_2_aarch64.whl",
+          "sha256": "3f21f0495edea7fdbaaa87e633a8689cd285f8f4af5c869f27bc8074638ad69c",
+          "released": "2024-12-04T15:33:06.900294Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp313-cp313t-musllinux_1_2_i686.whl",
+          "url": "https://files.pythonhosted.org/packages/54/01/151d3b9ef4925fc8f15bfb131086c12ec3c3d6dd4a4f7589c335bf8e85ba/rpds_py-0.22.3-cp313-cp313t-musllinux_1_2_i686.whl",
+          "sha256": "1e9663daaf7a63ceccbbb8e3808fe90415b0757e2abddbfc2e06c857bf8c5e2b",
+          "released": "2024-12-04T15:33:08.304781Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp313-cp313t-musllinux_1_2_x86_64.whl",
+          "url": "https://files.pythonhosted.org/packages/30/89/35fc7a6cdf3477d441c7aca5e9bbf5a14e0f25152aed7f63f4e0b141045d/rpds_py-0.22.3-cp313-cp313t-musllinux_1_2_x86_64.whl",
+          "sha256": "a76e42402542b1fae59798fab64432b2d015ab9d0c8c47ba7addddbaf7952333",
+          "released": "2024-12-04T15:33:10.000449Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp313-cp313t-win32.whl",
+          "url": "https://files.pythonhosted.org/packages/8f/e0/830c02b2457c4bd20a8c5bb394d31d81f57fbefce2dbdd2e31feff4f7003/rpds_py-0.22.3-cp313-cp313t-win32.whl",
+          "sha256": "69803198097467ee7282750acb507fba35ca22cc3b85f16cf45fb01cb9097730",
+          "released": "2024-12-04T15:33:11.343942Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp313-cp313t-win_amd64.whl",
+          "url": "https://files.pythonhosted.org/packages/f8/30/7ac943f69855c2db77407ae363484b915d861702dbba1aa82d68d57f42be/rpds_py-0.22.3-cp313-cp313t-win_amd64.whl",
+          "sha256": "f5cf2a0c2bdadf3791b5c205d55a37a54025c6e18a71c71f82bb536cf9a454bf",
+          "released": "2024-12-04T15:33:12.888970Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp313-cp313-win32.whl",
+          "url": "https://files.pythonhosted.org/packages/ea/ce/240bae07b5401a22482b58e18cfbabaa392409b2797da60223cca10d7367/rpds_py-0.22.3-cp313-cp313-win32.whl",
+          "sha256": "fb0ba113b4983beac1a2eb16faffd76cb41e176bf58c4afe3e14b9c681f702de",
+          "released": "2024-12-04T15:32:51.878577Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp313-cp313-win_amd64.whl",
+          "url": "https://files.pythonhosted.org/packages/cb/f0/d330d08f51126330467edae2fa4efa5cec8923c87551a79299380fdea30d/rpds_py-0.22.3-cp313-cp313-win_amd64.whl",
+          "sha256": "c58e2339def52ef6b71b8f36d13c3688ea23fa093353f3a4fee2556e62086ec9",
+          "released": "2024-12-04T15:32:53.195935Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp39-cp39-macosx_10_12_x86_64.whl",
+          "url": "https://files.pythonhosted.org/packages/db/0f/a8ad17ddac7c880f48d5da50733dd25bfc35ba2be1bec9f23453e8c7a123/rpds_py-0.22.3-cp39-cp39-macosx_10_12_x86_64.whl",
+          "sha256": "378753b4a4de2a7b34063d6f95ae81bfa7b15f2c1a04a9518e8644e81807ebea",
+          "released": "2024-12-04T15:33:14.251445Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp39-cp39-macosx_11_0_arm64.whl",
+          "url": "https://files.pythonhosted.org/packages/0c/41/430903669397ea3ee76865e0b53ea236e8dc0ffbecde47b2c4c783ad6759/rpds_py-0.22.3-cp39-cp39-macosx_11_0_arm64.whl",
+          "sha256": "3445e07bf2e8ecfeef6ef67ac83de670358abf2996916039b16a218e3d95e97e",
+          "released": "2024-12-04T15:33:15.670491Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp39-cp39-manylinux_2_17_aarch64.manylinux2014_aarch64.whl",
+          "url": "https://files.pythonhosted.org/packages/c9/5c/3496f4f0ee818297544f2d5f641c49dde8ae156392e6834b79c0609ba006/rpds_py-0.22.3-cp39-cp39-manylinux_2_17_aarch64.manylinux2014_aarch64.whl",
+          "sha256": "7b2513ba235829860b13faa931f3b6846548021846ac808455301c23a101689d",
+          "released": "2024-12-04T15:33:17.133117Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp39-cp39-manylinux_2_17_armv7l.manylinux2014_armv7l.whl",
+          "url": "https://files.pythonhosted.org/packages/b6/dc/db0523ce0cd16ce579185cc9aa9141992de956d0a9c469ecfd1fb5d54ddc/rpds_py-0.22.3-cp39-cp39-manylinux_2_17_armv7l.manylinux2014_armv7l.whl",
+          "sha256": "eaf16ae9ae519a0e237a0f528fd9f0197b9bb70f40263ee57ae53c2b8d48aeb3",
+          "released": "2024-12-04T15:33:18.555778Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp39-cp39-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl",
+          "url": "https://files.pythonhosted.org/packages/85/2a/9525c2427d2c257f877348918136a5d4e1b945c205a256e53bec61e54551/rpds_py-0.22.3-cp39-cp39-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl",
+          "sha256": "583f6a1993ca3369e0f80ba99d796d8e6b1a3a2a442dd4e1a79e652116413091",
+          "released": "2024-12-04T15:33:20.475805Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp39-cp39-manylinux_2_17_s390x.manylinux2014_s390x.whl",
+          "url": "https://files.pythonhosted.org/packages/b9/1c/f8c012a39794b84069635709f559c0309103d5d74b3f5013916e6ca4f174/rpds_py-0.22.3-cp39-cp39-manylinux_2_17_s390x.manylinux2014_s390x.whl",
+          "sha256": "4617e1915a539a0d9a9567795023de41a87106522ff83fbfaf1f6baf8e85437e",
+          "released": "2024-12-04T15:33:21.846271Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+          "url": "https://files.pythonhosted.org/packages/93/f5/c1c772364570d35b98ba64f36ec90c3c6d0b932bc4d8b9b4efef6dc64b07/rpds_py-0.22.3-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+          "sha256": "0c150c7a61ed4a4f4955a96626574e9baf1adf772c2fb61ef6a5027e52803543",
+          "released": "2024-12-04T15:33:23.292795Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp39-cp39-manylinux_2_5_i686.manylinux1_i686.whl",
+          "url": "https://files.pythonhosted.org/packages/10/06/f94f61313f94fc75c3c3aa74563f80bbd990e5b25a7c1a38cee7d5d0309b/rpds_py-0.22.3-cp39-cp39-manylinux_2_5_i686.manylinux1_i686.whl",
+          "sha256": "2fa4331c200c2521512595253f5bb70858b90f750d39b8cbfd67465f8d1b596d",
+          "released": "2024-12-04T15:33:24.585058Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp39-cp39-musllinux_1_2_aarch64.whl",
+          "url": "https://files.pythonhosted.org/packages/3f/b0/37ab416a9528419920dfb64886c220f58fcbd66b978e0a91b66e9ee9a993/rpds_py-0.22.3-cp39-cp39-musllinux_1_2_aarch64.whl",
+          "sha256": "214b7a953d73b5e87f0ebece4a32a5bd83c60a3ecc9d4ec8f1dca968a2d91e99",
+          "released": "2024-12-04T15:33:26.379180Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp39-cp39-musllinux_1_2_i686.whl",
+          "url": "https://files.pythonhosted.org/packages/2c/5d/9daa18adcd676dd3b2817c8a7cec3f3ebeeb0ce0d05a1b63bf994fc5114f/rpds_py-0.22.3-cp39-cp39-musllinux_1_2_i686.whl",
+          "sha256": "f47ad3d5f3258bd7058d2d506852217865afefe6153a36eb4b6928758041d831",
+          "released": "2024-12-04T15:33:27.794885Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp39-cp39-musllinux_1_2_x86_64.whl",
+          "url": "https://files.pythonhosted.org/packages/41/3f/ad4e58035d3f848410aa3d59857b5f238bafab81c8b4a844281f80445d62/rpds_py-0.22.3-cp39-cp39-musllinux_1_2_x86_64.whl",
+          "sha256": "f276b245347e6e36526cbd4a266a417796fc531ddf391e43574cf6466c492520",
+          "released": "2024-12-04T15:33:29.249390Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp39-cp39-win32.whl",
+          "url": "https://files.pythonhosted.org/packages/b8/19/123acae8f4cab3c9463097c3ced3cc87c46f405056e249c874940e045309/rpds_py-0.22.3-cp39-cp39-win32.whl",
+          "sha256": "bbb232860e3d03d544bc03ac57855cd82ddf19c7a07651a7c0fdb95e9efea8b9",
+          "released": "2024-12-04T15:33:30.672298Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-cp39-cp39-win_amd64.whl",
+          "url": "https://files.pythonhosted.org/packages/8b/8d/9db93e48d96ace1f6713c71ce72e2d94b71d82156c37b6a54e0930486f00/rpds_py-0.22.3-cp39-cp39-win_amd64.whl",
+          "sha256": "cfbc454a2880389dbb9b5b398e50d439e2e58669160f27b60e5eca11f68ae17c",
+          "released": "2024-12-04T15:33:32.092596Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-pp310-pypy310_pp73-macosx_10_12_x86_64.whl",
+          "url": "https://files.pythonhosted.org/packages/8b/63/e29f8ee14fcf383574f73b6bbdcbec0fbc2e5fc36b4de44d1ac389b1de62/rpds_py-0.22.3-pp310-pypy310_pp73-macosx_10_12_x86_64.whl",
+          "sha256": "d48424e39c2611ee1b84ad0f44fb3b2b53d473e65de061e3f460fc0be5f1939d",
+          "released": "2024-12-04T15:33:33.635543Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-pp310-pypy310_pp73-macosx_11_0_arm64.whl",
+          "url": "https://files.pythonhosted.org/packages/d3/e0/771ee28b02a24e81c8c0e645796a371350a2bb6672753144f36ae2d2afc9/rpds_py-0.22.3-pp310-pypy310_pp73-macosx_11_0_arm64.whl",
+          "sha256": "24e8abb5878e250f2eb0d7859a8e561846f98910326d06c0d51381fed59357bd",
+          "released": "2024-12-04T15:33:35.159248Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-pp310-pypy310_pp73-manylinux_2_17_aarch64.manylinux2014_aarch64.whl",
+          "url": "https://files.pythonhosted.org/packages/cf/49/abad4c4a1e6f3adf04785a99c247bfabe55ed868133e2d1881200aa5d381/rpds_py-0.22.3-pp310-pypy310_pp73-manylinux_2_17_aarch64.manylinux2014_aarch64.whl",
+          "sha256": "4b232061ca880db21fa14defe219840ad9b74b6158adb52ddf0e87bead9e8493",
+          "released": "2024-12-04T15:33:36.736603Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-pp310-pypy310_pp73-manylinux_2_17_armv7l.manylinux2014_armv7l.whl",
+          "url": "https://files.pythonhosted.org/packages/3a/7d/f4bc6d6fbe6af7a0d2b5f2ee77079efef7c8528712745659ec0026888998/rpds_py-0.22.3-pp310-pypy310_pp73-manylinux_2_17_armv7l.manylinux2014_armv7l.whl",
+          "sha256": "ac0a03221cdb5058ce0167ecc92a8c89e8d0decdc9e99a2ec23380793c4dcb96",
+          "released": "2024-12-04T15:33:38.057953Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-pp310-pypy310_pp73-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl",
+          "url": "https://files.pythonhosted.org/packages/13/b0/575c797377fdcd26cedbb00a3324232e4cb2c5d121f6e4b0dbf8468b12ef/rpds_py-0.22.3-pp310-pypy310_pp73-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl",
+          "sha256": "eb0c341fa71df5a4595f9501df4ac5abfb5a09580081dffbd1ddd4654e6e9123",
+          "released": "2024-12-04T15:33:39.696511Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-pp310-pypy310_pp73-manylinux_2_17_s390x.manylinux2014_s390x.whl",
+          "url": "https://files.pythonhosted.org/packages/54/78/87157fa39d58f32a68d3326f8a81ad8fb99f49fe2aa7ad9a1b7d544f9478/rpds_py-0.22.3-pp310-pypy310_pp73-manylinux_2_17_s390x.manylinux2014_s390x.whl",
+          "sha256": "bf9db5488121b596dbfc6718c76092fda77b703c1f7533a226a5a9f65248f8ad",
+          "released": "2024-12-04T15:33:41.729110Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-pp310-pypy310_pp73-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+          "url": "https://files.pythonhosted.org/packages/59/69/860f89996065a88be1b6ff2d60e96a02b920a262d8aadab99e7903986597/rpds_py-0.22.3-pp310-pypy310_pp73-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+          "sha256": "0b8db6b5b2d4491ad5b6bdc2bc7c017eec108acbf4e6785f42a9eb0ba234f4c9",
+          "released": "2024-12-04T15:33:43.169132Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-pp310-pypy310_pp73-manylinux_2_5_i686.manylinux1_i686.whl",
+          "url": "https://files.pythonhosted.org/packages/bd/d7/bc144e10d27e3cb350f98df2492a319edd3caaf52ddfe1293f37a9afbfd7/rpds_py-0.22.3-pp310-pypy310_pp73-manylinux_2_5_i686.manylinux1_i686.whl",
+          "sha256": "b3d504047aba448d70cf6fa22e06cb09f7cbd761939fdd47604f5e007675c24e",
+          "released": "2024-12-04T15:33:44.748220Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-pp310-pypy310_pp73-musllinux_1_2_aarch64.whl",
+          "url": "https://files.pythonhosted.org/packages/14/2a/6bed0b05233c291a94c7e89bc76ffa1c619d4e1979fbfe5d96024020c1fb/rpds_py-0.22.3-pp310-pypy310_pp73-musllinux_1_2_aarch64.whl",
+          "sha256": "e61b02c3f7a1e0b75e20c3978f7135fd13cb6cf551bf4a6d29b999a88830a338",
+          "released": "2024-12-04T15:33:46.459779Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-pp310-pypy310_pp73-musllinux_1_2_i686.whl",
+          "url": "https://files.pythonhosted.org/packages/11/23/cd8f566de444a137bc1ee5795e47069a947e60810ba4152886fe5308e1b7/rpds_py-0.22.3-pp310-pypy310_pp73-musllinux_1_2_i686.whl",
+          "sha256": "e35ba67d65d49080e8e5a1dd40101fccdd9798adb9b050ff670b7d74fa41c566",
+          "released": "2024-12-04T15:33:48.247124Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-pp310-pypy310_pp73-musllinux_1_2_x86_64.whl",
+          "url": "https://files.pythonhosted.org/packages/8d/63/79c3602afd14d501f751e615a74a59040328da5ef29ed5754ae80d236b84/rpds_py-0.22.3-pp310-pypy310_pp73-musllinux_1_2_x86_64.whl",
+          "sha256": "26fd7cac7dd51011a245f29a2cc6489c4608b5a8ce8d75661bb4a1066c52dfbe",
+          "released": "2024-12-04T15:33:50.449936Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-pp310-pypy310_pp73-win_amd64.whl",
+          "url": "https://files.pythonhosted.org/packages/9f/2e/c5c1689e80298d4e94c75b70faada4c25445739d91b94c211244a3ed7ed1/rpds_py-0.22.3-pp310-pypy310_pp73-win_amd64.whl",
+          "sha256": "177c7c0fce2855833819c98e43c262007f42ce86651ffbb84f37883308cb0e7d",
+          "released": "2024-12-04T15:33:51.954696Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-pp39-pypy39_pp73-macosx_10_12_x86_64.whl",
+          "url": "https://files.pythonhosted.org/packages/bc/b7/d2c205723e3b4d75b03215694f0297a1b4b395bf834cb5896ad9bbb90f90/rpds_py-0.22.3-pp39-pypy39_pp73-macosx_10_12_x86_64.whl",
+          "sha256": "bb47271f60660803ad11f4c61b42242b8c1312a31c98c578f79ef9387bbde21c",
+          "released": "2024-12-04T15:33:53.482886Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-pp39-pypy39_pp73-macosx_11_0_arm64.whl",
+          "url": "https://files.pythonhosted.org/packages/d8/8f/c3515f5234cf6055046d4cfe9c80a3742a20acfa7d0b1b290f0d7f56a8db/rpds_py-0.22.3-pp39-pypy39_pp73-macosx_11_0_arm64.whl",
+          "sha256": "70fb28128acbfd264eda9bf47015537ba3fe86e40d046eb2963d75024be4d055",
+          "released": "2024-12-04T15:33:54.960203Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-pp39-pypy39_pp73-manylinux_2_17_aarch64.manylinux2014_aarch64.whl",
+          "url": "https://files.pythonhosted.org/packages/6b/98/5b487cb06afc484befe350c87fda37f4ce11333f04f3380aba43dcf5bce2/rpds_py-0.22.3-pp39-pypy39_pp73-manylinux_2_17_aarch64.manylinux2014_aarch64.whl",
+          "sha256": "44d61b4b7d0c2c9ac019c314e52d7cbda0ae31078aabd0f22e583af3e0d79723",
+          "released": "2024-12-04T15:33:57.074133Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-pp39-pypy39_pp73-manylinux_2_17_armv7l.manylinux2014_armv7l.whl",
+          "url": "https://files.pythonhosted.org/packages/5e/3a/12308d2c51b3fdfc173619943b7dc5ba41b4850c47112eeda38d9c54ed12/rpds_py-0.22.3-pp39-pypy39_pp73-manylinux_2_17_armv7l.manylinux2014_armv7l.whl",
+          "sha256": "5f0e260eaf54380380ac3808aa4ebe2d8ca28b9087cf411649f96bad6900c728",
+          "released": "2024-12-04T15:33:59.232016Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-pp39-pypy39_pp73-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl",
+          "url": "https://files.pythonhosted.org/packages/17/b2/c242241ab5a2a206e093f24ccbfa519c4bbf10a762ac90bffe1766c225e0/rpds_py-0.22.3-pp39-pypy39_pp73-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl",
+          "sha256": "b25bc607423935079e05619d7de556c91fb6adeae9d5f80868dde3468657994b",
+          "released": "2024-12-04T15:34:01.019676Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-pp39-pypy39_pp73-manylinux_2_17_s390x.manylinux2014_s390x.whl",
+          "url": "https://files.pythonhosted.org/packages/d5/c7/52a1b15012139f3ba740f291f1d03c6b632938ba61bc605f24c101952493/rpds_py-0.22.3-pp39-pypy39_pp73-manylinux_2_17_s390x.manylinux2014_s390x.whl",
+          "sha256": "fb6116dfb8d1925cbdb52595560584db42a7f664617a1f7d7f6e32f138cdf37d",
+          "released": "2024-12-04T15:34:03.302239Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-pp39-pypy39_pp73-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+          "url": "https://files.pythonhosted.org/packages/55/3e/4d3ed8fd01bad77e8ed101116fe63b03f1011940d9596a8f4d82ac80cacd/rpds_py-0.22.3-pp39-pypy39_pp73-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+          "sha256": "a63cbdd98acef6570c62b92a1e43266f9e8b21e699c363c0fef13bd530799c11",
+          "released": "2024-12-04T15:34:04.847461Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-pp39-pypy39_pp73-manylinux_2_5_i686.manylinux1_i686.whl",
+          "url": "https://files.pythonhosted.org/packages/30/78/df59d6f92470a84369a3757abeae1cfd7f7239c8beb6d948949bf78317d2/rpds_py-0.22.3-pp39-pypy39_pp73-manylinux_2_5_i686.manylinux1_i686.whl",
+          "sha256": "2b8f60e1b739a74bab7e01fcbe3dddd4657ec685caa04681df9d562ef15b625f",
+          "released": "2024-12-04T15:34:06.506129Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-pp39-pypy39_pp73-musllinux_1_2_aarch64.whl",
+          "url": "https://files.pythonhosted.org/packages/38/97/ea45d1edd9b753b20084b52dd5db6ee5e1ac3e036a27149972398a413858/rpds_py-0.22.3-pp39-pypy39_pp73-musllinux_1_2_aarch64.whl",
+          "sha256": "2e8b55d8517a2fda8d95cb45d62a5a8bbf9dd0ad39c5b25c8833efea07b880ca",
+          "released": "2024-12-04T15:34:08.069714Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-pp39-pypy39_pp73-musllinux_1_2_i686.whl",
+          "url": "https://files.pythonhosted.org/packages/08/cd/3a1b35eb9da27ffbb981cfffd32a01c7655c4431ccb278cb3064f8887462/rpds_py-0.22.3-pp39-pypy39_pp73-musllinux_1_2_i686.whl",
+          "sha256": "2de29005e11637e7a2361fa151f780ff8eb2543a0da1413bb951e9f14b699ef3",
+          "released": "2024-12-04T15:34:09.616792Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-pp39-pypy39_pp73-musllinux_1_2_x86_64.whl",
+          "url": "https://files.pythonhosted.org/packages/87/91/31d1c5aeb1606f71188259e0ba6ed6f5c21a3c72f58b51db6a8bd0aa2b5d/rpds_py-0.22.3-pp39-pypy39_pp73-musllinux_1_2_x86_64.whl",
+          "sha256": "666ecce376999bf619756a24ce15bb14c5bfaf04bf00abc7e663ce17c3f34fe7",
+          "released": "2024-12-04T15:34:11.215421Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3-pp39-pypy39_pp73-win_amd64.whl",
+          "url": "https://files.pythonhosted.org/packages/e7/ad/03b5ccd1ab492c9dece85b3bf1c96453ab8c47983936fae6880f688f60b3/rpds_py-0.22.3-pp39-pypy39_pp73-win_amd64.whl",
+          "sha256": "5246b14ca64a8675e0a7161f7af68fe3e910e6b90542b4bfb5439ba752191df6",
+          "released": "2024-12-04T15:34:12.743182Z"
+        },
+        {
+          "filename": "rpds_py-0.22.3.tar.gz",
+          "url": "https://files.pythonhosted.org/packages/01/80/cce854d0921ff2f0a9fa831ba3ad3c65cee3a46711addf39a2af52df2cfd/rpds_py-0.22.3.tar.gz",
+          "sha256": "e32fee8ab45d3c2db6da19a5323bc3362237c8b653c70194414b892fd06a080d",
+          "released": "2024-12-04T15:34:14.949874Z"
+        }
+      ]
+    },
+    {
+      "name": "wheel",
+      "version": "0.45.1",
+      "source": "https://pypi.org/pypi/wheel/0.45.1/json",
+      "released": "2024-11-23T00:18:21.207713Z",
+      "license": null,
+      "artifacts": [
+        {
+          "filename": "wheel-0.45.1-py3-none-any.whl",
+          "url": "https://files.pythonhosted.org/packages/0b/2c/87f3254fd8ffd29e4c02732eee68a83a1d3c346ae39bc6822dcbcb697f2b/wheel-0.45.1-py3-none-any.whl",
+          "sha256": "708e7481cc80179af0e556bbf0cc00b8444c7321e2700b8d8580231d13017248",
+          "released": "2024-11-23T00:18:21.207713Z"
+        },
+        {
+          "filename": "wheel-0.45.1.tar.gz",
+          "url": "https://files.pythonhosted.org/packages/8a/98/2d9906746cdc6a6ef809ae6338005b3f21bb568bea3165cfc6a243fdc25c/wheel-0.45.1.tar.gz",
+          "sha256": "661e1abd9198507b1409a20c02106d9670b2576e916d58f520316666abca6729",
+          "released": "2024-11-23T00:18:23.513421Z"
+        }
+      ]
+    }
+  ],
+  "dotnet": {
+    "version": "8.0.407",
+    "released": "2025-03-11",
+    "source": "https://builds.dotnet.microsoft.com/dotnet/Sdk/8.0.407/dotnet-sdk-8.0.407-osx-arm64.tar.gz",
+    "sha512": "1e0c8debe348e7e6dc3fb747207e94b5b8c526c9bad68b4465449b8c7bc2ab2259cf0444afb3946609947f960b29729ce58ab07b4a89abdb85c03beac3b99dbf"
+  },
+  "node": "frontend/dependencies-lock.json"
+}
