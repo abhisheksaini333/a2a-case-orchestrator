@@ -5,8 +5,8 @@
       "mode": "a2a",
       "cases": 12,
       "completed": 12,
-      "median_latency_ms": 441.62,
-      "max_latency_ms": 1143.93,
+      "median_latency_ms": 350.49,
+      "max_latency_ms": 927.64,
       "transport": {
         "agents": {
           "document": {
@@ -29,73 +29,73 @@
           "scenario": "technology",
           "repeat": 1,
           "completed": true,
-          "latency_ms": 485.81
+          "latency_ms": 927.64
         },
         {
           "scenario": "industrial",
           "repeat": 1,
           "completed": true,
-          "latency_ms": 433.06
+          "latency_ms": 746.97
         },
         {
           "scenario": "office",
           "repeat": 1,
           "completed": true,
-          "latency_ms": 501.45
+          "latency_ms": 344.26
         },
         {
           "scenario": "technology",
           "repeat": 2,
           "completed": true,
-          "latency_ms": 1143.93
+          "latency_ms": 277.03
         },
         {
           "scenario": "industrial",
           "repeat": 2,
           "completed": true,
-          "latency_ms": 1057.2
+          "latency_ms": 356.71
         },
         {
           "scenario": "office",
           "repeat": 2,
           "completed": true,
-          "latency_ms": 286.55
+          "latency_ms": 235.57
         },
         {
           "scenario": "technology",
           "repeat": 3,
           "completed": true,
-          "latency_ms": 360.03
+          "latency_ms": 252.98
         },
         {
           "scenario": "industrial",
           "repeat": 3,
           "completed": true,
-          "latency_ms": 450.18
+          "latency_ms": 769.09
         },
         {
           "scenario": "office",
           "repeat": 3,
           "completed": true,
-          "latency_ms": 275.76
+          "latency_ms": 456.55
         },
         {
           "scenario": "technology",
-          "repeat": 4,
-          "completed": true,
-          "latency_ms": 281.54
-        },
-        {
-          "scenario": "industrial",
-          "repeat": 4,
-          "completed": true,
-          "latency_ms": 698.6
-        },
-        {
-          "scenario": "office",
           "repeat": 4,
           "completed": true,
           "latency_ms": 265.44
+        },
+        {
+          "scenario": "industrial",
+          "repeat": 4,
+          "completed": true,
+          "latency_ms": 556.38
+        },
+        {
+          "scenario": "office",
+          "repeat": 4,
+          "completed": true,
+          "latency_ms": 341.4
         }
       ]
     },
@@ -103,8 +103,8 @@
       "mode": "direct",
       "cases": 12,
       "completed": 12,
-      "median_latency_ms": 263.91,
-      "max_latency_ms": 505.05,
+      "median_latency_ms": 450.42,
+      "max_latency_ms": 1484.02,
       "transport": {
         "agents": {
           "document": {
@@ -127,73 +127,73 @@
           "scenario": "technology",
           "repeat": 1,
           "completed": true,
-          "latency_ms": 361.41
+          "latency_ms": 1003.35
         },
         {
           "scenario": "industrial",
           "repeat": 1,
           "completed": true,
-          "latency_ms": 341.53
+          "latency_ms": 1484.02
         },
         {
           "scenario": "office",
           "repeat": 1,
           "completed": true,
-          "latency_ms": 206.42
+          "latency_ms": 440.73
         },
         {
           "scenario": "technology",
           "repeat": 2,
           "completed": true,
-          "latency_ms": 180.35
+          "latency_ms": 200.32
         },
         {
           "scenario": "industrial",
           "repeat": 2,
           "completed": true,
-          "latency_ms": 299.46
+          "latency_ms": 460.11
         },
         {
           "scenario": "office",
           "repeat": 2,
           "completed": true,
-          "latency_ms": 262.17
+          "latency_ms": 393.32
         },
         {
           "scenario": "technology",
           "repeat": 3,
           "completed": true,
-          "latency_ms": 214.15
+          "latency_ms": 409.86
         },
         {
           "scenario": "industrial",
           "repeat": 3,
           "completed": true,
-          "latency_ms": 315.12
+          "latency_ms": 481.42
         },
         {
           "scenario": "office",
           "repeat": 3,
           "completed": true,
-          "latency_ms": 505.05
+          "latency_ms": 244.67
         },
         {
           "scenario": "technology",
           "repeat": 4,
           "completed": true,
-          "latency_ms": 230.72
+          "latency_ms": 228.51
         },
         {
           "scenario": "industrial",
           "repeat": 4,
           "completed": true,
-          "latency_ms": 265.65
+          "latency_ms": 844.91
         },
         {
           "scenario": "office",
           "repeat": 4,
           "completed": true,
-          "latency_ms": 211.84
+          "latency_ms": 702.67
         }
       ]
     }

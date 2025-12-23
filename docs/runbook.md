@@ -84,4 +84,6 @@ python -m supplier_case serve coordinator --port 18130
 
 Run a local OpenAI-compatible endpoint separately and set `MODEL_ENDPOINT` to its `/v1/chat/completions` URL. `MODEL_NAME` defaults to `default_model`. Qwen2.5 uses the default profile; Qwen3 should use `MODEL_NO_THINK=1` for the measured bounded extraction profile. A container needs a reachable host address; `127.0.0.1` inside a container means that container itself.
 
+`MODEL_TIMEOUT_SECONDS` defaults to 10 and must be between 0.05 and 10 seconds. The client closes a stalled or trickling model connection at its deadline; failed previews leave the case list unchanged.
+
 The model is optional. It drafts fields and the mandatory `document-check`/`catalog-match` skill pair. The operator reviews these fields before starting a case. It has no tool that can approve or create a supplier directly. Exact measured model revisions and limitations are recorded in [evaluation](evaluation.md).

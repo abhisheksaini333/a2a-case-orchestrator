@@ -39,7 +39,7 @@ The coordinator uses configured service URLs, verifies advertised identity/skill
 
 ## Limits and deployment boundaries
 
-Python admits 16 concurrent connections by default and enforces an absolute request deadline. C# Kestrel caps connections, headers, body size and concurrent application requests, with explicit body deadlines and rejection of transfer-encoding ambiguity. Both reject oversized input and return bounded public errors. Browser responses use a strict same-origin content policy; access keys are held only in memory.
+Python admits 16 concurrent connections by default and enforces an absolute request deadline. C# Kestrel caps connections, headers, body size and concurrent application requests, with explicit body deadlines and rejection of transfer-encoding ambiguity. Both reject oversized or incomplete input, ambiguous credentials, unconfigured Host authorities and untrusted browser origins, and return bounded public errors. Browser responses use a strict same-origin content policy; access keys are held only in memory.
 
 The local environment uses static bearer credentials and isolated HTTP networking. A public deployment needs TLS termination, short-lived identity credentials, an explicit operator directory, access auditing and a retention policy. No production IAM provider is represented by the local key setup.
 
@@ -49,4 +49,4 @@ C# retains at most 1,000 task receipts by default and rejects new tasks at capac
 
 The business problem is fragmented supplier evidence: an operator otherwise coordinates checks manually and can accidentally approve a record that changed after review. The casebook makes ownership, missing input and exact approval visible. It demonstrates service contracts, delivery ownership, failure recovery and human decision boundaries without claiming a live commercial deployment.
 
-A2A is useful when independent teams own discoverable skills and task lifecycles. For this small fixed local topology, direct HTTP is simpler and measured faster. Neither protocol supplies database atomicity or approval authorization. Those guarantees remain application responsibilities. The measured comparison is in [evaluation](evaluation.md).
+A2A is useful when independent teams own discoverable skills and task lifecycles. For this small fixed local topology, direct HTTP is simpler and uses fewer requests and bytes. Short local timing samples vary with host load. Neither protocol supplies database atomicity or approval authorization. Those guarantees remain application responsibilities. The measured comparison is in [evaluation](evaluation.md).
