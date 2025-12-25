@@ -5,7 +5,7 @@ The final local verification passed **99 Python unit/integration tests with no s
 | Required capability | Implemented behavior and reproducible evidence |
 |---|---|
 | Three independent services across languages | Python coordinator and document service plus a separately launched C# process: [`test_processes.py`](../tests/test_processes.py), [`test_catalog_http.py`](../tests/test_catalog_http.py). Docker Compose also runs each independently. |
-| Agent discovery, skills and versioned contracts | Pinned official v0.2/v0.3 schemas; actual C# v0.3 card/task validation and Python negotiation tests: [`test_protocol_profiles.py`](../tests/test_protocol_profiles.py), [`test_client_negotiation.py`](../tests/test_client_negotiation.py). |
+| Agent discovery, skills and versioned contracts | Pinned official v0.2/v0.3 schemas; actual C# v0.3 card/task validation and Python negotiation tests: [`test_protocol_profiles.py`](../tests/test_protocol_profiles.py), [`test_client_discovery.py`](../tests/test_client_discovery.py). |
 | Task, artifact and SSE lifecycle | Python task snapshot, signed artifact updates and final status event: [`test_http_stream.py`](../tests/test_http_stream.py), [`test_sse_frame.py`](../tests/test_sse_frame.py). Catalog truthfully advertises no streaming. |
 | Missing input and original-task resume | Certificate request followed by same document task ID: [`test_coordinator_resume.py`](../tests/test_coordinator_resume.py), actual browser flow. |
 | Ownership and cancellation | Credential role checks, task ownership, terminal-state guards and revision fencing: [`test_task_ownership.py`](../tests/test_task_ownership.py), [`test_coordinator_cancel.py`](../tests/test_coordinator_cancel.py). |
