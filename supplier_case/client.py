@@ -7,6 +7,11 @@ import uuid
 from .domain import DomainError
 
 
+class PinnedEndpointRedirect(urllib.request.HTTPRedirectHandler):
+    def redirect_request(self, request, response, code, message, headers, new_url):
+        raise DomainError("agent_redirect", "Configured agent endpoints must not redirect")
+
+
 class Client:
     def __init__(self, url, token, name, skill):
         self.url, self.token, self.name, self.skill = (
@@ -29,7 +34,7 @@ class Client:
         self.measurements["requests"] += 1
         self.measurements["request_bytes"] += len(request.data or b"")
         try:
-            with urllib.request.urlopen(request, timeout=10) as response:
+            with urllib.request.build_opener(PinnedEndpointRedirect()).open(request, timeout=10) as response:
                 raw = response.read(1048577)
                 self.measurements["response_bytes"] += len(raw)
                 if len(raw) > 1048576:
