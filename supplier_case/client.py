@@ -50,6 +50,15 @@ class Client:
 
     def discover(self):
         card = self.fetch("/.well-known/agent.json")
+        if (
+            not isinstance(card, dict)
+            or not isinstance(card.get("skills"), list)
+            or any(not isinstance(skill, dict) or not isinstance(skill.get("id"), str) for skill in card["skills"])
+            or not isinstance(card.get("defaultInputModes"), list)
+            or any(not isinstance(mode, str) for mode in card["defaultInputModes"])
+            or not isinstance(card.get("protocolVersion", "0.2.0"), str)
+        ):
+            raise DomainError("invalid_agent_card", "Agent discovery returned a malformed card")
         if card.get("name") != self.name or self.skill not in {
             s.get("id") for s in card.get("skills", [])
         }:
