@@ -87,11 +87,14 @@ class Client:
             "/a2a",
             {"jsonrpc": "2.0", "id": request_id, "method": method, "params": params},
         )
-        if response.get("jsonrpc") != "2.0" or response.get("id") != request_id:
+        if not isinstance(response, dict) or response.get("jsonrpc") != "2.0" or response.get("id") != request_id or (("result" in response) == ("error" in response)):
             raise DomainError(
                 "invalid_agent_response", "Agent response did not match the request"
             )
         if "error" in response:
+            error = response["error"]
+            if not isinstance(error, dict) or type(error.get("code")) is not int or not isinstance(error.get("message"), str):
+                raise DomainError("invalid_agent_response", "Agent returned a malformed error")
             raise DomainError(
                 "agent_error",
                 str(response["error"].get("message", "Agent rejected the request")),
@@ -133,7 +136,8 @@ class DirectClient(Client):
             payload["taskId"] = task_id
         result = self.fetch("/direct", payload)
         if (
-            result.get("kind") != "task"
+            not isinstance(result, dict)
+            or result.get("kind") != "task"
             or result.get("contextId") != context
             or (task_id and result.get("id") != task_id)
         ):
