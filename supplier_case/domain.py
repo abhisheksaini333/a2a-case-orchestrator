@@ -39,7 +39,8 @@ def document_check(data):
         return {"status": "input-required", "missing": ["tax_certificate"], **identity}
     if (
         len(matches) != 1
-        or str(matches[0].get("tax_id", "")).upper() != identity["tax_id"]
+        or not isinstance(matches[0].get("tax_id"), str)
+        or matches[0]["tax_id"].strip().upper() != identity["tax_id"]
     ):
         raise DomainError(
             "document_mismatch", "Certificate must match the supplier tax identifier"
