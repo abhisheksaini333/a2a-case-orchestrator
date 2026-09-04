@@ -22,12 +22,20 @@ def authenticate(header, tokens):
     raise DomainError("unauthorized", "Credential was not accepted")
 
 
-def sign_artifact(owner, task_id, context_id, data, key):
-    if len(key) < 32:
+def artifact_key(key):
+    if not isinstance(key, str) or len(key) < 32:
         raise DomainError("weak_key", "Artifact keys require at least 32 characters")
+    try:
+        return key.encode("utf-8")
+    except UnicodeError as exc:
+        raise DomainError("weak_key", "Artifact keys must be valid Unicode text") from exc
+
+
+def sign_artifact(owner, task_id, context_id, data, key):
+    key_bytes = artifact_key(key)
     signed = {"owner": owner, "taskId": task_id, "contextId": context_id, "data": data}
     signature = hmac.new(
-        key.encode(), canonical(signed).encode(), hashlib.sha256
+        key_bytes, canonical(signed).encode(), hashlib.sha256
     ).hexdigest()
     return {
         "artifactId": secrets.token_hex(16),
@@ -60,7 +68,7 @@ def verify_artifact(artifact, owner, task_id, context_id, keys):
             "data": parts[0]["data"],
         }
         expected = hmac.new(
-            keys[owner].encode(), canonical(signed).encode(), hashlib.sha256
+            artifact_key(keys[owner]), canonical(signed).encode(), hashlib.sha256
         ).hexdigest()
         if not hmac.compare_digest(meta["signature"], expected):
             raise ValueError("signature")
