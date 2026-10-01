@@ -28,7 +28,9 @@ def artifact_key(key):
     try:
         return key.encode("utf-8")
     except UnicodeError as exc:
-        raise DomainError("weak_key", "Artifact keys must be valid Unicode text") from exc
+        raise DomainError(
+            "weak_key", "Artifact keys must be valid Unicode text"
+        ) from exc
 
 
 def sign_artifact(owner, task_id, context_id, data, key):

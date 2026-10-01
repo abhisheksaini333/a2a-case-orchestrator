@@ -66,16 +66,19 @@ def transition(old, new):
 
 def canonical(value):
     try:
-        return json.dumps(
+        encoded = json.dumps(
             value,
             sort_keys=True,
             separators=(",", ":"),
             ensure_ascii=False,
             allow_nan=False,
         )
+        encoded.encode("utf-8")
+        return encoded
     except (ValueError, TypeError) as exc:
         raise DomainError(
-            "invalid_json", "Only finite JSON values are accepted"
+            "invalid_json",
+            "Only finite JSON values and valid Unicode text are accepted",
         ) from exc
 
 

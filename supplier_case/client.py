@@ -9,7 +9,9 @@ from .domain import DomainError
 
 class PinnedEndpointRedirect(urllib.request.HTTPRedirectHandler):
     def redirect_request(self, request, response, code, message, headers, new_url):
-        raise DomainError("agent_redirect", "Configured agent endpoints must not redirect")
+        raise DomainError(
+            "agent_redirect", "Configured agent endpoints must not redirect"
+        )
 
 
 class Client:
@@ -34,7 +36,9 @@ class Client:
         self.measurements["requests"] += 1
         self.measurements["request_bytes"] += len(request.data or b"")
         try:
-            with urllib.request.build_opener(PinnedEndpointRedirect()).open(request, timeout=10) as response:
+            with urllib.request.build_opener(PinnedEndpointRedirect()).open(
+                request, timeout=10
+            ) as response:
                 raw = response.read(1048577)
                 self.measurements["response_bytes"] += len(raw)
                 if len(raw) > 1048576:
@@ -53,12 +57,17 @@ class Client:
         if (
             not isinstance(card, dict)
             or not isinstance(card.get("skills"), list)
-            or any(not isinstance(skill, dict) or not isinstance(skill.get("id"), str) for skill in card["skills"])
+            or any(
+                not isinstance(skill, dict) or not isinstance(skill.get("id"), str)
+                for skill in card["skills"]
+            )
             or not isinstance(card.get("defaultInputModes"), list)
             or any(not isinstance(mode, str) for mode in card["defaultInputModes"])
             or not isinstance(card.get("protocolVersion", "0.2.0"), str)
         ):
-            raise DomainError("invalid_agent_card", "Agent discovery returned a malformed card")
+            raise DomainError(
+                "invalid_agent_card", "Agent discovery returned a malformed card"
+            )
         if card.get("name") != self.name or self.skill not in {
             s.get("id") for s in card.get("skills", [])
         }:
@@ -87,14 +96,25 @@ class Client:
             "/a2a",
             {"jsonrpc": "2.0", "id": request_id, "method": method, "params": params},
         )
-        if not isinstance(response, dict) or response.get("jsonrpc") != "2.0" or response.get("id") != request_id or (("result" in response) == ("error" in response)):
+        if (
+            not isinstance(response, dict)
+            or response.get("jsonrpc") != "2.0"
+            or response.get("id") != request_id
+            or (("result" in response) == ("error" in response))
+        ):
             raise DomainError(
                 "invalid_agent_response", "Agent response did not match the request"
             )
         if "error" in response:
             error = response["error"]
-            if not isinstance(error, dict) or type(error.get("code")) is not int or not isinstance(error.get("message"), str):
-                raise DomainError("invalid_agent_response", "Agent returned a malformed error")
+            if (
+                not isinstance(error, dict)
+                or type(error.get("code")) is not int
+                or not isinstance(error.get("message"), str)
+            ):
+                raise DomainError(
+                    "invalid_agent_response", "Agent returned a malformed error"
+                )
             raise DomainError(
                 "agent_error",
                 str(response["error"].get("message", "Agent rejected the request")),

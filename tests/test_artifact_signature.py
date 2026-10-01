@@ -25,16 +25,32 @@ class Sign(unittest.TestCase):
         import hashlib
         import hmac
         from supplier_case.domain import canonical
-        artifact = s.sign_artifact("document", "t1", "c1", {"status": "verified"}, "k" * 32)
-        signed = {"owner": "document", "taskId": "t1", "contextId": "c1", "data": {"status": "verified"}}
-        artifact["metadata"]["signature"] = hmac.new(b"short", canonical(signed).encode(), hashlib.sha256).hexdigest()
+
+        artifact = s.sign_artifact(
+            "document", "t1", "c1", {"status": "verified"}, "k" * 32
+        )
+        signed = {
+            "owner": "document",
+            "taskId": "t1",
+            "contextId": "c1",
+            "data": {"status": "verified"},
+        }
+        artifact["metadata"]["signature"] = hmac.new(
+            b"short", canonical(signed).encode(), hashlib.sha256
+        ).hexdigest()
         with self.assertRaises(DomainError):
             s.verify_artifact(artifact, "document", "t1", "c1", {"document": "short"})
 
     def test_malformed_keys_fail_through_domain_contract(self):
         artifact = s.sign_artifact("document", "t1", "c1", {}, "k" * 32)
         for key in (None, 99, b"k" * 32, "\ud800" * 32):
-            with self.subTest(operation="sign", key=repr(key)), self.assertRaises(DomainError):
+            with (
+                self.subTest(operation="sign", key=repr(key)),
+                self.assertRaises(DomainError),
+            ):
                 s.sign_artifact("document", "t1", "c1", {}, key)
-            with self.subTest(operation="verify", key=repr(key)), self.assertRaises(DomainError):
+            with (
+                self.subTest(operation="verify", key=repr(key)),
+                self.assertRaises(DomainError),
+            ):
                 s.verify_artifact(artifact, "document", "t1", "c1", {"document": key})
